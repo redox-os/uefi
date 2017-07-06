@@ -1,5 +1,11 @@
-#[derive(Debug)]
+use core::ops::Try;
+
+pub const ERROR_BIT: usize = 1 << 63;
+
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[repr(usize)]
 pub enum Error {
+    Success,
     LoadError,
     InvalidParameter,
     Unsupported,
@@ -28,17 +34,21 @@ pub enum Error {
     SecurityViolation,
     CrcError,
     EndOfMedia,
+    Error29,
+    Error30,
     EndOfFile,
     InvalidLanguage,
     CompromisedData,
+    Error34,
     HttpError,
     Unknown
 }
 
-impl Error {
+impl From<usize> for Error {
     fn from(value: usize) -> Self {
         use self::Error::*;
         match value {
+            0 => Success,
             1 => LoadError,
             2 => InvalidParameter,
             3 => Unsupported,
@@ -67,29 +77,47 @@ impl Error {
             26 => SecurityViolation,
             27 => CrcError,
             28 => EndOfMedia,
+            29 => Error29,
+            30 => Error30,
             31 => EndOfFile,
             32 => InvalidLanguage,
             33 => CompromisedData,
+            34 => Error34,
             35 => HttpError,
             _ => Unknown
         }
     }
 }
 
-#[derive(Debug)]
+pub type Result<T> = ::core::result::Result<T, Error>;
+
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[must_use]
 pub struct Status(usize);
 
 impl Status {
     pub fn new(value: usize) -> Self {
         Status(value)
     }
+}
 
-    pub fn res(&self) -> Result<usize, Error> {
-        let max_bit = 1 << 63;
-        if self.0 & max_bit == 0 {
+impl Try for Status {
+    type Ok = usize;
+    type Error = Error;
+
+    fn into_result(self) -> Result<Self::Ok> {
+        if self.0 & ERROR_BIT == 0 {
             Ok(self.0)
         } else {
-            Err(Error::from(self.0 & !(max_bit)))
+            Err(Error::from(self.0 & !(ERROR_BIT)))
         }
+    }
+
+    fn from_error(v: Self::Error) -> Self {
+        Status(v as usize | ERROR_BIT)
+    }
+
+    fn from_ok(v: Self::Ok) -> Self {
+        Status(v & !(ERROR_BIT))
     }
 }

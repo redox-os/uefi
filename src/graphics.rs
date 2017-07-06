@@ -1,5 +1,7 @@
+use status::Status;
+
 #[derive(Copy, Clone, Debug)]
-#[repr(packed)]
+#[repr(C)]
 pub struct GraphicsBltPixel {
     pub Blue: u8,
     pub Green: u8,
@@ -54,7 +56,7 @@ pub enum GraphicsPixelFormat {
 }
 
 #[derive(Copy, Clone, Debug)]
-#[repr(packed)]
+#[repr(C)]
 pub struct GraphicsPixelBitmask {
   pub RedMask: u32,
   pub GreenMask: u32,
@@ -63,7 +65,7 @@ pub struct GraphicsPixelBitmask {
 }
 
 #[derive(Copy, Clone, Debug)]
-#[repr(packed)]
+#[repr(C)]
 pub struct GraphicsOutputModeInfo {
   /// The version of this data structure. A value of zero represents the
   /// EFI_GRAPHICS_OUTPUT_MODE_INFORMATION structure as defined in this specification.
@@ -83,7 +85,7 @@ pub struct GraphicsOutputModeInfo {
 }
 
 #[derive(Debug)]
-#[repr(packed)]
+#[repr(C)]
 pub struct GraphicsOutputMode {
   /// The number of modes supported by QueryMode() and SetMode().
   pub MaxMode: u32,
@@ -101,10 +103,10 @@ pub struct GraphicsOutputMode {
   pub FrameBufferSize: usize,
 }
 
-#[repr(packed)]
+#[repr(C)]
 pub struct GraphicsOutput {
-    pub QueryMode: extern "win64" fn (&mut GraphicsOutput, u32, &mut usize, &mut *mut GraphicsOutputModeInfo),
-    pub SetMode: extern "win64" fn (&mut GraphicsOutput, u32),
-    pub Blt: extern "win64" fn (&mut GraphicsOutput, *mut GraphicsBltPixel, GraphicsBltOp, usize, usize, usize, usize, usize, usize, usize),
+    pub QueryMode: extern "win64" fn (&mut GraphicsOutput, u32, &mut usize, &mut *mut GraphicsOutputModeInfo) -> Status,
+    pub SetMode: extern "win64" fn (&mut GraphicsOutput, u32) -> Status,
+    pub Blt: extern "win64" fn (&mut GraphicsOutput, *mut GraphicsBltPixel, GraphicsBltOp, usize, usize, usize, usize, usize, usize, usize) -> Status,
     pub Mode: &'static mut GraphicsOutputMode
 }

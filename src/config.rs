@@ -1,7 +1,7 @@
-use super::guid::*;
+use guid::Guid;
 
 #[repr(C)]
 pub struct ConfigurationTable {
     pub VendorGuid: Guid,
-    VendorTable: *const ()
+    pub VendorTable: usize
 }

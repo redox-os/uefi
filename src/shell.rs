@@ -1,6 +1,6 @@
-use super::Handle;
+use ::Handle;
 
-#[repr(packed)]
+#[repr(C)]
 pub struct ShellParameters {
     pub Argv: * const * const u16,
     pub Argc: usize,

@@ -33,11 +33,11 @@ pub const MEMORY_TYPE_INFORMATION_GUID      : Guid = Guid(0x4c19049f, 0x4137, 0x
 pub const EFI_DEBUG_IMAGE_INFO_TABLE_GUID   : Guid = Guid(0x49152e77, 0x1ada, 0x4764, [0xb7, 0xa2, 0x7a, 0xfe, 0xfe, 0xd9, 0x5e, 0x8b]);
 pub const EFI_SHELL_PARAMETERS_GUID         : Guid = Guid(0x752f3136, 0x4e16, 0x4fdc, [0xa2, 0x2a, 0xe5, 0xf4, 0x68, 0x12, 0xf4, 0xca]);
 
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
 #[repr(C)]
 pub struct Guid(pub u32, pub u16, pub u16, pub [u8; 8]);
 
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub enum GuidKind {
     Null,
     Mps,

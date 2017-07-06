@@ -1,5 +1,8 @@
 use core::fmt;
 
+use ::Event;
+use status::Status;
+
 #[repr(C)]
 pub struct TextInputKey {
     pub ScanCode: u16,
@@ -8,9 +11,9 @@ pub struct TextInputKey {
 
 #[repr(C)]
 pub struct TextInput {
-    pub Reset: extern "win64" fn(&TextInput, bool) -> isize,
-    pub ReadKeyStroke: extern "win64" fn(&TextInput, &mut TextInputKey) -> isize,
-    pub WaitForKey: *const (),
+    pub Reset: extern "win64" fn(&TextInput, bool) -> Status,
+    pub ReadKeyStroke: extern "win64" fn(&TextInput, &mut TextInputKey) -> Status,
+    pub WaitForKey: Event,
 }
 
 #[derive(Clone, Debug)]
@@ -26,15 +29,15 @@ pub struct TextOutputMode {
 
 #[repr(C)]
 pub struct TextOutput {
-    pub Reset: extern "win64" fn(&TextInput, bool) -> isize,
-    pub OutputString: extern "win64" fn(&TextOutput, *const u16) -> isize,
-    pub TestString: extern "win64" fn(&TextOutput, *const u16) -> isize,
-    pub QueryMode: extern "win64" fn(&TextOutput, usize, &mut usize, &mut usize) -> isize,
-    pub SetMode: extern "win64" fn(&TextOutput, usize) -> isize,
-    pub SetAttribute: extern "win64" fn(&TextOutput, usize) -> isize,
-    pub ClearScreen: extern "win64" fn(&TextOutput) -> isize,
-    pub SetCursorPosition: extern "win64" fn(&TextOutput, usize, usize) -> isize,
-    pub EnableCursor: extern "win64" fn(&TextOutput, bool) -> isize,
+    pub Reset: extern "win64" fn(&TextInput, bool) -> Status,
+    pub OutputString: extern "win64" fn(&TextOutput, *const u16) -> Status,
+    pub TestString: extern "win64" fn(&TextOutput, *const u16) -> Status,
+    pub QueryMode: extern "win64" fn(&TextOutput, usize, &mut usize, &mut usize) -> Status,
+    pub SetMode: extern "win64" fn(&TextOutput, usize) -> Status,
+    pub SetAttribute: extern "win64" fn(&TextOutput, usize) -> Status,
+    pub ClearScreen: extern "win64" fn(&TextOutput) -> Status,
+    pub SetCursorPosition: extern "win64" fn(&TextOutput, usize, usize) -> Status,
+    pub EnableCursor: extern "win64" fn(&TextOutput, bool) -> Status,
     pub Mode: &'static TextOutputMode,
 }
 

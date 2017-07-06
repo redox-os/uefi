@@ -1,5 +1,5 @@
-#[derive(Default)]
-#[repr(packed)]
+#[derive(Copy, Clone, Debug, Default)]
+#[repr(C)]
 pub struct Time {
     pub Year: u16,
     pub Month: u8,
@@ -14,10 +14,10 @@ pub struct Time {
     _Pad2: u8
 }
 
-#[derive(Default)]
-#[repr(packed)]
+#[derive(Copy, Clone, Debug, Default)]
+#[repr(C)]
 pub struct TimeCapabilities {
-  Resolution: u32,
-  Accuracy: u32,
-  SetsToZero: u8,
+  pub Resolution: u32,
+  pub Accuracy: u32,
+  pub SetsToZero: u8,
 }

@@ -1,5 +1,7 @@
-use super::{Handle, TableHeader};
+use ::{Event, Handle, TableHeader};
 use guid::Guid;
+use memory::MemoryType;
+use status::Status;
 
 #[repr(C)]
 pub enum InterfaceType {
@@ -17,118 +19,46 @@ pub enum LocateSearchType {
 }
 
 #[repr(C)]
-pub enum MemoryType {
-    ///
-    /// Not used.
-    ///
-    EfiReservedMemoryType,
-    ///
-    /// The code portions of a loaded application.
-    /// (Note that UEFI OS loaders are UEFI applications.)
-    ///
-    EfiLoaderCode,
-    ///
-    /// The data portions of a loaded application and the default data allocation
-    /// type used by an application to allocate pool memory.
-    ///
-    EfiLoaderData,
-    ///
-    /// The code portions of a loaded Boot Services Driver.
-    ///
-    EfiBootServicesCode,
-    ///
-    /// The data portions of a loaded Boot Serves Driver, and the default data
-    /// allocation type used by a Boot Services Driver to allocate pool memory.
-    ///
-    EfiBootServicesData,
-    ///
-    /// The code portions of a loaded Runtime Services Driver.
-    ///
-    EfiRuntimeServicesCode,
-    ///
-    /// The data portions of a loaded Runtime Services Driver and the default
-    /// data allocation type used by a Runtime Services Driver to allocate pool memory.
-    ///
-    EfiRuntimeServicesData,
-    ///
-    /// Free (unallocated) memory.
-    ///
-    EfiConventionalMemory,
-    ///
-    /// Memory in which errors have been detected.
-    ///
-    EfiUnusableMemory,
-    ///
-    /// Memory that holds the ACPI tables.
-    ///
-    EfiACPIReclaimMemory,
-    ///
-    /// Address space reserved for use by the firmware.
-    ///
-    EfiACPIMemoryNVS,
-    ///
-    /// Used by system firmware to request that a memory-mapped IO region
-    /// be mapped by the OS to a virtual address so it can be accessed by EFI runtime services.
-    ///
-    EfiMemoryMappedIO,
-    ///
-    /// System memory-mapped IO region that is used to translate memory
-    /// cycles to IO cycles by the processor.
-    ///
-    EfiMemoryMappedIOPortSpace,
-    ///
-    /// Address space reserved by the firmware for code that is part of the processor.
-    ///
-    EfiPalCode,
-    ///
-    /// A memory region that operates as EfiConventionalMemory,
-    /// however it happens to also support byte-addressable non-volatility.
-    ///
-    EfiPersistentMemory,
-    EfiMaxMemoryType
-}
-
-#[repr(C)]
 pub struct BootServices {
-    Hdr: TableHeader,
+    pub Hdr: TableHeader,
     RaiseTpl: extern "win64" fn(NewTpl: usize) -> usize,
     RestoreTpl: extern "win64" fn(OldTpl: usize),
-    AllocatePages: extern "win64" fn(AllocType: usize, MemoryType: MemoryType, Pages: usize, Memory: &mut usize) -> isize,
-    FreePages: extern "win64" fn(Memory: usize, Pages: usize) -> isize,
+    pub AllocatePages: extern "win64" fn(AllocType: usize, MemoryType: MemoryType, Pages: usize, Memory: &mut usize) -> Status,
+    pub FreePages: extern "win64" fn(Memory: usize, Pages: usize) -> Status,
     GetMemoryMap: extern "win64" fn(/* TODO */) -> isize,
-    pub AllocatePool: extern "win64" fn(PoolType: MemoryType, Size: usize, Buffer: &mut usize) -> isize,
-    pub FreePool: extern "win64" fn(Buffer: usize) -> isize,
+    pub AllocatePool: extern "win64" fn(PoolType: MemoryType, Size: usize, Buffer: &mut usize) -> Status,
+    pub FreePool: extern "win64" fn(Buffer: usize) -> Status,
     CreateEvent: extern "win64" fn (),
     SetTimer: extern "win64" fn (),
-    WaitForEvent: extern "win64" fn (),
+    pub WaitForEvent: extern "win64" fn (NumberOfEvents: usize, Event: *const Event, Index: &mut usize) -> Status,
     SignalEvent: extern "win64" fn (),
     CloseEvent: extern "win64" fn (),
     CheckEvent: extern "win64" fn (),
-    pub InstallProtocolInterface: extern "win64" fn (Handle: &mut Handle, Protocol: &Guid, InterfaceType: InterfaceType, Interface: usize) -> isize,
+    pub InstallProtocolInterface: extern "win64" fn (Handle: &mut Handle, Protocol: &Guid, InterfaceType: InterfaceType, Interface: usize) -> Status,
     ReinstallProtocolInterface: extern "win64" fn (),
     UninstallProtocolInterface: extern "win64" fn (),
-    pub HandleProtocol: extern "win64" fn (Handle: Handle, Protocol: &Guid, Interface: &mut usize) -> isize,
+    pub HandleProtocol: extern "win64" fn (Handle: Handle, Protocol: &Guid, Interface: &mut usize) -> Status,
     _rsvd: usize,
     RegisterProtocolNotify: extern "win64" fn (),
-    pub LocateHandle: extern "win64" fn (SearchType: LocateSearchType, Protocol: &Guid, SearchKey: usize, BufferSize: &mut usize, Buffer: *mut Handle),
+    pub LocateHandle: extern "win64" fn (SearchType: LocateSearchType, Protocol: &Guid, SearchKey: usize, BufferSize: &mut usize, Buffer: *mut Handle) -> Status,
     LocateDevicePath: extern "win64" fn (),
     InstallConfigurationTable: extern "win64" fn (),
-    pub LoadImage: extern "win64" fn (BootPolicy: bool, ParentImageHandle: Handle, DevicePath: usize /*TODO*/, SourceBuffer: *const u8, SourceSize: usize, ImageHandle: &mut Handle) -> isize,
-    pub StartImage: extern "win64" fn (ImageHandle: Handle, ExitDataSize: &mut usize, ExitData: &mut *mut u16) -> isize,
-    pub Exit: extern "win64" fn (ImageHandle: Handle, ExitStatus: isize, ExitDataSize: usize, ExitData: *const u16) -> isize,
+    pub LoadImage: extern "win64" fn (BootPolicy: bool, ParentImageHandle: Handle, DevicePath: usize /*TODO*/, SourceBuffer: *const u8, SourceSize: usize, ImageHandle: &mut Handle) -> Status,
+    pub StartImage: extern "win64" fn (ImageHandle: Handle, ExitDataSize: &mut usize, ExitData: &mut *mut u16) -> Status,
+    pub Exit: extern "win64" fn (ImageHandle: Handle, ExitStatus: isize, ExitDataSize: usize, ExitData: *const u16) -> Status,
     UnloadImage: extern "win64" fn (),
-    ExitBootServices: extern "win64" fn (),
+    pub ExitBootServices: extern "win64" fn (ImageHandle: Handle, MapKey: usize) -> Status,
     GetNextMonotonicCount: extern "win64" fn (),
-    pub Stall: extern "win64" fn (Microseconds: usize),
-    pub SetWatchdogTimer: extern "win64" fn (Timeout: usize, WatchdogCode: u64, DataSize: usize, WatchdogData: *const u16),
+    pub Stall: extern "win64" fn (Microseconds: usize) -> Status,
+    pub SetWatchdogTimer: extern "win64" fn (Timeout: usize, WatchdogCode: u64, DataSize: usize, WatchdogData: *const u16) -> Status,
     ConnectController: extern "win64" fn (),
     DisconnectController: extern "win64" fn (),
     OpenProtocol: extern "win64" fn (),
     CloseProtocol: extern "win64" fn (),
     OpenProtocolInformation: extern "win64" fn (),
-    pub ProtocolsPerHandle: extern "win64" fn (Handle: Handle, ProtocolBuffer: *mut Guid, ProtocolBufferCount: usize) -> isize,
+    pub ProtocolsPerHandle: extern "win64" fn (Handle: Handle, ProtocolBuffer: *mut Guid, ProtocolBufferCount: usize) -> Status,
     LocateHandleBuffer: extern "win64" fn (SearchType: LocateSearchType, Protocol: &Guid, SearchKey: usize, NoHandles: &mut usize, Buffer: &mut *mut Handle),
-    pub LocateProtocol: extern "win64" fn (Protocol: &Guid, Registration: usize, Interface: &mut usize) -> isize,
+    pub LocateProtocol: extern "win64" fn (Protocol: &Guid, Registration: usize, Interface: &mut usize) -> Status,
     InstallMultipleProtocolInterfaces: extern "win64" fn (),
     UninstallMultipleProtocolInterfaces: extern "win64" fn (),
     CalculateCrc32: extern "win64" fn (),
