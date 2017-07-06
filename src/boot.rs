@@ -115,7 +115,7 @@ pub struct BootServices {
     InstallConfigurationTable: extern "win64" fn (),
     pub LoadImage: extern "win64" fn (BootPolicy: bool, ParentImageHandle: Handle, DevicePath: usize /*TODO*/, SourceBuffer: *const u8, SourceSize: usize, ImageHandle: &mut Handle) -> isize,
     pub StartImage: extern "win64" fn (ImageHandle: Handle, ExitDataSize: &mut usize, ExitData: &mut *mut u16) -> isize,
-    Exit: extern "win64" fn (),
+    pub Exit: extern "win64" fn (ImageHandle: Handle, ExitStatus: isize, ExitDataSize: usize, ExitData: *const u16) -> isize,
     UnloadImage: extern "win64" fn (),
     ExitBootServices: extern "win64" fn (),
     GetNextMonotonicCount: extern "win64" fn (),
