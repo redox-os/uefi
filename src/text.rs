@@ -2,15 +2,15 @@ use core::fmt;
 
 #[repr(C)]
 pub struct TextInputKey {
-    ScanCode: u16,
-    UnicodeChar: u16,
+    pub ScanCode: u16,
+    pub UnicodeChar: u16,
 }
 
 #[repr(C)]
 pub struct TextInput {
-    Reset: extern "win64" fn(&TextInput, bool) -> isize,
-    ReadKeyStroke: extern "win64" fn(&TextInput, &mut TextInputKey) -> isize,
-    WaitForKey: *const (),
+    pub Reset: extern "win64" fn(&TextInput, bool) -> isize,
+    pub ReadKeyStroke: extern "win64" fn(&TextInput, &mut TextInputKey) -> isize,
+    pub WaitForKey: *const (),
 }
 
 #[derive(Clone, Debug)]
@@ -26,15 +26,15 @@ pub struct TextOutputMode {
 
 #[repr(C)]
 pub struct TextOutput {
-    Reset: extern "win64" fn(&TextInput, bool) -> isize,
-    OutputString: extern "win64" fn(&TextOutput, *const u16) -> isize,
-    TestString: extern "win64" fn(&TextOutput, *const u16) -> isize,
+    pub Reset: extern "win64" fn(&TextInput, bool) -> isize,
+    pub OutputString: extern "win64" fn(&TextOutput, *const u16) -> isize,
+    pub TestString: extern "win64" fn(&TextOutput, *const u16) -> isize,
     pub QueryMode: extern "win64" fn(&TextOutput, usize, &mut usize, &mut usize) -> isize,
     pub SetMode: extern "win64" fn(&TextOutput, usize) -> isize,
-    SetAttribute: extern "win64" fn(&TextOutput, usize) -> isize,
-    ClearScreen: extern "win64" fn(&TextOutput) -> isize,
-    SetCursorPosition: extern "win64" fn(&TextOutput, usize, usize) -> isize,
-    EnableCursor: extern "win64" fn(&TextOutput, bool) -> isize,
+    pub SetAttribute: extern "win64" fn(&TextOutput, usize) -> isize,
+    pub ClearScreen: extern "win64" fn(&TextOutput) -> isize,
+    pub SetCursorPosition: extern "win64" fn(&TextOutput, usize, usize) -> isize,
+    pub EnableCursor: extern "win64" fn(&TextOutput, bool) -> isize,
     pub Mode: &'static TextOutputMode,
 }
 
