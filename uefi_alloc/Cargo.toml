@@ -1,5 +1,5 @@
 [package]
-name = "alloc_uefi"
+name = "uefi_alloc"
 version = "0.1.0"
 
 [dependencies]
