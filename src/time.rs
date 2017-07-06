@@ -13,3 +13,11 @@ pub struct Time {
     pub Daylight: u8,
     _Pad2: u8
 }
+
+#[derive(Default)]
+#[repr(packed)]
+pub struct TimeCapabilities {
+  Resolution: u32,
+  Accuracy: u32,
+  SetsToZero: u8,
+}

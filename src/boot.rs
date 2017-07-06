@@ -90,7 +90,7 @@ pub enum MemoryType {
 
 #[repr(C)]
 pub struct BootServices {
-    header: TableHeader,
+    Hdr: TableHeader,
     RaiseTpl: extern "win64" fn(NewTpl: usize) -> usize,
     RestoreTpl: extern "win64" fn(OldTpl: usize),
     AllocatePages: extern "win64" fn(AllocType: usize, MemoryType: MemoryType, Pages: usize, Memory: &mut usize) -> isize,
