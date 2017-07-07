@@ -3,6 +3,7 @@ use core::fmt;
 use ::Event;
 use status::Status;
 
+#[derive(Clone, Copy, Debug, Default)]
 #[repr(C)]
 pub struct TextInputKey {
     pub ScanCode: u16,
@@ -16,7 +17,7 @@ pub struct TextInput {
     pub WaitForKey: Event,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 #[repr(C)]
 pub struct TextOutputMode {
     pub MaxMode: i32,

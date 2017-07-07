@@ -19,5 +19,5 @@ pub struct Time {
 pub struct TimeCapabilities {
   pub Resolution: u32,
   pub Accuracy: u32,
-  pub SetsToZero: u8,
+  pub SetsToZero: bool,
 }

@@ -9,6 +9,7 @@ pub mod fs;
 pub mod graphics;
 pub mod guid;
 pub mod memory;
+pub mod pointer;
 pub mod runtime;
 pub mod shell;
 pub mod status;
