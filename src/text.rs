@@ -30,7 +30,7 @@ pub struct TextOutputMode {
 
 #[repr(C)]
 pub struct TextOutput {
-    pub Reset: extern "win64" fn(&TextInput, bool) -> Status,
+    pub Reset: extern "win64" fn(&TextOutput, bool) -> Status,
     pub OutputString: extern "win64" fn(&TextOutput, *const u16) -> Status,
     pub TestString: extern "win64" fn(&TextOutput, *const u16) -> Status,
     pub QueryMode: extern "win64" fn(&TextOutput, usize, &mut usize, &mut usize) -> Status,
