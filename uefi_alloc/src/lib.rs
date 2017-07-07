@@ -41,6 +41,15 @@ pub extern fn __rust_allocate(size: usize, _align: usize) -> *mut u8 {
 }
 
 #[no_mangle]
+pub extern fn __rust_allocate_zeroed(size: usize, align: usize) -> *mut u8 {
+    use core::ptr;
+    
+    let ptr = __rust_allocate(size, align);
+    unsafe { ptr::write_bytes(ptr, 0, size) };
+    ptr
+}
+
+#[no_mangle]
 pub extern fn __rust_deallocate(ptr: *mut u8, _size: usize, _align: usize) {
     if let Some(ref mut uefi) = get_uefi() {
         let _ = (uefi.BootServices.FreePool)(ptr as usize);
