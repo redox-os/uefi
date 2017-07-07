@@ -1,12 +1,14 @@
 #![feature(allocator)]
 #![feature(const_fn)]
+#![feature(try_trait)]
 
 #![allocator]
 #![no_std]
 
 extern crate uefi;
 
-use uefi::boot::MemoryType;
+use core::ops::Try;
+use uefi::memory::MemoryType;
 use uefi::system::SystemTable;
 
 static mut UEFI: *mut SystemTable = 0 as *mut SystemTable;
@@ -29,9 +31,8 @@ fn get_uefi() -> Option<&'static mut SystemTable> {
 pub extern fn __rust_allocate(size: usize, _align: usize) -> *mut u8 {
     if let Some(ref mut uefi) = get_uefi() {
         let mut ptr = 0;
-        let ret = (uefi.BootServices.AllocatePool)(MemoryType::EfiLoaderData, size, &mut ptr);
-        if ret != 0 {
-            panic!("__rust_allocate: uefi returned {:X}", ret);
+        if let Err(err) = (uefi.BootServices.AllocatePool)(MemoryType::EfiLoaderData, size, &mut ptr).into_result() {
+            panic!("__rust_allocate: uefi returned {:?}", err);
         }
         ptr as *mut u8
     } else {
@@ -42,7 +43,7 @@ pub extern fn __rust_allocate(size: usize, _align: usize) -> *mut u8 {
 #[no_mangle]
 pub extern fn __rust_deallocate(ptr: *mut u8, _size: usize, _align: usize) {
     if let Some(ref mut uefi) = get_uefi() {
-        (uefi.BootServices.FreePool)(ptr as usize);
+        let _ = (uefi.BootServices.FreePool)(ptr as usize);
     } else {
         panic!("__rust_deallocate: uefi not initialized");
     }
