@@ -8,6 +8,7 @@ pub mod config;
 pub mod fs;
 pub mod graphics;
 pub mod guid;
+pub mod loaded_image;
 pub mod memory;
 pub mod pointer;
 pub mod runtime;

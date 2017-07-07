@@ -93,7 +93,7 @@ pub type Result<T> = ::core::result::Result<T, Error>;
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 #[must_use]
-pub struct Status(usize);
+pub struct Status(pub usize);
 
 impl Status {
     pub fn new(value: usize) -> Self {

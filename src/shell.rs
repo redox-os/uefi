@@ -1,4 +1,11 @@
 use ::Handle;
+use status::Status;
+
+#[repr(C)]
+pub struct Shell {
+    pub Execute: extern "win64" fn(ImageHandle: &Handle, CommandLine: *const u16, Environment: *const *const u16, Status: *mut Status) -> Status,
+    //TODO
+}
 
 #[repr(C)]
 pub struct ShellParameters {

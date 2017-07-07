@@ -31,6 +31,7 @@ pub const EFI_DXE_SERVICES_TABLE_GUID       : Guid = Guid(0x05ad34ba, 0x6f02, 0x
 pub const EFI_HOB_LIST_GUID                 : Guid = Guid(0x7739f24c, 0x93d7, 0x11d4, [0x9a, 0x3a, 0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d]);
 pub const MEMORY_TYPE_INFORMATION_GUID      : Guid = Guid(0x4c19049f, 0x4137, 0x4dd3, [0x9c, 0x10, 0x8b, 0x97, 0xa8, 0x3f, 0xfd, 0xfa]);
 pub const EFI_DEBUG_IMAGE_INFO_TABLE_GUID   : Guid = Guid(0x49152e77, 0x1ada, 0x4764, [0xb7, 0xa2, 0x7a, 0xfe, 0xfe, 0xd9, 0x5e, 0x8b]);
+pub const EFI_SHELL_GUID                    : Guid = Guid(0x6302d008, 0x7f9b, 0x4f30, [0x87, 0xac, 0x60, 0xc9, 0xfe, 0xf5, 0xda, 0x4e]);
 pub const EFI_SHELL_PARAMETERS_GUID         : Guid = Guid(0x752f3136, 0x4e16, 0x4fdc, [0xa2, 0x2a, 0xe5, 0xf4, 0x68, 0x12, 0xf4, 0xca]);
 pub const EFI_SIMPLE_POINTER_GUID           : Guid = Guid(0x31878c87, 0x0b75, 0x11d5, [0x9a, 0x4f, 0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d]);
 
@@ -71,6 +72,7 @@ pub enum GuidKind {
     HobList,
     MemoryTypeInformation,
     DebugImageInfo,
+    Shell,
     ShellParameters,
     SimplePointer,
     Unknown
@@ -110,6 +112,7 @@ impl Guid {
             EFI_HOB_LIST_GUID => GuidKind::HobList,
             MEMORY_TYPE_INFORMATION_GUID => GuidKind::MemoryTypeInformation,
             EFI_DEBUG_IMAGE_INFO_TABLE_GUID => GuidKind::DebugImageInfo,
+            EFI_SHELL_GUID => GuidKind::Shell,
             EFI_SHELL_PARAMETERS_GUID => GuidKind::ShellParameters,
             EFI_SIMPLE_POINTER_GUID => GuidKind::SimplePointer,
             _ => GuidKind::Unknown
