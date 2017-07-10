@@ -1,4 +1,20 @@
-#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub struct PhysicalAddress(pub u64);
+
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
+pub struct VirtualAddress(pub u64);
+
+#[derive(Clone, Copy, Debug, Default)]
+#[repr(C)]
+pub struct MemoryDescriptor {
+    pub Type: u32,
+    pub PhysicalStart: PhysicalAddress,
+    pub VirtualStart: VirtualAddress,
+    pub NumberOfPages: u64,
+    pub Attribute: u64,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[repr(C)]
 pub enum MemoryType {
     ///
