@@ -9,6 +9,7 @@ pub const SMBIOS3_TABLE_GUID                : Guid = Guid(0xf2fd1544, 0x9794, 0x
 pub const SAL_SYSTEM_TABLE_GUID             : Guid = Guid(0xeb9d2d32, 0x2d88, 0x11d3, [0x9a, 0x16, 0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d]);
 pub const HCDP_TABLE_GUID                   : Guid = Guid(0xf951938d, 0x620b, 0x42ef, [0x82, 0x79, 0xa8, 0x4b, 0x79, 0x61, 0x78, 0x98]);
 pub const UGA_IO_PROTOCOL_GUID              : Guid = Guid(0x61a4d49e, 0x6f68, 0x4f1b, [0xb9, 0x22, 0xa8, 0x6e, 0xed, 0x0b, 0x07, 0xa2]);
+pub const SIMPLE_TEXT_OUTPUT_GUID           : Guid = Guid(0x387477c2, 0x69c7, 0x11d2, [0x8e, 0x39, 0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b]);
 pub const GLOBAL_VARIABLE_GUID              : Guid = Guid(0x8be4df61, 0x93ca, 0x11d2, [0xaa, 0x0d, 0x00, 0xe0, 0x98, 0x03, 0x2b, 0x8c]);
 pub const UV_SYSTEM_TABLE_GUID              : Guid = Guid(0x3b13a7d4, 0x633e, 0x11dd, [0x93, 0xec, 0xda, 0x25, 0x56, 0xd8, 0x95, 0x93]);
 pub const LINUX_EFI_CRASH_GUID              : Guid = Guid(0xcfc8fc79, 0xbe2e, 0x4ddc, [0x97, 0xf0, 0x9f, 0x98, 0xbf, 0xe2, 0x98, 0xa0]);
@@ -51,6 +52,7 @@ pub enum GuidKind {
     Hcdp,
     UgaIo,
     GlobalVariable,
+    SimpleTextOutput,
     UvSystem,
     LinuxEfiCrash,
     LoadedImage,
@@ -91,6 +93,7 @@ impl Guid {
             HCDP_TABLE_GUID => GuidKind::Hcdp,
             UGA_IO_PROTOCOL_GUID => GuidKind::UgaIo,
             GLOBAL_VARIABLE_GUID => GuidKind::GlobalVariable,
+            SIMPLE_TEXT_OUTPUT_GUID => GuidKind::SimpleTextOutput,
             UV_SYSTEM_TABLE_GUID => GuidKind::UvSystem,
             LINUX_EFI_CRASH_GUID => GuidKind::LinuxEfiCrash,
             LOADED_IMAGE_PROTOCOL_GUID => GuidKind::LoadedImage,

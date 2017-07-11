@@ -1,5 +1,3 @@
-use core::fmt;
-
 use ::Event;
 use status::Status;
 
@@ -40,17 +38,4 @@ pub struct TextOutput {
     pub SetCursorPosition: extern "win64" fn(&TextOutput, usize, usize) -> Status,
     pub EnableCursor: extern "win64" fn(&TextOutput, bool) -> Status,
     pub Mode: &'static TextOutputMode,
-}
-
-impl fmt::Write for TextOutput {
-    fn write_str(&mut self, string: &str) -> Result<(), fmt::Error> {
-        for c in string.chars() {
-            (self.OutputString)(self, [c as u16, 0].as_ptr());
-            if c == '\n' {
-                (self.OutputString)(self, ['\r' as u16, 0].as_ptr());
-            }
-        }
-
-        Ok(())
-    }
 }

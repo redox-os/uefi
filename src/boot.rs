@@ -5,7 +5,7 @@ use status::Status;
 
 #[repr(C)]
 pub enum InterfaceType {
-    NativeInterface
+    Native
 }
 
 #[repr(C)]
@@ -36,7 +36,7 @@ pub struct BootServices {
     CheckEvent: extern "win64" fn (),
     pub InstallProtocolInterface: extern "win64" fn (Handle: &mut Handle, Protocol: &Guid, InterfaceType: InterfaceType, Interface: usize) -> Status,
     ReinstallProtocolInterface: extern "win64" fn (),
-    UninstallProtocolInterface: extern "win64" fn (),
+    pub UninstallProtocolInterface: extern "win64" fn (Handle: Handle, Protocol: &Guid, Interface: usize) -> Status,
     pub HandleProtocol: extern "win64" fn (Handle: Handle, Protocol: &Guid, Interface: &mut usize) -> Status,
     _rsvd: usize,
     RegisterProtocolNotify: extern "win64" fn (),
