@@ -3,9 +3,11 @@
 #![no_std]
 #![feature(try_trait)]
 
+pub mod block_io;
 pub mod boot;
 pub mod capsule;
 pub mod config;
+pub mod device;
 pub mod fs;
 pub mod graphics;
 pub mod guid;
