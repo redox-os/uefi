@@ -1,6 +1,6 @@
 use ::{Event, Handle, TableHeader};
 use guid::Guid;
-use memory::MemoryType;
+use memory::{MemoryDescriptor, MemoryType};
 use status::Status;
 
 #[repr(C)]
@@ -25,7 +25,7 @@ pub struct BootServices {
     RestoreTpl: extern "win64" fn(OldTpl: usize),
     pub AllocatePages: extern "win64" fn(AllocType: usize, MemoryType: MemoryType, Pages: usize, Memory: &mut usize) -> Status,
     pub FreePages: extern "win64" fn(Memory: usize, Pages: usize) -> Status,
-    GetMemoryMap: extern "win64" fn(/* TODO */) -> isize,
+    pub GetMemoryMap: extern "win64" fn(MemoryMapSize: &mut usize, MemoryMap: *mut MemoryDescriptor, MapKey: &mut usize, DescriptorSize: &mut usize, DescriptorVersion: &mut u32) -> Status,
     pub AllocatePool: extern "win64" fn(PoolType: MemoryType, Size: usize, Buffer: &mut usize) -> Status,
     pub FreePool: extern "win64" fn(Buffer: usize) -> Status,
     CreateEvent: extern "win64" fn (),
