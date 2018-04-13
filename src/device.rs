@@ -26,7 +26,26 @@ pub enum DevicePathAcpiType {
     Adr = 0x03,
 }
 
-//TODO: Messaging types
+#[repr(C)]
+pub enum DevicePathMessagingType {
+    Atapi = 0x01,
+    Scsi = 0x02,
+    Fiberchannel = 0x03,
+    Serial1394 = 0x04,
+    Usb = 0x05,
+    Sata = 0x12,
+    Wwid = 0x10,
+    Dlu = 0x11,
+    Usbclass = 0x0f,
+    I2o = 0x06,
+    Mac = 0x0b,
+    Ipv4 = 0x0c,
+    Ipv6 = 0x0d,
+    Infiniband = 0x09,
+    Uart = 0x0e,
+    Vendordefined = 0x0a,
+    Iscsi = 0x13,
+}
 
 #[repr(C)]
 pub enum DevicePathMediaType {
