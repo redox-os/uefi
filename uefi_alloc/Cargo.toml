@@ -3,4 +3,4 @@ name = "uefi_alloc"
 version = "0.1.0"
 
 [dependencies]
-uefi = { git = "https://github.com/redox-os/uefi.git" }
+uefi = { git = "https://gitlab.redox-os.org/redox-os/uefi.git" }
