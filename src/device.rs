@@ -1,4 +1,4 @@
-use guid::Guid;
+use crate::guid::Guid;
 
 #[repr(C)]
 pub enum DevicePathType {
@@ -60,7 +60,6 @@ pub enum DevicePathMediaType {
 pub enum DevicePathBbsType {
     Bbs = 0x01,
 }
-
 
 #[repr(C)]
 pub enum DevicePathEndType {

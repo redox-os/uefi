@@ -1,5 +1,4 @@
-use guid::Guid;
-use memory::PhysicalAddress;
+use crate::{guid::Guid, memory::PhysicalAddress};
 
 pub const CAPSULE_FLAGS_PERSIST_ACROSS_RESET: u32 = 0x00010000;
 pub const CAPSULE_FLAGS_POPULATE_SYSTEM_TABLE: u32 = 0x00020000;
