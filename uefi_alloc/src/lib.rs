@@ -29,7 +29,7 @@ fn get_uefi() -> Option<&'static mut SystemTable> {
 
 pub struct Allocator;
 
-unsafe impl<'a> GlobalAlloc for &'a Allocator {
+unsafe impl GlobalAlloc for Allocator {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
         if let Some(ref mut uefi) = get_uefi() {
             let mut ptr = 0;
