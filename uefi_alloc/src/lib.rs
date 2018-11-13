@@ -1,14 +1,13 @@
-#![feature(alloc)]
 #![feature(allocator_api)]
 #![feature(const_fn)]
 #![feature(try_trait)]
 #![no_std]
 
-extern crate alloc;
 extern crate uefi;
 
-use alloc::heap::{Alloc, AllocErr, Layout};
+use core::alloc::{GlobalAlloc, Layout};
 use core::ops::Try;
+use core::ptr;
 use uefi::memory::MemoryType;
 use uefi::system::SystemTable;
 
@@ -30,23 +29,21 @@ fn get_uefi() -> Option<&'static mut SystemTable> {
 
 pub struct Allocator;
 
-unsafe impl<'a> Alloc for &'a Allocator {
-    unsafe fn alloc(&mut self, layout: Layout) -> Result<*mut u8, AllocErr> {
+unsafe impl<'a> GlobalAlloc for &'a Allocator {
+    unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
         if let Some(ref mut uefi) = get_uefi() {
             let mut ptr = 0;
             if let Err(_) = (uefi.BootServices.AllocatePool)(MemoryType::EfiLoaderData, layout.size(), &mut ptr).into_result() {
-                Err(AllocErr::Exhausted {
-                    request: layout
-                })
+                ptr::null_mut()
             } else {
-                Ok(ptr as *mut u8)
+                ptr as *mut u8
             }
         } else {
             panic!("__rust_allocate: uefi not initialized");
         }
     }
 
-    unsafe fn dealloc(&mut self, ptr: *mut u8, _layout: Layout) {
+    unsafe fn dealloc(&self, ptr: *mut u8, _layout: Layout) {
         if let Some(ref mut uefi) = get_uefi() {
             let _ = (uefi.BootServices.FreePool)(ptr as usize);
         } else {
