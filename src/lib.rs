@@ -11,6 +11,7 @@ pub mod device;
 pub mod fs;
 pub mod graphics;
 pub mod guid;
+pub mod hii;
 pub mod loaded_image;
 pub mod memory;
 pub mod pointer;

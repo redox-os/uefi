@@ -38,6 +38,7 @@ pub const DEBUG_IMAGE_INFO_TABLE_GUID       : Guid = Guid(0x49152e77, 0x1ada, 0x
 pub const SHELL_GUID                        : Guid = Guid(0x6302d008, 0x7f9b, 0x4f30, [0x87, 0xac, 0x60, 0xc9, 0xfe, 0xf5, 0xda, 0x4e]);
 pub const SHELL_PARAMETERS_GUID             : Guid = Guid(0x752f3136, 0x4e16, 0x4fdc, [0xa2, 0x2a, 0xe5, 0xf4, 0x68, 0x12, 0xf4, 0xca]);
 pub const SIMPLE_POINTER_GUID               : Guid = Guid(0x31878c87, 0x0b75, 0x11d5, [0x9a, 0x4f, 0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d]);
+pub const HII_DATABASE_GUID                 : Guid = Guid(0xef9fc172, 0xa1b2, 0x4693, [0xb3, 0x27, 0x6d, 0x32, 0xfc, 0x41, 0x60, 0x42]);
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 #[repr(C)]
@@ -83,6 +84,7 @@ pub enum GuidKind {
     Shell,
     ShellParameters,
     SimplePointer,
+    HiiDatabase,
     Unknown
 }
 
@@ -127,6 +129,7 @@ impl Guid {
             SHELL_GUID => GuidKind::Shell,
             SHELL_PARAMETERS_GUID => GuidKind::ShellParameters,
             SIMPLE_POINTER_GUID => GuidKind::SimplePointer,
+            HII_DATABASE_GUID => GuidKind::HiiDatabase,
             _ => GuidKind::Unknown
         }
     }
