@@ -1,6 +1,7 @@
 #![no_std]
 #![feature(alloc)]
 #![feature(core_intrinsics)]
+#![feature(lang_items)]
 #![feature(prelude_import)]
 #![feature(raw)]
 #![feature(slice_concat_ext)]
@@ -66,6 +67,7 @@ pub use alloc_crate::borrow;
 pub use alloc_crate::fmt;
 pub use alloc_crate::format;
 pub use core::pin;
+pub use alloc_crate::collections;
 pub use alloc_crate::slice;
 pub use alloc_crate::str;
 pub use alloc_crate::string;
@@ -81,13 +83,18 @@ pub use uefi_alloc;
 
 pub mod io;
 pub mod math;
+pub mod panic;
 pub mod rt;
 
 #[global_allocator]
 static ALLOCATOR: uefi_alloc::Allocator = uefi_alloc::Allocator;
 
-pub static mut HANDLE: uefi::Handle = uefi::Handle(0);
-pub static mut SYSTEM_TABLE: *mut uefi::system::SystemTable = 0 as *mut uefi::system::SystemTable;
+static mut HANDLE: uefi::Handle = uefi::Handle(0);
+static mut SYSTEM_TABLE: *mut uefi::system::SystemTable = 0 as *mut uefi::system::SystemTable;
+
+pub fn handle() -> uefi::Handle {
+    unsafe { HANDLE }
+}
 
 pub fn system_table() -> &'static uefi::system::SystemTable {
     unsafe { & *SYSTEM_TABLE }
