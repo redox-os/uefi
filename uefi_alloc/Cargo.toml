@@ -1,5 +1,5 @@
 [package]
-name = "uefi_alloc"
+name = "redox_uefi_alloc"
 version = "0.1.0"
 edition = "2018"
 description = "UEFI allocation support"
