@@ -87,4 +87,12 @@ pub mod rt;
 static ALLOCATOR: uefi_alloc::Allocator = uefi_alloc::Allocator;
 
 pub static mut HANDLE: uefi::Handle = uefi::Handle(0);
-pub static mut UEFI: *mut uefi::system::SystemTable = 0 as *mut uefi::system::SystemTable;
+pub static mut SYSTEM_TABLE: *mut uefi::system::SystemTable = 0 as *mut uefi::system::SystemTable;
+
+pub fn system_table() -> &'static uefi::system::SystemTable {
+    unsafe { & *SYSTEM_TABLE }
+}
+
+pub unsafe fn system_table_mut() -> &'static mut uefi::system::SystemTable {
+    &mut *SYSTEM_TABLE
+}
