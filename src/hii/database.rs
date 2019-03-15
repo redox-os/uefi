@@ -5,6 +5,7 @@ use status::Status;
 use super::package::{HiiPackageKind, HiiPackageHeader, HiiPackageListHeader};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[repr(transparent)]
 pub struct HiiHandle(pub usize);
 
 pub type HiiDatabaseNotify = extern "win64" fn (

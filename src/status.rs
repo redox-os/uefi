@@ -93,6 +93,7 @@ pub type Result<T> = ::core::result::Result<T, Error>;
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 #[must_use]
+#[repr(transparent)]
 pub struct Status(pub usize);
 
 impl Status {

@@ -24,9 +24,11 @@ pub mod text;
 pub mod time;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[repr(transparent)]
 pub struct Event(pub usize);
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[repr(transparent)]
 pub struct Handle(pub usize);
 
 #[repr(C)]
