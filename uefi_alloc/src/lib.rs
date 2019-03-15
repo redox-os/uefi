@@ -3,8 +3,6 @@
 #![feature(try_trait)]
 #![no_std]
 
-extern crate uefi;
-
 use core::alloc::{GlobalAlloc, Layout};
 use core::ops::Try;
 use core::ptr;
