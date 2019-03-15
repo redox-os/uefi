@@ -78,13 +78,23 @@ pub use core::hint;
 
 /* } */
 
+// Re-export uefi and uefi_alloc
 pub use uefi;
 pub use uefi_alloc;
 
-pub mod io;
-pub mod math;
-pub mod panic;
+// Runtime support
 pub mod rt;
+
+// Public modules
+pub mod exec;
+pub mod ffi;
+pub mod fs;
+pub mod io;
+pub mod loaded_image;
+pub mod pointer;
+pub mod proto;
+pub mod shell;
+pub mod vars;
 
 #[global_allocator]
 static ALLOCATOR: uefi_alloc::Allocator = uefi_alloc::Allocator;
