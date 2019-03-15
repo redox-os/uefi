@@ -1,10 +1,10 @@
-use ::TableHeader;
-use capsule::CapsuleHeader;
-use guid::Guid;
-use memory::{PhysicalAddress, MemoryDescriptor};
-use reset::ResetType;
-use status::Status;
-use time::{Time, TimeCapabilities};
+use crate::TableHeader;
+use crate::capsule::CapsuleHeader;
+use crate::guid::Guid;
+use crate::memory::{PhysicalAddress, MemoryDescriptor};
+use crate::reset::ResetType;
+use crate::status::Status;
+use crate::time::{Time, TimeCapabilities};
 
 #[repr(C)]
 pub struct RuntimeServices {

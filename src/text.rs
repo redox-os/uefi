@@ -1,5 +1,5 @@
-use ::Event;
-use status::Status;
+use crate::Event;
+use crate::status::Status;
 
 #[derive(Clone, Copy, Debug, Default)]
 #[repr(C)]

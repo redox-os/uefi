@@ -1,10 +1,10 @@
 use core::slice;
 
-use ::{Handle, TableHeader};
-use boot::BootServices;
-use config::ConfigurationTable;
-use runtime::RuntimeServices;
-use text::{TextInput, TextOutput};
+use crate::{Handle, TableHeader};
+use crate::boot::BootServices;
+use crate::config::ConfigurationTable;
+use crate::runtime::RuntimeServices;
+use crate::text::{TextInput, TextOutput};
 
 #[repr(C)]
 pub struct SystemTable {

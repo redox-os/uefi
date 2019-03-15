@@ -1,4 +1,4 @@
-use guid::Guid;
+use crate::guid::Guid;
 
 #[repr(C)]
 pub struct ConfigurationTable {

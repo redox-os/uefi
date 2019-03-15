@@ -1,5 +1,5 @@
-use ::Handle;
-use status::Status;
+use crate::Handle;
+use crate::status::Status;
 
 #[repr(C)]
 pub struct Shell {

@@ -1,4 +1,4 @@
-use status::Status;
+use crate::status::Status;
 
 #[repr(C)]
 pub struct BlockIoMedia {

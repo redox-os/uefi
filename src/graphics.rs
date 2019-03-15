@@ -1,4 +1,4 @@
-use status::Status;
+use crate::status::Status;
 
 #[derive(Copy, Clone, Debug)]
 #[repr(C)]

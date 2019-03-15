@@ -1,6 +1,6 @@
 use core::{mem, slice};
 
-use guid::Guid;
+use crate::guid::Guid;
 
 #[repr(u8)]
 pub enum HiiPackageKind {

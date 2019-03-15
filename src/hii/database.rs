@@ -1,6 +1,6 @@
-use Handle;
-use guid::Guid;
-use status::Status;
+use crate::Handle;
+use crate::guid::Guid;
+use crate::status::Status;
 
 use super::package::{HiiPackageKind, HiiPackageHeader, HiiPackageListHeader};
 

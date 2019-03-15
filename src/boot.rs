@@ -1,7 +1,7 @@
-use ::{Event, Handle, TableHeader};
-use guid::Guid;
-use memory::{MemoryDescriptor, MemoryType};
-use status::Status;
+use crate::{Event, Handle, TableHeader};
+use crate::guid::Guid;
+use crate::memory::{MemoryDescriptor, MemoryType};
+use crate::status::Status;
 
 #[repr(C)]
 pub enum InterfaceType {

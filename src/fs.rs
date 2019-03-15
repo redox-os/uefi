@@ -1,6 +1,6 @@
-use guid::Guid;
-use status::Status;
-use time::Time;
+use crate::guid::Guid;
+use crate::status::Status;
+use crate::time::Time;
 
 // Open modes
 pub const FILE_MODE_READ: u64 = 0x0000000000000001;
