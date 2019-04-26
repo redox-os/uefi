@@ -2,6 +2,7 @@ use core::{mem, slice};
 
 use crate::guid::Guid;
 
+#[derive(Clone, Copy, Debug)]
 #[repr(u8)]
 pub enum HiiPackageKind {
     /// Pseudo-package type used when exporting package lists

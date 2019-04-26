@@ -66,7 +66,7 @@ pub struct HiiDatabase {
         PackageKind: HiiPackageKind,
         PackageGuid: &Guid,
         HandleBufferLength: &mut usize,
-        Handle: &mut HiiHandle
+        Handle: *mut HiiHandle
     ) -> Status,
 
     /// Exports the contents of one or all package lists in the HII database into a buffer
