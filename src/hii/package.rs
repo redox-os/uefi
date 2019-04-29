@@ -1,6 +1,9 @@
 use core::{mem, slice};
 
 use crate::guid::Guid;
+use crate::util::c_str_at_end;
+
+use super::StringId;
 
 #[derive(Clone, Copy, Debug)]
 #[repr(u8)]
@@ -32,6 +35,7 @@ pub enum HiiPackageKind {
     //SystemEnd = 0xFF,
 }
 
+#[derive(Debug)]
 #[repr(C)]
 pub struct HiiPackageHeader {
     pub Length_Kind: u32,
@@ -47,16 +51,43 @@ impl HiiPackageHeader {
     }
 
     pub fn Data(&self) -> &[u8] {
-        let size = mem::size_of::<Self>();
         unsafe {
             slice::from_raw_parts(
-                (self as *const Self as *const u8).add(size),
-                self.Length() as usize - size
+                (self as *const Self).add(1) as *const u8,
+                self.Length() as usize - mem::size_of::<Self>()
             )
         }
     }
 }
 
+#[derive(Debug)]
+#[repr(C)]
+pub struct HiiStringPackageHeader {
+    pub Header: HiiPackageHeader,
+    pub HdrSize: u32,
+    pub StringInfoOffset: u32,
+    pub LanguageWindow: [u16; 16],
+    pub LanguageName: StringId,
+}
+
+impl HiiStringPackageHeader {
+    pub fn Language(&self) -> &[u8] {
+        unsafe { c_str_at_end(self, 0) }
+    }
+
+    pub fn StringInfo(&self) -> &[u8] {
+        unsafe {
+            slice::from_raw_parts(
+                (self as *const Self as *const u8).add(
+                    self.StringInfoOffset as usize
+                ),
+                self.Header.Length() as usize - self.StringInfoOffset as usize
+            )
+        }
+    }
+}
+
+#[derive(Debug)]
 #[repr(C)]
 pub struct HiiPackageListHeader {
     pub PackageListGuid: Guid,
@@ -65,11 +96,10 @@ pub struct HiiPackageListHeader {
 
 impl HiiPackageListHeader {
     pub fn Data(&self) -> &[u8] {
-        let size = mem::size_of::<Self>();
         unsafe {
             slice::from_raw_parts(
-                (self as *const Self as *const u8).add(size),
-                self.PackageLength as usize - size
+                (self as *const Self).add(1) as *const u8,
+                self.PackageLength as usize - mem::size_of::<Self>()
             )
         }
     }

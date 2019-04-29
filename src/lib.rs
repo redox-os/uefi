@@ -23,6 +23,9 @@ pub mod system;
 pub mod text;
 pub mod time;
 
+
+pub (crate) mod util;
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[repr(transparent)]
 pub struct Event(pub usize);
