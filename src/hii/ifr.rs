@@ -1,6 +1,9 @@
+use core::mem;
+
 use crate::guid::Guid;
 use super::{FormId, QuestionId, StringId, VarStoreId};
 
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[repr(u8)]
 pub enum IfrTypeKind {
     U8 = 0x00,
@@ -18,7 +21,7 @@ pub enum IfrTypeKind {
     Ref = 0x0C,
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[repr(C)]
 pub struct HiiTime {
     pub Hour: u8,
@@ -26,7 +29,7 @@ pub struct HiiTime {
     pub Second: u8,
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[repr(C)]
 pub struct HiiDate {
     pub Year: u16,
@@ -34,8 +37,8 @@ pub struct HiiDate {
     pub Day: u8,
 }
 
-#[derive(Clone, Copy)]
-#[repr(C)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+#[repr(packed)] // Fails to have correct size with repr(C)
 pub struct HiiRef {
     pub QuestionId: QuestionId,
     pub FormId: FormId,
@@ -43,7 +46,8 @@ pub struct HiiRef {
     pub DevicePath: StringId,
 }
 
-#[repr(C)]
+#[derive(Clone, Copy)]
+#[repr(packed)] // Fails to have correct size with repr(C)
 pub union IfrTypeValue {
     u8: u8,
     u16: u16,
@@ -55,6 +59,57 @@ pub union IfrTypeValue {
     string: StringId,
     reference: HiiRef,
     // buffer: [u8]
+}
+
+impl IfrTypeValue {
+    pub unsafe fn to_enum(self, kind: IfrTypeKind) -> IfrTypeValueEnum {
+        match kind {
+            IfrTypeKind::U8 => IfrTypeValueEnum::U8(self.u8),
+            IfrTypeKind::U16 => IfrTypeValueEnum::U16(self.u16),
+            IfrTypeKind::U32 => IfrTypeValueEnum::U32(self.u32),
+            IfrTypeKind::U64 => IfrTypeValueEnum::U64(self.u64),
+            IfrTypeKind::Bool => IfrTypeValueEnum::Bool(self.b),
+            IfrTypeKind::Time => IfrTypeValueEnum::Time(self.time),
+            IfrTypeKind::Date => IfrTypeValueEnum::Date(self.date),
+            IfrTypeKind::String => IfrTypeValueEnum::String(self.string),
+            IfrTypeKind::Ref => IfrTypeValueEnum::Ref(self.reference),
+            _ => IfrTypeValueEnum::Other(
+                kind,
+                mem::transmute(self)
+            ),
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum IfrTypeValueEnum {
+    U8(u8),
+    U16(u16),
+    U32(u32),
+    U64(u64),
+    Bool(bool),
+    Time(HiiTime),
+    Date(HiiDate),
+    String(StringId),
+    Ref(HiiRef),
+    Other(IfrTypeKind, [u8; 22])
+}
+
+impl IfrTypeValueEnum {
+    pub unsafe fn to_union(self) -> (IfrTypeKind, IfrTypeValue) {
+        match self {
+            IfrTypeValueEnum::U8(u8) => (IfrTypeKind::U8, IfrTypeValue { u8 }),
+            IfrTypeValueEnum::U16(u16) => (IfrTypeKind::U16, IfrTypeValue { u16 }),
+            IfrTypeValueEnum::U32(u32) => (IfrTypeKind::U32, IfrTypeValue { u32 }),
+            IfrTypeValueEnum::U64(u64) => (IfrTypeKind::U64, IfrTypeValue { u64 }),
+            IfrTypeValueEnum::Bool(b) => (IfrTypeKind::Bool, IfrTypeValue { b }),
+            IfrTypeValueEnum::Time(time) => (IfrTypeKind::Time, IfrTypeValue { time }),
+            IfrTypeValueEnum::Date(date) => (IfrTypeKind::Date, IfrTypeValue { date }),
+            IfrTypeValueEnum::String(string) => (IfrTypeKind::String, IfrTypeValue { string }),
+            IfrTypeValueEnum::Ref(reference) => (IfrTypeKind::Ref, IfrTypeValue { reference }),
+            IfrTypeValueEnum::Other(kind, data) => (kind, mem::transmute(data)),
+        }
+    }
 }
 
 #[repr(C)]
@@ -79,7 +134,7 @@ pub const IFR_FLAG_RECONNECT_REQUIRED: u8 = 0x40;
 pub const IFR_FLAG_OPTIONS_ONLY: u8 = 0x80;
 
 #[derive(Debug)]
-#[repr(C)]
+#[repr(packed)] // Has incorrect size if not packed
 pub struct IfrQuestionHeader {
     pub Header: IfrStatementHeader,
     pub QuestionId: QuestionId,
@@ -209,6 +264,32 @@ impl IfrOpHeader {
     pub fn Scope(&self) -> bool {
         self.Length_Scope & 0x80 == 0x80
     }
+
+    pub unsafe fn cast<T>(&self) -> Option<&T> {
+        if self.Length() as usize >= mem::size_of::<T>() {
+            Some(&*(self as *const Self as *const T))
+        } else {
+            None
+        }
+    }
+}
+
+macro_rules! unsafe_field {
+    ($struct: ident, $field:ident, $type:ty) => (
+        pub fn $field(&self) -> Option<&$type> {
+            unsafe {
+                let self_ptr = self as *const Self;
+                let unsafe_self = &*(self_ptr as *const $struct);
+                let field_ptr = &unsafe_self.$field as *const $type;
+                let length = field_ptr.add(1) as usize - self_ptr as usize;
+                if self.Header.Length() as usize >= length {
+                    Some(&*field_ptr)
+                } else {
+                    None
+                }
+            }
+        }
+    );
 }
 
 #[derive(Debug)]
@@ -216,9 +297,24 @@ impl IfrOpHeader {
 pub struct IfrAction {
     pub Header: IfrOpHeader,
     pub QuestionHeader: IfrQuestionHeader,
-    // TODO: Make a function returning Option since this header could be
-    // sizeof(Action) - sizeof(QuestionConfig)
-    pub QuestionConfig: StringId,
+}
+
+#[repr(C)]
+struct UnsafeIfrAction {
+    safe: IfrAction,
+    QuestionConfig: StringId,
+}
+
+impl IfrAction {
+    unsafe_field!(UnsafeIfrAction, QuestionConfig, StringId);
+}
+
+#[derive(Debug)]
+#[repr(packed)] // Has incorrect size if not packed
+pub struct IfrCheckbox {
+    pub Header: IfrOpHeader,
+    pub Question: IfrQuestionHeader,
+    pub Flags: u8,
 }
 
 #[derive(Debug)]
@@ -229,11 +325,60 @@ pub struct IfrForm {
     pub FormTitle: StringId,
 }
 
+#[derive(Debug)]
+#[repr(packed)] // Has incorrect size if not packed
+pub struct IfrNumeric {
+    pub Header: IfrOpHeader,
+    pub Question: IfrQuestionHeader,
+    pub Flags: u8,
+    //TODO: MinValue, MaxValue, Step
+}
+
+#[derive(Debug)]
+#[repr(C)]
+pub struct IfrOneOf {
+    pub Header: IfrOpHeader,
+    pub Question: IfrQuestionHeader,
+    pub Flags: u8,
+    //TODO: MinValue, MaxValue, Step
+}
+
 #[repr(C)]
 pub struct IfrOneOfOption {
     pub Header: IfrOpHeader,
     pub Option: StringId,
     pub Flags: u8,
-    pub Type: u8,
+    pub Kind: IfrTypeKind,
     pub Value: IfrTypeValue,
+}
+
+#[derive(Debug)]
+#[repr(C)]
+pub struct IfrRef {
+    pub Header: IfrOpHeader,
+    pub Question: IfrQuestionHeader
+}
+
+
+#[repr(C)]
+struct UnsafeIfrRef {
+    safe: IfrRef,
+    FormId: FormId,
+    QuestionId: QuestionId,
+    FormSetId: Guid,
+    DevicePath: *const u16,
+}
+
+impl IfrRef {
+    unsafe_field!(UnsafeIfrRef, FormId, FormId);
+    unsafe_field!(UnsafeIfrRef, QuestionId, QuestionId);
+    unsafe_field!(UnsafeIfrRef, FormSetId, Guid);
+    unsafe_field!(UnsafeIfrRef, DevicePath, *const u16);
+}
+
+#[repr(packed)] // Has incorrect size if not packed
+pub struct IfrSubtitle {
+    pub Header: IfrOpHeader,
+    pub Statement: IfrStatementHeader,
+    pub Flags: u8,
 }
