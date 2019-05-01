@@ -115,7 +115,7 @@ impl IfrTypeValueEnum {
 #[repr(C)]
 pub struct HiiValue {
     pub Kind: IfrTypeKind,
-    pub Buffer: *const u8,
+    pub Buffer: *mut u8,
     pub BufferLen: u16,
     pub Value: IfrTypeValue,
 }
@@ -350,6 +350,15 @@ pub struct IfrOneOfOption {
     pub Flags: u8,
     pub Kind: IfrTypeKind,
     pub Value: IfrTypeValue,
+}
+
+#[derive(Debug)]
+#[repr(C)]
+pub struct IfrOrderedList {
+    pub Header: IfrOpHeader,
+    pub Question: IfrQuestionHeader,
+    pub MaxContainers: u8,
+    pub Flags: u8,
 }
 
 #[derive(Debug)]
