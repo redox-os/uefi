@@ -120,7 +120,7 @@ pub struct HiiValue {
     pub Value: IfrTypeValue,
 }
 
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 #[repr(C)]
 pub struct IfrStatementHeader {
     pub Prompt: StringId,
