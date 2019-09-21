@@ -6,6 +6,7 @@
 pub mod block_io;
 pub mod boot;
 pub mod capsule;
+pub mod component_name;
 pub mod config;
 pub mod device;
 pub mod fs;
