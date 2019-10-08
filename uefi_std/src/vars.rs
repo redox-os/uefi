@@ -3,6 +3,7 @@ use uefi::guid::GLOBAL_VARIABLE_GUID;
 use uefi::status::{Error, Result};
 
 use crate::ffi::wstr;
+use crate::slice;
 use crate::system_table;
 
 fn get(name: &str, data: &mut [u8]) -> Result<usize> {
@@ -62,6 +63,15 @@ pub fn get_boot_order() -> Result<Vec<u16>> {
         }
     }
     Ok(order)
+}
+
+pub fn set_boot_order(order: &[u16]) -> Result<usize> {
+    set("BootOrder", unsafe {
+        slice::from_raw_parts(
+            order.as_ptr() as *const u8,
+            order.len() * 2
+        )
+    })
 }
 
 pub fn get_boot_item(num: u16) -> Result<Vec<u8>> {
