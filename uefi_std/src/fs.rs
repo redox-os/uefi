@@ -114,7 +114,7 @@ impl Dir {
 pub fn find(path: &str) -> Result<(usize, File)> {
     let wpath = wstr(path);
 
-    for (i, mut fs) in FileSystem::all().iter_mut().enumerate() {
+    for (i, fs) in FileSystem::all().iter_mut().enumerate() {
         let mut root = fs.root()?;
         match root.open(&wpath) {
             Ok(file) => {

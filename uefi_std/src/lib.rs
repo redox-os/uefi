@@ -1,10 +1,17 @@
 #![no_std]
-#![feature(alloc)]
+#![feature(asm)]
+#![feature(concat_idents)]
 #![feature(core_intrinsics)]
+#![feature(custom_test_frameworks)]
+#![feature(format_args_nl)]
+#![feature(global_asm)]
 #![feature(lang_items)]
+#![feature(log_syntax)]
 #![feature(prelude_import)]
 #![feature(raw)]
 #![feature(slice_concat_ext)]
+#![feature(test)]
+#![feature(trace_macros)]
 
 /* This section was addapted from the Rust Standard Library, and is licensed accordingly
  * https://github.com/rust-lang/rust/blob/master/src/libstd/lib.rs
@@ -16,10 +23,6 @@
 #[prelude_import]
 #[allow(unused)]
 use prelude::*;
-
-// Re-export a few macros from core
-pub use core::{assert_eq, assert_ne, debug_assert, debug_assert_eq, debug_assert_ne};
-pub use core::{unreachable, unimplemented, write, writeln, r#try};
 
 #[allow(unused_imports)]
 #[macro_use]
@@ -67,7 +70,6 @@ pub use alloc_crate::borrow;
 pub use alloc_crate::fmt;
 pub use alloc_crate::format;
 pub use core::pin;
-pub use alloc_crate::collections;
 pub use alloc_crate::slice;
 pub use alloc_crate::str;
 pub use alloc_crate::string;
@@ -75,6 +77,52 @@ pub use alloc_crate::vec;
 pub use core::char;
 pub use core::u128;
 pub use core::hint;
+pub use core::array;
+
+// Re-export macros defined in libcore.
+#[allow(deprecated, deprecated_in_future)]
+pub use core::{
+    // Stable
+    assert_eq,
+    assert_ne,
+    debug_assert_eq,
+    debug_assert_ne,
+    debug_assert,
+    r#try,
+    unimplemented,
+    unreachable,
+    write,
+    writeln,
+    // Unstable
+    todo,
+};
+
+// Re-export built-in macros defined through libcore.
+pub use core::prelude::v1::{
+    // Stable
+    assert,
+    cfg,
+    column,
+    compile_error,
+    concat,
+    env,
+    file,
+    format_args,
+    include,
+    include_bytes,
+    include_str,
+    line,
+    module_path,
+    option_env,
+    stringify,
+    // Unstable
+    asm,
+    concat_idents,
+    format_args_nl,
+    global_asm,
+    log_syntax,
+    trace_macros,
+};
 
 /* } */
 
