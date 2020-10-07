@@ -5,13 +5,6 @@
 #[no_mangle]
 pub extern fn rust_eh_personality() {}
 
-// This function may be needed based on the compilation target.
-#[lang = "eh_unwind_resume"]
-#[no_mangle]
-pub extern fn rust_eh_unwind_resume() {
-    loop {}
-}
-
 #[panic_handler]
 #[no_mangle]
 pub extern fn rust_begin_panic(pi: &::core::panic::PanicInfo) -> ! {

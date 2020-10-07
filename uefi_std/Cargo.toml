@@ -1,6 +1,6 @@
 [package]
 name = "redox_uefi_std"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2018"
 description = "UEFI standard library"
 license = "MIT"
