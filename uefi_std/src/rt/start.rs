@@ -3,7 +3,7 @@ use uefi::status::Status;
 use uefi::system::SystemTable;
 
 #[no_mangle]
-pub unsafe extern "win64" fn _start(handle: Handle, system_table: &'static mut SystemTable) -> Status {
+pub unsafe extern "win64" fn efi_main(handle: Handle, system_table: &'static mut SystemTable) -> Status {
     extern "C" {
         fn main() -> Status;
     }
