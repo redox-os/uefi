@@ -1,4 +1,4 @@
-use crate::{Event, Handle, TableHeader};
+use crate::{Event, Handle, TableHeader, Tpl};
 use crate::guid::Guid;
 use crate::memory::{MemoryDescriptor, MemoryType};
 use crate::status::Status;
@@ -21,14 +21,20 @@ pub enum LocateSearchType {
 #[repr(C)]
 pub struct BootServices {
     pub Hdr: TableHeader,
-    RaiseTpl: extern "win64" fn(NewTpl: usize) -> usize,
-    RestoreTpl: extern "win64" fn(OldTpl: usize),
+    RaiseTpl: extern "win64" fn(NewTpl: Tpl) -> usize,
+    RestoreTpl: extern "win64" fn(OldTpl: Tpl),
     pub AllocatePages: extern "win64" fn(AllocType: usize, MemoryType: MemoryType, Pages: usize, Memory: &mut usize) -> Status,
     pub FreePages: extern "win64" fn(Memory: usize, Pages: usize) -> Status,
     pub GetMemoryMap: extern "win64" fn(MemoryMapSize: &mut usize, MemoryMap: *mut MemoryDescriptor, MapKey: &mut usize, DescriptorSize: &mut usize, DescriptorVersion: &mut u32) -> Status,
     pub AllocatePool: extern "win64" fn(PoolType: MemoryType, Size: usize, Buffer: &mut usize) -> Status,
     pub FreePool: extern "win64" fn(Buffer: usize) -> Status,
-    CreateEvent: extern "win64" fn (),
+    pub CreateEvent: extern "win64" fn (
+        Kind: u32,
+        NotifyTpl: Tpl,
+        NotifyFunction: extern "win64" fn (Event: Event, Context: usize /* *mut c_void */),
+        NotifyContext: usize /* *mut c_void */,
+        Event: &mut Event,
+    ) -> Status,
     SetTimer: extern "win64" fn (),
     pub WaitForEvent: extern "win64" fn (NumberOfEvents: usize, Event: *const Event, Index: &mut usize) -> Status,
     SignalEvent: extern "win64" fn (),
@@ -64,5 +70,12 @@ pub struct BootServices {
     CalculateCrc32: extern "win64" fn (),
     CopyMem: extern "win64" fn (),
     SetMem: extern "win64" fn (),
-    CreateEventEx: extern "win64" fn (),
+    pub CreateEventEx: extern "win64" fn (
+        Kind: u32,
+        NotifyTpl: Tpl,
+        NotifyFunction: extern "win64" fn (Event: Event, Context: usize /* *mut c_void */),
+        NotifyContext: usize /* *mut c_void */,
+        EventGroup: *const Guid,
+        Event: &mut Event,
+    ) -> Status,
 }

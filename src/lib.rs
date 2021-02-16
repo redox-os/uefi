@@ -43,3 +43,7 @@ pub struct TableHeader {
     CRC32: u32,
     Reserved: u32
 }
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[repr(transparent)]
+pub struct Tpl(pub usize);
