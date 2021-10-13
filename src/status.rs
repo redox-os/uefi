@@ -1,4 +1,4 @@
-use core::ops::Try;
+use core::ops::{ControlFlow, FromResidual, Try};
 
 pub const ERROR_BIT: usize = 1 << 63;
 
@@ -103,22 +103,24 @@ impl Status {
 }
 
 impl Try for Status {
-    type Ok = usize;
-    type Error = Error;
+    type Output = usize;
+    type Residual = Error;
 
-    fn into_result(self) -> Result<Self::Ok> {
+    fn branch(self) -> ControlFlow<Self::Residual, Self::Output> {
         if self.0 & ERROR_BIT == 0 {
-            Ok(self.0)
+            ControlFlow::Continue(self.0)
         } else {
-            Err(Error::from(self.0 & !(ERROR_BIT)))
+            ControlFlow::Break(Error::from(self.0 & !ERROR_BIT))
         }
     }
 
-    fn from_error(v: Self::Error) -> Self {
-        Status(v as usize | ERROR_BIT)
+    fn from_output(v: Self::Output) -> Self {
+        Self(v & !ERROR_BIT)
     }
+}
 
-    fn from_ok(v: Self::Ok) -> Self {
-        Status(v & !(ERROR_BIT))
+impl FromResidual for Status {
+    fn from_residual(v: Error) -> Self {
+        Self(v as usize | ERROR_BIT)
     }
 }
