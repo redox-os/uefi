@@ -124,3 +124,9 @@ impl FromResidual for Status {
         Self(v as usize | ERROR_BIT)
     }
 }
+
+impl<T> FromResidual<Error> for Result<T> {
+    fn from_residual(err: Error) -> Self {
+        Err(err)
+    }
+}
