@@ -2,6 +2,7 @@
 #![allow(non_snake_case)]
 #![no_std]
 #![feature(try_trait_v2)]
+#![feature(control_flow_enum)]
 
 pub mod block_io;
 pub mod boot;
