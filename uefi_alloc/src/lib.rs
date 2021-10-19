@@ -1,10 +1,10 @@
 #![feature(allocator_api)]
-#![feature(const_fn)]
-#![feature(try_trait)]
+#![feature(try_trait_v2)]
+#![feature(control_flow_enum)]
 #![no_std]
 
 use core::alloc::{GlobalAlloc, Layout};
-use core::ops::Try;
+use core::ops::{ControlFlow, Try};
 use core::ptr::{self, NonNull};
 use uefi::memory::MemoryType;
 use uefi::system::SystemTable;
@@ -21,17 +21,16 @@ unsafe impl GlobalAlloc for Allocator {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
         let uefi = UEFI.expect("__rust_allocate: uefi not initialized");
         let mut ptr = 0;
-        if (uefi.as_ref().BootServices.AllocatePool)(
+        let res = (uefi.as_ref().BootServices.AllocatePool)(
             MemoryType::EfiLoaderData,
             layout.size(),
             &mut ptr,
         )
-        .into_result()
-        .is_ok()
-        {
-            ptr as *mut u8
-        } else {
-            ptr::null_mut()
+        .branch();
+
+        match res {
+            ControlFlow::Continue(ptr) => ptr as *mut u8,
+            ControlFlow::Break(_) => ptr::null_mut(),
         }
     }
 
