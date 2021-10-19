@@ -8,7 +8,6 @@
 #![feature(lang_items)]
 #![feature(log_syntax)]
 #![feature(prelude_import)]
-#![feature(raw)]
 #![feature(slice_concat_ext)]
 #![feature(test)]
 #![feature(trace_macros)]
@@ -50,7 +49,6 @@ pub use core::marker;
 pub use core::mem;
 pub use core::ops;
 pub use core::ptr;
-pub use core::raw;
 pub use core::result;
 pub use core::option;
 pub use core::isize;
