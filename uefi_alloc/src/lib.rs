@@ -29,7 +29,7 @@ unsafe impl GlobalAlloc for Allocator {
         .branch();
 
         match res {
-            ControlFlow::Continue(ptr) => ptr as *mut u8,
+            ControlFlow::Continue(_) => ptr as *mut u8,
             ControlFlow::Break(_) => ptr::null_mut(),
         }
     }
