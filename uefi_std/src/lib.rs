@@ -1,4 +1,5 @@
 #![no_std]
+#![feature(abi_efiapi)]
 #![feature(asm)]
 #![feature(concat_idents)]
 #![feature(core_intrinsics)]
