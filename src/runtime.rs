@@ -30,7 +30,7 @@ pub struct RuntimeServices {
         Time: *const Time
     ) -> Status,
 
-    SetVirtualAddressMap: extern "win64" fn(
+    pub SetVirtualAddressMap: extern "win64" fn(
         MemoryMapSize: usize,
         DescriptorSize: usize,
         DescriptorVersion: u32,
