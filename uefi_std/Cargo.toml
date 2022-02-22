@@ -1,0 +1,15 @@
+[package]
+name = "redox_uefi_std"
+version = "0.1.5"
+edition = "2018"
+description = "UEFI standard library"
+license = "MIT"
+authors = ["Jeremy Soller <jackpot51@gmail.com>"]
+repository = "https://gitlab.redox-os.org/redox-os/uefi_std"
+
+[lib]
+name = "uefi_std"
+
+[dependencies]
+redox_uefi = "0.1.2"
+redox_uefi_alloc = "0.1.1"
