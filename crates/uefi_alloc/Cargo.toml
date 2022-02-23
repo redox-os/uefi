@@ -5,7 +5,7 @@ edition = "2018"
 description = "UEFI allocation support"
 license = "MIT"
 authors = ["Jeremy Soller <jackpot51@gmail.com>"]
-repository = "https://gitlab.redox-os.org/redox-os/uefi_alloc"
+repository = "https://gitlab.redox-os.org/redox-os/uefi"
 
 [lib]
 name = "uefi_alloc"
