@@ -1,0 +1,11 @@
+[package]
+name = "redox_uefi"
+version = "0.1.4"
+edition = "2018"
+description = "UEFI support library"
+license = "MIT"
+authors = ["Jeremy Soller <jackpot51@gmail.com>"]
+repository = "https://gitlab.redox-os.org/redox-os/uefi"
+
+[lib]
+name = "uefi"
