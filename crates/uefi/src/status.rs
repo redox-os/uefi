@@ -1,6 +1,6 @@
 use core::ops::{ControlFlow, FromResidual, Try};
 
-pub const ERROR_BIT: usize = 1 << 63;
+pub const ERROR_BIT: usize = 1 << (usize::BITS - 1);
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 #[repr(usize)]
