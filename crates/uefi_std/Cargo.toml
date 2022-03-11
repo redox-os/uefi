@@ -11,5 +11,5 @@ repository = "https://gitlab.redox-os.org/redox-os/uefi"
 name = "uefi_std"
 
 [dependencies]
-redox_uefi = "0.1.2"
-redox_uefi_alloc = "0.1.1"
+redox_uefi = { path = "../uefi", version = "0.1.2" }
+redox_uefi_alloc = { path = "../uefi_alloc", version = "0.1.1" }
