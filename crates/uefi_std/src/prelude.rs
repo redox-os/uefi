@@ -28,7 +28,6 @@
  // Re-exported built-in macros
  #[doc(no_inline)]
  pub use core::prelude::v1::{
-     asm,
      assert,
      cfg,
      column,
@@ -39,7 +38,6 @@
      file,
      format_args,
      format_args_nl,
-     global_asm,
      include,
      include_bytes,
      include_str,

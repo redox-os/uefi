@@ -1,11 +1,9 @@
 #![no_std]
 #![feature(abi_efiapi)]
-#![feature(asm)]
 #![feature(concat_idents)]
 #![feature(core_intrinsics)]
 #![feature(custom_test_frameworks)]
 #![feature(format_args_nl)]
-#![feature(global_asm)]
 #![feature(lang_items)]
 #![feature(log_syntax)]
 #![feature(prelude_import)]
@@ -115,10 +113,8 @@ pub use core::prelude::v1::{
     option_env,
     stringify,
     // Unstable
-    asm,
     concat_idents,
     format_args_nl,
-    global_asm,
     log_syntax,
     trace_macros,
 };
