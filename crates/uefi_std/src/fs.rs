@@ -1,4 +1,4 @@
-use core::{mem, slice};
+use core::{mem, ptr, slice};
 use uefi::fs::{File as InnerFile, FileInfo, SimpleFileSystem, FILE_MODE_READ};
 use uefi::guid::{Guid, FILE_INFO_ID, FILE_SYSTEM_GUID};
 use uefi::status::{Error, Result};
@@ -20,7 +20,7 @@ impl Protocol<SimpleFileSystem> for FileSystem {
 
 impl FileSystem {
     pub fn root(&mut self) -> Result<Dir> {
-        let mut interface = 0 as *mut InnerFile;
+        let mut interface = ptr::null_mut::<InnerFile>();
         (self.0.OpenVolume)(self.0, &mut interface)?;
 
         Ok(Dir(File(unsafe { &mut *interface })))
@@ -84,7 +84,7 @@ pub struct Dir(pub File);
 
 impl Dir {
     pub fn open(&mut self, filename: &[u16]) -> Result<File> {
-        let mut interface = 0 as *mut InnerFile;
+        let mut interface = ptr::null_mut::<InnerFile>();
         ((self.0).0.Open)((self.0).0, &mut interface, filename.as_ptr(), FILE_MODE_READ, 0)?;
 
         Ok(File(unsafe { &mut *interface }))

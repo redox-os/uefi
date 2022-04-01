@@ -48,6 +48,6 @@ pub trait Protocol<T: 'static> {
     }
 
     fn all() -> Vec<Self> where Self: Sized {
-        Self::locate_handle().unwrap_or(Vec::new())
+        Self::locate_handle().unwrap_or_default()
     }
 }
