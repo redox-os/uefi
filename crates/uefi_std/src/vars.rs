@@ -85,7 +85,7 @@ pub fn get_boot_item(num: u16) -> Result<Vec<u8>> {
 }
 
 pub fn set_boot_item(num: u16, data: &[u8]) -> Result<usize> {
-    set(&format!("Boot{:>04X}", num), &data)
+    set(&format!("Boot{:>04X}", num), data)
 }
 
 pub fn get_os_indications() -> Result<u64> {

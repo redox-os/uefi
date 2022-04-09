@@ -17,7 +17,7 @@ pub fn exec_data(data: &[u8], name: &str, args: &[&str]) -> Result<usize> {
     for arg in args.iter() {
         cmdline.push_str(" \"");
         cmdline.push_str(arg);
-        cmdline.push_str("\"");
+        cmdline.push('"');
     }
     cmdline.push('\0');
 
