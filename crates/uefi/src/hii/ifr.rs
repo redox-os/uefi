@@ -38,7 +38,7 @@ pub struct HiiDate {
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
-#[repr(packed)] // Fails to have correct size with repr(C)
+#[repr(C, packed)] // Fails to have correct size with repr(C)
 pub struct HiiRef {
     pub QuestionId: QuestionId,
     pub FormId: FormId,
@@ -47,7 +47,7 @@ pub struct HiiRef {
 }
 
 #[derive(Clone, Copy)]
-#[repr(packed)] // Fails to have correct size with repr(C)
+#[repr(C, packed)] // Fails to have correct size with repr(C)
 pub union IfrTypeValue {
     u8: u8,
     u16: u16,
@@ -133,8 +133,8 @@ pub const IFR_FLAG_RESET_REQUIRED: u8 = 0x10;
 pub const IFR_FLAG_RECONNECT_REQUIRED: u8 = 0x40;
 pub const IFR_FLAG_OPTIONS_ONLY: u8 = 0x80;
 
-#[derive(Debug)]
-#[repr(packed)] // Has incorrect size if not packed
+#[derive(Clone, Copy, Debug)]
+#[repr(C, packed)] // Has incorrect size if not packed
 pub struct IfrQuestionHeader {
     pub Header: IfrStatementHeader,
     pub QuestionId: QuestionId,
@@ -310,7 +310,7 @@ impl IfrAction {
 }
 
 #[derive(Debug)]
-#[repr(packed)] // Has incorrect size if not packed
+#[repr(C, packed)] // Has incorrect size if not packed
 pub struct IfrCheckbox {
     pub Header: IfrOpHeader,
     pub Question: IfrQuestionHeader,
@@ -326,7 +326,7 @@ pub struct IfrForm {
 }
 
 #[derive(Debug)]
-#[repr(packed)] // Has incorrect size if not packed
+#[repr(C, packed)] // Has incorrect size if not packed
 pub struct IfrNumeric {
     pub Header: IfrOpHeader,
     pub Question: IfrQuestionHeader,
@@ -385,7 +385,7 @@ impl IfrRef {
     unsafe_field!(UnsafeIfrRef, DevicePath, *const u16);
 }
 
-#[repr(packed)] // Has incorrect size if not packed
+#[repr(C, packed)] // Has incorrect size if not packed
 pub struct IfrSubtitle {
     pub Header: IfrOpHeader,
     pub Statement: IfrStatementHeader,
