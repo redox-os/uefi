@@ -15,7 +15,7 @@ pub extern fn rust_begin_panic(pi: &::core::panic::PanicInfo) -> ! {
 
 #[lang = "oom"]
 #[no_mangle]
-pub extern "C" fn rust_oom(layout: ::core::alloc::Layout) -> ! {
+pub fn rust_oom(layout: ::core::alloc::Layout) -> ! {
     println!(
         "SETUP OOM: {} bytes aligned to {} bytes\n",
         layout.size(),
