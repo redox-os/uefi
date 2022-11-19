@@ -249,7 +249,7 @@ pub enum IfrOpCode {
     Match2 = 0x64,
 }
 
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 #[repr(C)]
 pub struct IfrOpHeader {
     pub OpCode: IfrOpCode,
