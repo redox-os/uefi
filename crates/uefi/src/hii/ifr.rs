@@ -391,3 +391,11 @@ pub struct IfrSubtitle {
     pub Statement: IfrStatementHeader,
     pub Flags: u8,
 }
+
+#[derive(Debug)]
+#[repr(C)]
+pub struct IfrText {
+    pub Header: IfrOpHeader,
+    pub Statement: IfrStatementHeader,
+    pub TextTwo: StringId,
+}
