@@ -1,6 +1,9 @@
 // These functions are used by the compiler, but not
 // for a bare-bones hello world. These are normally
 // provided by libstd.
+
+use core::prelude::rust_2024::alloc_error_handler;
+
 #[lang = "eh_personality"]
 #[no_mangle]
 pub extern fn rust_eh_personality() {}
@@ -13,7 +16,7 @@ pub extern fn rust_begin_panic(pi: &::core::panic::PanicInfo) -> ! {
     loop {}
 }
 
-#[lang = "oom"]
+#[alloc_error_handler]
 #[no_mangle]
 pub fn rust_oom(layout: ::core::alloc::Layout) -> ! {
     println!(
