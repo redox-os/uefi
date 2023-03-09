@@ -4,6 +4,9 @@
 #![feature(try_trait_v2)]
 #![feature(control_flow_enum)]
 
+#[macro_use]
+pub mod macros;
+
 pub mod block_io;
 pub mod boot;
 pub mod capsule;
