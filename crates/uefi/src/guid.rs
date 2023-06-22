@@ -346,14 +346,57 @@ impl Guid {
 
 impl fmt::Display for Guid {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "({:>08x}, {:>04x}, {:>04x}, [", self.0, self.1, self.2)?;
-        for (i, b) in self.3.iter().enumerate() {
-            if i > 0 {
-                write!(f, ",")?;
-            }
-            write!(f, "{:>02x}", b)?;
-        }
-        write!(f, "])")?;
-        Ok(())
+        // Per RFC 4122, hex digits are output as lower case characters.
+        write!(f, "{:x}", &self)
+    }
+}
+
+impl fmt::LowerHex for Guid {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "{:08x}-{:04x}-{:04x}-{:02x}{:02x}-{:02x}{:02x}{:02x}{:02x}{:02x}{:02x}",
+            // Group 1
+            self.0,
+            // Group 2
+            self.1,
+            // Group 3
+            self.2,
+            // Group 4
+            self.3[0],
+            self.3[1],
+            // Group 5
+            self.3[2],
+            self.3[3],
+            self.3[4],
+            self.3[5],
+            self.3[6],
+            self.3[7],
+        )
+    }
+}
+
+impl fmt::UpperHex for Guid {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "{:08X}-{:04X}-{:04X}-{:02X}{:02X}-{:02X}{:02X}{:02X}{:02X}{:02X}{:02X}",
+            // Group 1
+            self.0,
+            // Group 2
+            self.1,
+            // Group 3
+            self.2,
+            // Group 4
+            self.3[0],
+            self.3[1],
+            // Group 5
+            self.3[2],
+            self.3[3],
+            self.3[4],
+            self.3[5],
+            self.3[6],
+            self.3[7],
+        )
     }
 }
