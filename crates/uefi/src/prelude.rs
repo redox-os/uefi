@@ -2,6 +2,7 @@
 
 //! Access to commonly used data types and macros.
 
+pub use crate::guid;
 pub use crate::guid::Guid;
 pub use crate::status::Result;
 pub use crate::status::Status;
