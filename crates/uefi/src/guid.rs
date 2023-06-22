@@ -75,6 +75,7 @@ pub const COMPONENT_NAME2_GUID: Guid = guid!("6a7a5cff-e8d9-4f70-bada-75ab3025ce
 #[repr(C)]
 pub struct Guid(pub u32, pub u16, pub u16, pub [u8; 8]);
 
+#[deprecated(note = "use `Guid` directly")]
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub enum GuidKind {
     Null,
@@ -172,6 +173,8 @@ impl Guid {
         Self(d1, d2, d3, d4)
     }
 
+    #[allow(deprecated)]
+    #[deprecated(note = "compare `Guid`s directly")]
     pub fn kind(&self) -> GuidKind {
         match *self {
             NULL_GUID => GuidKind::Null,
