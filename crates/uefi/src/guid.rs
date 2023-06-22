@@ -1,5 +1,8 @@
 use core::fmt;
 
+/// String length of a GUID with hyphens.
+const HYPHENATED_LEN: usize = 36;
+
 pub const NULL_GUID: Guid = Guid(
     0x00000000,
     0x0000,
@@ -297,6 +300,55 @@ pub enum GuidKind {
 }
 
 impl Guid {
+    /// Converts a string literal to a GUID.
+    ///
+    /// The string must be in the form "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX".
+    /// Hex digits may be either upper case or lower case.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the string literal is not in the standard form or contains
+    /// a value that is not a hex digit.
+    pub const fn parse_str(literal: &str) -> Self {
+        if literal.len() != HYPHENATED_LEN {
+            panic!("invalid GUID length");
+        }
+
+        let bytes = literal.as_bytes();
+
+        // Check hyphens
+        if bytes[8] != b'-' || bytes[13] != b'-' || bytes[18] != b'-' || bytes[23] != b'-' {
+            panic!("invalid GUID format");
+        }
+
+        let mut raw = [0u8; 16];
+
+        let mut i = 0;
+        let mut j = 0;
+        while i < HYPHENATED_LEN {
+            if i == 8 || i == 13 || i == 18 || i == 23 {
+                // Already checked hyphens; skip
+                i += 1;
+            }
+
+            let hi = hex_to_u8(bytes[i]);
+            let lo = hex_to_u8(bytes[i + 1]);
+
+            let b = hi << 4 | lo;
+            raw[j] = b;
+
+            i += 2;
+            j += 1;
+        }
+
+        let d1 = u32::from_be_bytes([raw[0], raw[1], raw[2], raw[3]]);
+        let d2 = u16::from_be_bytes([raw[4], raw[5]]);
+        let d3 = u16::from_be_bytes([raw[6], raw[7]]);
+        let d4 = [raw[8], raw[9], raw[10], raw[11], raw[12], raw[13], raw[14], raw[15]];
+
+        Self(d1, d2, d3, d4)
+    }
+
     pub fn kind(&self) -> GuidKind {
         match *self {
             NULL_GUID => GuidKind::Null,
@@ -341,6 +393,18 @@ impl Guid {
             COMPONENT_NAME2_GUID => GuidKind::ComponentName2,
             _ => GuidKind::Unknown,
         }
+    }
+}
+
+/// Converts a hex character to its integer value.
+/// Panics on invalid values.
+#[doc(hidden)]
+const fn hex_to_u8(hex: u8) -> u8 {
+    match hex {
+        b'0'..=b'9' => hex - b'0',
+        b'A'..=b'F' => hex - b'A' + 10,
+        b'a'..=b'f' => hex - b'a' + 10,
+        _ => panic!("invalid hex value in GUID"),
     }
 }
 
