@@ -1,5 +1,8 @@
 use core::fmt;
 
+// String length of a GUID with hyphens.
+const HYPHENATED_LEN: usize = 36;
+
 pub const NULL_GUID                         : Guid = Guid(0x00000000, 0x0000, 0x0000, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
 pub const MPS_TABLE_GUID                    : Guid = Guid(0xeb9d2d2f, 0x2d88, 0x11d3, [0x9a, 0x16, 0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d]);
 pub const ACPI_TABLE_GUID                   : Guid = Guid(0xeb9d2d30, 0x2d88, 0x11d3, [0x9a, 0x16, 0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d]);
@@ -92,6 +95,55 @@ pub enum GuidKind {
 }
 
 impl Guid {
+    /// Converts a string literal to a GUID.
+    ///
+    /// The string must be in the form "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX".
+    /// Hex digits may be either upper case or lower case.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the string literal is not in the standard form or contains
+    /// a value that is not a hex digit.
+    pub const fn parse_str(literal: &str) -> Self {
+        if literal.len() != HYPHENATED_LEN {
+            panic!("Invalid GUID length");
+        }
+
+        let bytes = literal.as_bytes();
+
+        // Check hyphens
+        if bytes[8] != b'-' || bytes[13] != b'-' || bytes[18] != b'-' || bytes[23] != b'-' {
+            panic!("Invalid GUID format");
+        }
+
+        let mut raw = [0u8; 16];
+
+        let mut i = 0;
+        let mut j = 0;
+        while i < HYPHENATED_LEN {
+            if i == 8 || i == 13 || i == 18 || i == 23 {
+                // Already checked hyphens; skip
+                i += 1;
+            }
+
+            let hi = hex_to_u8(bytes[i]);
+            let lo = hex_to_u8(bytes[i + 1]);
+
+            let b = hi << 4 | lo;
+            raw[j] = b;
+
+            i += 2;
+            j += 1;
+        }
+
+        let d1 = u32::from_be_bytes([raw[0], raw[1], raw[2], raw[3]]);
+        let d2 = u16::from_be_bytes([raw[4], raw[5]]);
+        let d3 = u16::from_be_bytes([raw[6], raw[7]]);
+        let d4 = [raw[8], raw[9], raw[10], raw[11], raw[12], raw[13], raw[14], raw[15]];
+
+        Self(d1, d2, d3, d4)
+    }
+
     pub fn kind(&self) -> GuidKind {
         match *self {
             NULL_GUID => GuidKind::Null,
@@ -193,5 +245,16 @@ impl fmt::UpperHex for Guid {
             self.3[6],
             self.3[7],
         )
+    }
+}
+
+// Converts a hex character to its integer value.
+// Panics on invalid values.
+const fn hex_to_u8(hex: u8) -> u8 {
+    match hex {
+        b'0'..=b'9' => hex - b'0',
+        b'A'..=b'F' => hex - b'A' + 10,
+        b'a'..=b'f' => hex - b'a' + 10,
+        _ => panic!("Invalid hex value in GUID"),
     }
 }
