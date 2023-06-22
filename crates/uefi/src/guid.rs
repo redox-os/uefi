@@ -1,3 +1,22 @@
+// SPDX-License-Identifier: MIT
+
+//! # Globally Unique Identifier
+//!
+//! GUIDs are Microsoft's variant of [UUIDs][wiki]. The first 3 groups are
+//! stored in the native endianness of the platform.
+//!
+//! ## References
+//!
+//! - [UEFI Specification, Version 2.10][UEFI Spec]: Appendix A - GUID and Time
+//!   Formats
+//! - [Microsoft GUID structure][guiddef]
+//! - [RFC 4122: A Universally Unique IDentifier (UUID) URN Namespace][rfc4122]
+//!
+//! [wiki]: https://en.wikipedia.org/wiki/Universally_unique_identifier
+//! [guiddef]: https://docs.microsoft.com/en-us/windows/win32/api/guiddef/ns-guiddef-guid
+//! [rfc4122]: https://datatracker.ietf.org/doc/html/rfc4122
+//! [UEFI Spec]: https://uefi.org/sites/default/files/resources/UEFI_Spec_2_10_Aug29.pdf
+
 use core::fmt;
 
 #[macro_export]
