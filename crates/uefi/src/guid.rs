@@ -3,252 +3,47 @@ use core::fmt;
 /// String length of a GUID with hyphens.
 const HYPHENATED_LEN: usize = 36;
 
-pub const NULL_GUID: Guid = Guid(
-    0x00000000,
-    0x0000,
-    0x0000,
-    [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],
-);
-pub const MPS_TABLE_GUID: Guid = Guid(
-    0xeb9d2d2f,
-    0x2d88,
-    0x11d3,
-    [0x9a, 0x16, 0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
-);
-pub const ACPI_TABLE_GUID: Guid = Guid(
-    0xeb9d2d30,
-    0x2d88,
-    0x11d3,
-    [0x9a, 0x16, 0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
-);
-pub const ACPI_20_TABLE_GUID: Guid = Guid(
-    0x8868e871,
-    0xe4f1,
-    0x11d3,
-    [0xbc, 0x22, 0x00, 0x80, 0xc7, 0x3c, 0x88, 0x81],
-);
-pub const SMBIOS_TABLE_GUID: Guid = Guid(
-    0xeb9d2d31,
-    0x2d88,
-    0x11d3,
-    [0x9a, 0x16, 0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
-);
-pub const SMBIOS3_TABLE_GUID: Guid = Guid(
-    0xf2fd1544,
-    0x9794,
-    0x4a2c,
-    [0x99, 0x2e, 0xe5, 0xbb, 0xcf, 0x20, 0xe3, 0x94],
-);
-pub const SAL_SYSTEM_TABLE_GUID: Guid = Guid(
-    0xeb9d2d32,
-    0x2d88,
-    0x11d3,
-    [0x9a, 0x16, 0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
-);
-pub const HCDP_TABLE_GUID: Guid = Guid(
-    0xf951938d,
-    0x620b,
-    0x42ef,
-    [0x82, 0x79, 0xa8, 0x4b, 0x79, 0x61, 0x78, 0x98],
-);
-pub const UGA_IO_PROTOCOL_GUID: Guid = Guid(
-    0x61a4d49e,
-    0x6f68,
-    0x4f1b,
-    [0xb9, 0x22, 0xa8, 0x6e, 0xed, 0x0b, 0x07, 0xa2],
-);
-pub const SIMPLE_TEXT_OUTPUT_GUID: Guid = Guid(
-    0x387477c2,
-    0x69c7,
-    0x11d2,
-    [0x8e, 0x39, 0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
-);
-pub const GLOBAL_VARIABLE_GUID: Guid = Guid(
-    0x8be4df61,
-    0x93ca,
-    0x11d2,
-    [0xaa, 0x0d, 0x00, 0xe0, 0x98, 0x03, 0x2b, 0x8c],
-);
-pub const UV_SYSTEM_TABLE_GUID: Guid = Guid(
-    0x3b13a7d4,
-    0x633e,
-    0x11dd,
-    [0x93, 0xec, 0xda, 0x25, 0x56, 0xd8, 0x95, 0x93],
-);
-pub const LINUX_EFI_CRASH_GUID: Guid = Guid(
-    0xcfc8fc79,
-    0xbe2e,
-    0x4ddc,
-    [0x97, 0xf0, 0x9f, 0x98, 0xbf, 0xe2, 0x98, 0xa0],
-);
-pub const LOADED_IMAGE_PROTOCOL_GUID: Guid = Guid(
-    0x5b1b31a1,
-    0x9562,
-    0x11d2,
-    [0x8e, 0x3f, 0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
-);
-pub const LOADED_IMAGE_DEVICE_PATH_GUID: Guid = Guid(
-    0xbc62157e,
-    0x3e33,
-    0x4fec,
-    [0x99, 0x20, 0x2d, 0x3b, 0x36, 0xd7, 0x50, 0xdf],
-);
-pub const GRAPHICS_OUTPUT_PROTOCOL_GUID: Guid = Guid(
-    0x9042a9de,
-    0x23dc,
-    0x4a38,
-    [0x96, 0xfb, 0x7a, 0xde, 0xd0, 0x80, 0x51, 0x6a],
-);
-pub const UGA_PROTOCOL_GUID: Guid = Guid(
-    0x982c298b,
-    0xf4fa,
-    0x41cb,
-    [0xb8, 0x38, 0x77, 0xaa, 0x68, 0x8f, 0xb8, 0x39],
-);
-pub const PCI_IO_PROTOCOL_GUID: Guid = Guid(
-    0x4cf5b200,
-    0x68b8,
-    0x4ca5,
-    [0x9e, 0xec, 0xb2, 0x3e, 0x3f, 0x50, 0x02, 0x9a],
-);
-pub const FILE_INFO_ID: Guid = Guid(
-    0x09576e92,
-    0x6d3f,
-    0x11d2,
-    [0x8e, 0x39, 0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
-);
-pub const SYSTEM_RESOURCE_TABLE_GUID: Guid = Guid(
-    0xb122a263,
-    0x3661,
-    0x4f68,
-    [0x99, 0x29, 0x78, 0xf8, 0xb0, 0xd6, 0x21, 0x80],
-);
-pub const BLOCK_IO_GUID: Guid = Guid(
-    0x964e5b21,
-    0x6459,
-    0x11d2,
-    [0x8e, 0x39, 0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
-);
-pub const FILE_SYSTEM_GUID: Guid = Guid(
-    0x964e5b22,
-    0x6459,
-    0x11d2,
-    [0x8e, 0x39, 0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
-);
-pub const LOAD_FILE_GUID: Guid = Guid(
-    0x56ec3091,
-    0x954c,
-    0x11d2,
-    [0x8e, 0x3f, 0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
-);
-pub const DEVICE_PATH_GUID: Guid = Guid(
-    0x09576e91,
-    0x6d3f,
-    0x11d2,
-    [0x8e, 0x39, 0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
-);
-pub const DEVICE_TREE_GUID: Guid = Guid(
-    0xb1b621d5,
-    0xf19c,
-    0x41a5,
-    [0x83, 0x0b, 0xd9, 0x15, 0x2c, 0x69, 0xaa, 0xe0],
-);
-pub const PROPERTIES_TABLE_GUID: Guid = Guid(
-    0x880aaca3,
-    0x4adc,
-    0x4a04,
-    [0x90, 0x79, 0xb7, 0x47, 0x34, 0x08, 0x25, 0xe5],
-);
-pub const RNG_PROTOCOL_GUID: Guid = Guid(
-    0x3152bca5,
-    0xeade,
-    0x433d,
-    [0x86, 0x2e, 0xc0, 0x1c, 0xdc, 0x29, 0x1f, 0x44],
-);
-pub const RNG_ALGORITHM_RAW: Guid = Guid(
-    0xe43176d7,
-    0xb6e8,
-    0x4827,
-    [0xb7, 0x84, 0x7f, 0xfd, 0xc4, 0xb6, 0x85, 0x61],
-);
-pub const MEMORY_ATTRIBUTES_TABLE_GUID: Guid = Guid(
-    0xdcfa911d,
-    0x26eb,
-    0x469f,
-    [0xa2, 0x20, 0x38, 0xb7, 0xdc, 0x46, 0x12, 0x20],
-);
-pub const CONSOLE_OUT_DEVICE_GUID: Guid = Guid(
-    0xd3b36f2c,
-    0xd551,
-    0x11d4,
-    [0x9a, 0x46, 0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
-);
-pub const SECTION_TIANO_COMPRESS_GUID: Guid = Guid(
-    0xa31280ad,
-    0x481e,
-    0x41b6,
-    [0x95, 0xe8, 0x12, 0x7f, 0x4c, 0x98, 0x47, 0x79],
-);
-pub const SECTION_LZMA_COMPRESS_GUID: Guid = Guid(
-    0xee4e5898,
-    0x3914,
-    0x4259,
-    [0x9d, 0x6e, 0xdc, 0x7b, 0xd7, 0x94, 0x03, 0xcf],
-);
-pub const DXE_SERVICES_TABLE_GUID: Guid = Guid(
-    0x05ad34ba,
-    0x6f02,
-    0x4214,
-    [0x95, 0x2e, 0x4d, 0xa0, 0x39, 0x8e, 0x2b, 0xb9],
-);
-pub const HOB_LIST_GUID: Guid = Guid(
-    0x7739f24c,
-    0x93d7,
-    0x11d4,
-    [0x9a, 0x3a, 0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
-);
-pub const MEMORY_TYPE_INFORMATION_GUID: Guid = Guid(
-    0x4c19049f,
-    0x4137,
-    0x4dd3,
-    [0x9c, 0x10, 0x8b, 0x97, 0xa8, 0x3f, 0xfd, 0xfa],
-);
-pub const DEBUG_IMAGE_INFO_TABLE_GUID: Guid = Guid(
-    0x49152e77,
-    0x1ada,
-    0x4764,
-    [0xb7, 0xa2, 0x7a, 0xfe, 0xfe, 0xd9, 0x5e, 0x8b],
-);
-pub const SHELL_GUID: Guid = Guid(
-    0x6302d008,
-    0x7f9b,
-    0x4f30,
-    [0x87, 0xac, 0x60, 0xc9, 0xfe, 0xf5, 0xda, 0x4e],
-);
-pub const SHELL_PARAMETERS_GUID: Guid = Guid(
-    0x752f3136,
-    0x4e16,
-    0x4fdc,
-    [0xa2, 0x2a, 0xe5, 0xf4, 0x68, 0x12, 0xf4, 0xca],
-);
-pub const SIMPLE_POINTER_GUID: Guid = Guid(
-    0x31878c87,
-    0x0b75,
-    0x11d5,
-    [0x9a, 0x4f, 0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
-);
-pub const HII_DATABASE_GUID: Guid = Guid(
-    0xef9fc172,
-    0xa1b2,
-    0x4693,
-    [0xb3, 0x27, 0x6d, 0x32, 0xfc, 0x41, 0x60, 0x42],
-);
-pub const COMPONENT_NAME2_GUID: Guid = Guid(
-    0x6a7a5cff,
-    0xe8d9,
-    0x4f70,
-    [0xba, 0xda, 0x75, 0xab, 0x30, 0x25, 0xce, 0x14],
-);
+pub const NULL_GUID                         : Guid = Guid::parse_str("00000000-0000-0000-0000-000000000000");
+pub const MPS_TABLE_GUID                    : Guid = Guid::parse_str("eb9d2d2f-2d88-11d3-9a16-0090273fc14d");
+pub const ACPI_TABLE_GUID                   : Guid = Guid::parse_str("eb9d2d30-2d88-11d3-9a16-0090273fc14d");
+pub const ACPI_20_TABLE_GUID                : Guid = Guid::parse_str("8868e871-e4f1-11d3-bc22-0080c73c8881");
+pub const SMBIOS_TABLE_GUID                 : Guid = Guid::parse_str("eb9d2d31-2d88-11d3-9a16-0090273fc14d");
+pub const SMBIOS3_TABLE_GUID                : Guid = Guid::parse_str("f2fd1544-9794-4a2c-992e-e5bbcf20e394");
+pub const SAL_SYSTEM_TABLE_GUID             : Guid = Guid::parse_str("eb9d2d32-2d88-11d3-9a16-0090273fc14d");
+pub const HCDP_TABLE_GUID                   : Guid = Guid::parse_str("f951938d-620b-42ef-8279-a84b79617898");
+pub const UGA_IO_PROTOCOL_GUID              : Guid = Guid::parse_str("61a4d49e-6f68-4f1b-b922-a86eed0b07a2");
+pub const SIMPLE_TEXT_OUTPUT_GUID           : Guid = Guid::parse_str("387477c2-69c7-11d2-8e39-00a0c969723b");
+pub const GLOBAL_VARIABLE_GUID              : Guid = Guid::parse_str("8be4df61-93ca-11d2-aa0d-00e098032b8c");
+pub const UV_SYSTEM_TABLE_GUID              : Guid = Guid::parse_str("3b13a7d4-633e-11dd-93ec-da2556d89593");
+pub const LINUX_EFI_CRASH_GUID              : Guid = Guid::parse_str("cfc8fc79-be2e-4ddc-97f0-9f98bfe298a0");
+pub const LOADED_IMAGE_PROTOCOL_GUID        : Guid = Guid::parse_str("5b1b31a1-9562-11d2-8e3f-00a0c969723b");
+pub const LOADED_IMAGE_DEVICE_PATH_GUID     : Guid = Guid::parse_str("bc62157e-3e33-4fec-9920-2d3b36d750df");
+pub const GRAPHICS_OUTPUT_PROTOCOL_GUID     : Guid = Guid::parse_str("9042a9de-23dc-4a38-96fb-7aded080516a");
+pub const UGA_PROTOCOL_GUID                 : Guid = Guid::parse_str("982c298b-f4fa-41cb-b838-77aa688fb839");
+pub const PCI_IO_PROTOCOL_GUID              : Guid = Guid::parse_str("4cf5b200-68b8-4ca5-9eec-b23e3f50029a");
+pub const FILE_INFO_ID                      : Guid = Guid::parse_str("09576e92-6d3f-11d2-8e39-00a0c969723b");
+pub const SYSTEM_RESOURCE_TABLE_GUID        : Guid = Guid::parse_str("b122a263-3661-4f68-9929-78f8b0d62180");
+pub const BLOCK_IO_GUID                     : Guid = Guid::parse_str("964e5b21-6459-11d2-8e39-00a0c969723b");
+pub const FILE_SYSTEM_GUID                  : Guid = Guid::parse_str("964e5b22-6459-11d2-8e39-00a0c969723b");
+pub const LOAD_FILE_GUID                    : Guid = Guid::parse_str("56ec3091-954c-11d2-8e3f-00a0c969723b");
+pub const DEVICE_PATH_GUID                  : Guid = Guid::parse_str("09576e91-6d3f-11d2-8e39-00a0c969723b");
+pub const DEVICE_TREE_GUID                  : Guid = Guid::parse_str("b1b621d5-f19c-41a5-830b-d9152c69aae0");
+pub const PROPERTIES_TABLE_GUID             : Guid = Guid::parse_str("880aaca3-4adc-4a04-9079-b747340825e5");
+pub const RNG_PROTOCOL_GUID                 : Guid = Guid::parse_str("3152bca5-eade-433d-862e-c01cdc291f44");
+pub const RNG_ALGORITHM_RAW                 : Guid = Guid::parse_str("e43176d7-b6e8-4827-b784-7ffdc4b68561");
+pub const MEMORY_ATTRIBUTES_TABLE_GUID      : Guid = Guid::parse_str("dcfa911d-26eb-469f-a220-38b7dc461220");
+pub const CONSOLE_OUT_DEVICE_GUID           : Guid = Guid::parse_str("d3b36f2c-d551-11d4-9a46-0090273fc14d");
+pub const SECTION_TIANO_COMPRESS_GUID       : Guid = Guid::parse_str("a31280ad-481e-41b6-95e8-127f4c984779");
+pub const SECTION_LZMA_COMPRESS_GUID        : Guid = Guid::parse_str("ee4e5898-3914-4259-9d6e-dc7bd79403cf");
+pub const DXE_SERVICES_TABLE_GUID           : Guid = Guid::parse_str("05ad34ba-6f02-4214-952e-4da0398e2bb9");
+pub const HOB_LIST_GUID                     : Guid = Guid::parse_str("7739f24c-93d7-11d4-9a3a-0090273fc14d");
+pub const MEMORY_TYPE_INFORMATION_GUID      : Guid = Guid::parse_str("4c19049f-4137-4dd3-9c10-8b97a83ffdfa");
+pub const DEBUG_IMAGE_INFO_TABLE_GUID       : Guid = Guid::parse_str("49152e77-1ada-4764-b7a2-7afefed95e8b");
+pub const SHELL_GUID                        : Guid = Guid::parse_str("6302d008-7f9b-4f30-87ac-60c9fef5da4e");
+pub const SHELL_PARAMETERS_GUID             : Guid = Guid::parse_str("752f3136-4e16-4fdc-a22a-e5f46812f4ca");
+pub const SIMPLE_POINTER_GUID               : Guid = Guid::parse_str("31878c87-0b75-11d5-9a4f-0090273fc14d");
+pub const HII_DATABASE_GUID                 : Guid = Guid::parse_str("ef9fc172-a1b2-4693-b327-6d32fc416042");
+pub const COMPONENT_NAME2_GUID              : Guid = Guid::parse_str("6a7a5cff-e8d9-4f70-bada-75ab3025ce14");
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 #[repr(C)]
