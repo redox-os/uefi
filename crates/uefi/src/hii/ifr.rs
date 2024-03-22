@@ -1,7 +1,7 @@
 use core::mem;
 
-use crate::guid::Guid;
 use super::{FormId, QuestionId, StringId, VarStoreId};
+use crate::guid::Guid;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[repr(u8)]
@@ -73,10 +73,7 @@ impl IfrTypeValue {
             IfrTypeKind::Date => IfrTypeValueEnum::Date(self.date),
             IfrTypeKind::String => IfrTypeValueEnum::String(self.string),
             IfrTypeKind::Ref => IfrTypeValueEnum::Ref(self.reference),
-            _ => IfrTypeValueEnum::Other(
-                kind,
-                mem::transmute(self)
-            ),
+            _ => IfrTypeValueEnum::Other(kind, mem::transmute(self)),
         }
     }
 }
@@ -92,7 +89,7 @@ pub enum IfrTypeValueEnum {
     Date(HiiDate),
     String(StringId),
     Ref(HiiRef),
-    Other(IfrTypeKind, [u8; 22])
+    Other(IfrTypeKind, [u8; 22]),
 }
 
 impl IfrTypeValueEnum {
@@ -212,7 +209,7 @@ pub enum IfrOpCode {
     RuleRef = 0x3F,
     QuestionRef1 = 0x40,
     QuestionRef2 = 0x41,
-    Uint8 =0x42,
+    Uint8 = 0x42,
     Uint16 = 0x43,
     Uint32 = 0x44,
     Uint64 = 0x45,
@@ -275,7 +272,7 @@ impl IfrOpHeader {
 }
 
 macro_rules! unsafe_field {
-    ($struct: ident, $field:ident, $type:ty) => (
+    ($struct: ident, $field:ident, $type:ty) => {
         pub fn $field(&self) -> Option<&$type> {
             unsafe {
                 let self_ptr = self as *const Self;
@@ -289,7 +286,7 @@ macro_rules! unsafe_field {
                 }
             }
         }
-    );
+    };
 }
 
 #[derive(Debug)]
@@ -365,9 +362,8 @@ pub struct IfrOrderedList {
 #[repr(C)]
 pub struct IfrRef {
     pub Header: IfrOpHeader,
-    pub Question: IfrQuestionHeader
+    pub Question: IfrQuestionHeader,
 }
-
 
 #[repr(C)]
 struct UnsafeIfrRef {

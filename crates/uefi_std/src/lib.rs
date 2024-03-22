@@ -35,47 +35,47 @@ mod macros;
 pub mod prelude;
 
 // Public module declarations and re-exports
+pub use alloc_crate::borrow;
+pub use alloc_crate::boxed;
+pub use alloc_crate::fmt;
+pub use alloc_crate::format;
+pub use alloc_crate::rc;
+pub use alloc_crate::slice;
+pub use alloc_crate::str;
+pub use alloc_crate::string;
+pub use alloc_crate::vec;
 pub use core::any;
 pub use core::arch;
+pub use core::array;
 pub use core::cell;
+pub use core::char;
 pub use core::clone;
 pub use core::cmp;
 pub use core::convert;
 pub use core::default;
 pub use core::hash;
+pub use core::hint;
+pub use core::i128;
+pub use core::i16;
+pub use core::i32;
+pub use core::i64;
+pub use core::i8;
 pub use core::intrinsics;
+pub use core::isize;
 pub use core::iter;
 pub use core::marker;
 pub use core::mem;
 pub use core::ops;
+pub use core::option;
+pub use core::pin;
 pub use core::ptr;
 pub use core::result;
-pub use core::option;
-pub use core::isize;
-pub use core::i8;
-pub use core::i16;
-pub use core::i32;
-pub use core::i64;
-pub use core::i128;
-pub use core::usize;
-pub use core::u8;
+pub use core::u128;
 pub use core::u16;
 pub use core::u32;
 pub use core::u64;
-pub use alloc_crate::boxed;
-pub use alloc_crate::rc;
-pub use alloc_crate::borrow;
-pub use alloc_crate::fmt;
-pub use alloc_crate::format;
-pub use core::pin;
-pub use alloc_crate::slice;
-pub use alloc_crate::str;
-pub use alloc_crate::string;
-pub use alloc_crate::vec;
-pub use core::char;
-pub use core::u128;
-pub use core::hint;
-pub use core::array;
+pub use core::u8;
+pub use core::usize;
 
 // Re-export macros defined in libcore.
 #[allow(deprecated, deprecated_in_future)]
@@ -83,16 +83,16 @@ pub use core::{
     // Stable
     assert_eq,
     assert_ne,
+    debug_assert,
     debug_assert_eq,
     debug_assert_ne,
-    debug_assert,
     r#try,
+    // Unstable
+    todo,
     unimplemented,
     unreachable,
     write,
     writeln,
-    // Unstable
-    todo,
 };
 
 // Re-export built-in macros defined through libcore.
@@ -103,20 +103,20 @@ pub use core::prelude::v1::{
     column,
     compile_error,
     concat,
+    // Unstable
+    concat_idents,
     env,
     file,
     format_args,
+    format_args_nl,
     include,
     include_bytes,
     include_str,
     line,
+    log_syntax,
     module_path,
     option_env,
     stringify,
-    // Unstable
-    concat_idents,
-    format_args_nl,
-    log_syntax,
     trace_macros,
 };
 
@@ -151,7 +151,7 @@ pub fn handle() -> uefi::Handle {
 }
 
 pub fn system_table() -> &'static uefi::system::SystemTable {
-    unsafe { & *SYSTEM_TABLE }
+    unsafe { &*SYSTEM_TABLE }
 }
 
 pub unsafe fn system_table_mut() -> &'static mut uefi::system::SystemTable {

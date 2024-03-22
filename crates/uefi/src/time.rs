@@ -11,13 +11,13 @@ pub struct Time {
     pub Nanosecond: u32,
     pub TimeZone: u16,
     pub Daylight: u8,
-    _Pad2: u8
+    _Pad2: u8,
 }
 
 #[derive(Copy, Clone, Debug, Default)]
 #[repr(C)]
 pub struct TimeCapabilities {
-  pub Resolution: u32,
-  pub Accuracy: u32,
-  pub SetsToZero: bool,
+    pub Resolution: u32,
+    pub Accuracy: u32,
+    pub SetsToZero: bool,
 }

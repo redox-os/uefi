@@ -6,11 +6,11 @@ use core::prelude::rust_2024::alloc_error_handler;
 
 #[lang = "eh_personality"]
 #[no_mangle]
-pub extern fn rust_eh_personality() {}
+pub extern "C" fn rust_eh_personality() {}
 
 #[panic_handler]
 #[no_mangle]
-pub extern fn rust_begin_panic(pi: &::core::panic::PanicInfo) -> ! {
+pub extern "C" fn rust_begin_panic(pi: &::core::panic::PanicInfo) -> ! {
     print!("SETUP PANIC: {}", pi);
 
     loop {}
@@ -30,6 +30,6 @@ pub fn rust_oom(layout: ::core::alloc::Layout) -> ! {
 
 #[allow(non_snake_case)]
 #[no_mangle]
-pub extern fn _Unwind_Resume() {
+pub extern "C" fn _Unwind_Resume() {
     loop {}
 }

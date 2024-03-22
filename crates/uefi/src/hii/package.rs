@@ -54,7 +54,7 @@ impl HiiPackageHeader {
         unsafe {
             slice::from_raw_parts(
                 (self as *const Self).add(1) as *const u8,
-                self.Length() as usize - mem::size_of::<Self>()
+                self.Length() as usize - mem::size_of::<Self>(),
             )
         }
     }
@@ -78,10 +78,8 @@ impl HiiStringPackageHeader {
     pub fn StringInfo(&self) -> &[u8] {
         unsafe {
             slice::from_raw_parts(
-                (self as *const Self as *const u8).add(
-                    self.StringInfoOffset as usize
-                ),
-                self.Header.Length() as usize - self.StringInfoOffset as usize
+                (self as *const Self as *const u8).add(self.StringInfoOffset as usize),
+                self.Header.Length() as usize - self.StringInfoOffset as usize,
             )
         }
     }
@@ -99,7 +97,7 @@ impl HiiPackageListHeader {
         unsafe {
             slice::from_raw_parts(
                 (self as *const Self).add(1) as *const u8,
-                self.PackageLength as usize - mem::size_of::<Self>()
+                self.PackageLength as usize - mem::size_of::<Self>(),
             )
         }
     }

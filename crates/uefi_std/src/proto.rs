@@ -1,17 +1,22 @@
 use core::mem;
-use uefi::Handle;
 use uefi::boot::LocateSearchType;
 use uefi::guid::Guid;
 use uefi::status::Result;
+use uefi::Handle;
 
 use crate::system_table;
 
 pub trait Protocol<T: 'static> {
     fn guid() -> Guid;
 
-    fn new(fs: &'static mut T) -> Self where Self: Sized;
+    fn new(fs: &'static mut T) -> Self
+    where
+        Self: Sized;
 
-    fn locate_protocol() -> Result<Self> where Self: Sized {
+    fn locate_protocol() -> Result<Self>
+    where
+        Self: Sized,
+    {
         let guid = Self::guid();
         let mut interface = 0;
         (system_table().BootServices.LocateProtocol)(&guid, 0, &mut interface)?;
@@ -19,7 +24,10 @@ pub trait Protocol<T: 'static> {
         Ok(Self::new(unsafe { &mut *(interface as *mut T) }))
     }
 
-    fn handle_protocol(handle: Handle) -> Result<Self> where Self: Sized {
+    fn handle_protocol(handle: Handle) -> Result<Self>
+    where
+        Self: Sized,
+    {
         let guid = Self::guid();
         let mut interface = 0;
         (system_table().BootServices.HandleProtocol)(handle, &guid, &mut interface)?;
@@ -31,16 +39,30 @@ pub trait Protocol<T: 'static> {
         let guid = Self::guid();
         let mut handles = Vec::with_capacity(256);
         let mut len = handles.capacity() * mem::size_of::<Handle>();
-        (system_table().BootServices.LocateHandle)(LocateSearchType::ByProtocol, &guid, 0, &mut len, handles.as_mut_ptr())?;
-        unsafe { handles.set_len(len / mem::size_of::<Handle>()); }
+        (system_table().BootServices.LocateHandle)(
+            LocateSearchType::ByProtocol,
+            &guid,
+            0,
+            &mut len,
+            handles.as_mut_ptr(),
+        )?;
+        unsafe {
+            handles.set_len(len / mem::size_of::<Handle>());
+        }
         Ok(handles)
     }
 
-    fn one() -> Result<Self> where Self: Sized {
+    fn one() -> Result<Self>
+    where
+        Self: Sized,
+    {
         Self::locate_protocol()
     }
 
-    fn all() -> Vec<Self> where Self: Sized {
+    fn all() -> Vec<Self>
+    where
+        Self: Sized,
+    {
         let mut instances = Vec::new();
         for handle in Self::locate_handle().unwrap_or_default() {
             if let Ok(instance) = Self::handle_protocol(handle) {

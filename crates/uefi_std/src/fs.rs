@@ -3,8 +3,8 @@ use uefi::fs::{File as InnerFile, FileInfo, SimpleFileSystem, FILE_MODE_READ};
 use uefi::guid::{Guid, FILE_INFO_ID, FILE_SYSTEM_GUID};
 use uefi::status::{Error, Result};
 
-use crate::proto::Protocol;
 use crate::ffi::wstr;
+use crate::proto::Protocol;
 
 pub struct FileSystem(pub &'static mut SimpleFileSystem);
 
@@ -33,10 +33,7 @@ impl File {
     pub fn info(&mut self) -> Result<FileInfo> {
         let mut info = FileInfo::default();
         let buf = unsafe {
-            slice::from_raw_parts_mut(
-                &mut info as *mut _ as *mut u8,
-                mem::size_of_val(&info)
-            )
+            slice::from_raw_parts_mut(&mut info as *mut _ as *mut u8, mem::size_of_val(&info))
         };
         let mut len = buf.len();
         (self.0.GetInfo)(self.0, &FILE_INFO_ID, &mut len, buf.as_mut_ptr())?;
@@ -60,7 +57,7 @@ impl File {
                 break;
             }
 
-            vec.extend(&buf[.. count]);
+            vec.extend(&buf[..count]);
             total += count;
         }
 
@@ -85,7 +82,13 @@ pub struct Dir(pub File);
 impl Dir {
     pub fn open(&mut self, filename: &[u16]) -> Result<File> {
         let mut interface = ptr::null_mut::<InnerFile>();
-        ((self.0).0.Open)((self.0).0, &mut interface, filename.as_ptr(), FILE_MODE_READ, 0)?;
+        ((self.0).0.Open)(
+            (self.0).0,
+            &mut interface,
+            filename.as_ptr(),
+            FILE_MODE_READ,
+            0,
+        )?;
 
         Ok(File(unsafe { &mut *interface }))
     }
@@ -98,15 +101,12 @@ impl Dir {
     pub fn read(&mut self) -> Result<Option<FileInfo>> {
         let mut info = FileInfo::default();
         let buf = unsafe {
-            slice::from_raw_parts_mut(
-                &mut info as *mut _ as *mut u8,
-                mem::size_of_val(&info)
-            )
+            slice::from_raw_parts_mut(&mut info as *mut _ as *mut u8, mem::size_of_val(&info))
         };
         match self.0.read(buf) {
             Ok(0) => Ok(None),
             Ok(_len) => Ok(Some(info)),
-            Err(err) => Err(err)
+            Err(err) => Err(err),
         }
     }
 }
@@ -119,9 +119,11 @@ pub fn find(path: &str) -> Result<(usize, File)> {
         match root.open(&wpath) {
             Ok(file) => {
                 return Ok((i, file));
-            },
-            Err(err) => if err != Error::NotFound {
-                return Err(err);
+            }
+            Err(err) => {
+                if err != Error::NotFound {
+                    return Err(err);
+                }
             }
         }
     }

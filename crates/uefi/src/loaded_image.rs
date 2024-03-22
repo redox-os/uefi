@@ -1,7 +1,7 @@
-use crate::Handle;
 use crate::memory::MemoryType;
 use crate::status::Status;
 use crate::system::SystemTable;
+use crate::Handle;
 
 #[repr(C)]
 pub struct LoadedImage {

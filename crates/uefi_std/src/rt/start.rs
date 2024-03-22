@@ -1,9 +1,12 @@
-use uefi::Handle;
 use uefi::status::Status;
 use uefi::system::SystemTable;
+use uefi::Handle;
 
 #[no_mangle]
-pub unsafe extern "efiapi" fn efi_main(handle: Handle, system_table: &'static mut SystemTable) -> Status {
+pub unsafe extern "efiapi" fn efi_main(
+    handle: Handle,
+    system_table: &'static mut SystemTable,
+) -> Status {
     extern "C" {
         fn main() -> Status;
     }

@@ -1,10 +1,10 @@
 use core::slice;
 
-use crate::{Handle, TableHeader};
 use crate::boot::BootServices;
 use crate::config::ConfigurationTable;
 use crate::runtime::RuntimeServices;
 use crate::text::{TextInput, TextOutput};
+use crate::{Handle, TableHeader};
 
 #[repr(C)]
 pub struct SystemTable {
@@ -20,13 +20,11 @@ pub struct SystemTable {
     pub RuntimeServices: &'static mut RuntimeServices,
     pub BootServices: &'static mut BootServices,
     Entries: usize,
-    ConfigurationTables: *const ConfigurationTable
+    ConfigurationTables: *const ConfigurationTable,
 }
 
 impl SystemTable {
     pub fn config_tables(&self) -> &'static [ConfigurationTable] {
-        unsafe {
-            slice::from_raw_parts(self.ConfigurationTables, self.Entries)
-        }
+        unsafe { slice::from_raw_parts(self.ConfigurationTables, self.Entries) }
     }
 }

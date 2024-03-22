@@ -25,7 +25,7 @@ pub enum SibtKind {
 #[derive(Debug)]
 #[repr(C)]
 pub struct SibtHeader {
-    pub BlockType: SibtKind
+    pub BlockType: SibtKind,
 }
 
 #[derive(Debug)]
@@ -71,7 +71,7 @@ pub struct SibtFont {
     pub Header: SibtHeader,
     pub FontId: u8,
     pub FontSize: u16,
-    pub FontStyle: FontStyle
+    pub FontStyle: FontStyle,
 }
 
 impl SibtFont {
@@ -99,8 +99,7 @@ pub struct SibtSkip2 {
 impl SibtSkip2 {
     // TODO: big endian?
     pub fn SkipCount(&self) -> u16 {
-        self.SkipCountBytes[0] as u16 |
-        (self.SkipCountBytes[1] as u16) << 8
+        self.SkipCountBytes[0] as u16 | (self.SkipCountBytes[1] as u16) << 8
     }
 }
 

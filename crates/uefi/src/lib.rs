@@ -28,8 +28,7 @@ pub mod system;
 pub mod text;
 pub mod time;
 
-
-pub (crate) mod util;
+pub(crate) mod util;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[repr(transparent)]
@@ -45,7 +44,7 @@ pub struct TableHeader {
     Revision: u32,
     HeaderSize: u32,
     CRC32: u32,
-    Reserved: u32
+    Reserved: u32,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]

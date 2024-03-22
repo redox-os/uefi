@@ -1,5 +1,5 @@
-use crate::Event;
 use crate::status::Status;
+use crate::Event;
 
 #[derive(Clone, Copy, Debug)]
 #[repr(C)]
@@ -23,8 +23,8 @@ pub struct SimplePointerState {
 
 #[repr(C)]
 pub struct SimplePointer {
-    pub Reset: extern "win64" fn (&mut SimplePointer, ExtendedVerification: bool) -> Status,
-    pub GetState: extern "win64" fn (&mut SimplePointer, State: &mut SimplePointerState) -> Status,
+    pub Reset: extern "win64" fn(&mut SimplePointer, ExtendedVerification: bool) -> Status,
+    pub GetState: extern "win64" fn(&mut SimplePointer, State: &mut SimplePointerState) -> Status,
     pub WaitForInput: Event,
     pub Mode: &'static mut SimplePointerMode,
 }

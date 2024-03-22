@@ -3,5 +3,5 @@ use crate::guid::Guid;
 #[repr(C)]
 pub struct ConfigurationTable {
     pub VendorGuid: Guid,
-    pub VendorTable: usize
+    pub VendorTable: usize,
 }

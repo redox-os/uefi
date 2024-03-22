@@ -9,7 +9,13 @@ use crate::system_table;
 fn get(name: &str, data: &mut [u8]) -> Result<usize> {
     let wname = wstr(name);
     let mut data_size = data.len();
-    (system_table().RuntimeServices.GetVariable)(wname.as_ptr(), &GLOBAL_VARIABLE_GUID, ptr::null_mut(), &mut data_size, data.as_mut_ptr())?;
+    (system_table().RuntimeServices.GetVariable)(
+        wname.as_ptr(),
+        &GLOBAL_VARIABLE_GUID,
+        ptr::null_mut(),
+        &mut data_size,
+        data.as_mut_ptr(),
+    )?;
     Ok(data_size)
 }
 
@@ -17,7 +23,13 @@ fn set(name: &str, data: &[u8]) -> Result<usize> {
     let wname = wstr(name);
     let access = 1 | 2 | 4;
     let data_size = data.len();
-    (system_table().RuntimeServices.SetVariable)(wname.as_ptr(), &GLOBAL_VARIABLE_GUID, access, data_size, data.as_ptr())?;
+    (system_table().RuntimeServices.SetVariable)(
+        wname.as_ptr(),
+        &GLOBAL_VARIABLE_GUID,
+        access,
+        data_size,
+        data.as_ptr(),
+    )?;
     Ok(data_size)
 }
 
@@ -43,10 +55,7 @@ pub fn get_boot_next() -> Result<u16> {
 
 pub fn set_boot_next(num_opt: Option<u16>) -> Result<usize> {
     if let Some(num) = num_opt {
-        set("BootNext", &[
-            num as u8,
-            (num >> 8) as u8
-        ])
+        set("BootNext", &[num as u8, (num >> 8) as u8])
     } else {
         set("BootNext", &[])
     }
@@ -67,10 +76,7 @@ pub fn get_boot_order() -> Result<Vec<u16>> {
 
 pub fn set_boot_order(order: &[u16]) -> Result<usize> {
     set("BootOrder", unsafe {
-        slice::from_raw_parts(
-            order.as_ptr() as *const u8,
-            order.len() * 2
-        )
+        slice::from_raw_parts(order.as_ptr() as *const u8, order.len() * 2)
     })
 }
 
@@ -92,16 +98,14 @@ pub fn get_os_indications() -> Result<u64> {
     let mut data = [0; 8];
     let count = get("OsIndications", &mut data)?;
     if count == 8 {
-        Ok(
-            (data[0] as u64) |
-            ((data[1] as u64) << 8) |
-            ((data[2] as u64) << 16) |
-            ((data[3] as u64) << 24) |
-            ((data[4] as u64) << 32) |
-            ((data[5] as u64) << 40) |
-            ((data[6] as u64) << 48) |
-            ((data[7] as u64) << 56)
-        )
+        Ok((data[0] as u64)
+            | ((data[1] as u64) << 8)
+            | ((data[2] as u64) << 16)
+            | ((data[3] as u64) << 24)
+            | ((data[4] as u64) << 32)
+            | ((data[5] as u64) << 40)
+            | ((data[6] as u64) << 48)
+            | ((data[7] as u64) << 56))
     } else {
         Err(Error::LoadError)
     }
@@ -109,16 +113,19 @@ pub fn get_os_indications() -> Result<u64> {
 
 pub fn set_os_indications(indications_opt: Option<u64>) -> Result<usize> {
     if let Some(indications) = indications_opt {
-        set("OsIndications", &[
-            indications as u8,
-            (indications >> 8) as u8,
-            (indications >> 16) as u8,
-            (indications >> 24) as u8,
-            (indications >> 32) as u8,
-            (indications >> 40) as u8,
-            (indications >> 48) as u8,
-            (indications >> 56) as u8
-        ])
+        set(
+            "OsIndications",
+            &[
+                indications as u8,
+                (indications >> 8) as u8,
+                (indications >> 16) as u8,
+                (indications >> 24) as u8,
+                (indications >> 32) as u8,
+                (indications >> 40) as u8,
+                (indications >> 48) as u8,
+                (indications >> 56) as u8,
+            ],
+        )
     } else {
         set("OsIndications", &[])
     }
@@ -128,16 +135,14 @@ pub fn get_os_indications_supported() -> Result<u64> {
     let mut data = [0; 8];
     let count = get("OsIndicationsSupported", &mut data)?;
     if count == 8 {
-        Ok(
-            (data[0] as u64) |
-            ((data[1] as u64) << 8) |
-            ((data[2] as u64) << 16) |
-            ((data[3] as u64) << 24) |
-            ((data[4] as u64) << 32) |
-            ((data[5] as u64) << 40) |
-            ((data[6] as u64) << 48) |
-            ((data[7] as u64) << 56)
-        )
+        Ok((data[0] as u64)
+            | ((data[1] as u64) << 8)
+            | ((data[2] as u64) << 16)
+            | ((data[3] as u64) << 24)
+            | ((data[4] as u64) << 32)
+            | ((data[5] as u64) << 40)
+            | ((data[6] as u64) << 48)
+            | ((data[7] as u64) << 56))
     } else {
         Err(Error::LoadError)
     }

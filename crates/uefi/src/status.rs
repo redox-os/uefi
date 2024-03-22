@@ -41,7 +41,7 @@ pub enum Error {
     CompromisedData,
     Error34,
     HttpError,
-    Unknown
+    Unknown,
 }
 
 impl From<usize> for Error {
@@ -84,7 +84,7 @@ impl From<usize> for Error {
             33 => CompromisedData,
             34 => Error34,
             35 => HttpError,
-            _ => Unknown
+            _ => Unknown,
         }
     }
 }

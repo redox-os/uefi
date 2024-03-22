@@ -86,5 +86,5 @@ pub enum MemoryType {
     /// however it happens to also support byte-addressable non-volatility.
     ///
     EfiPersistentMemory,
-    EfiMaxMemoryType
+    EfiMaxMemoryType,
 }

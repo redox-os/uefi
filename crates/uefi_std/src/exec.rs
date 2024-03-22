@@ -1,5 +1,5 @@
-use uefi::Handle;
 use uefi::status::Result;
+use uefi::Handle;
 
 use crate::ffi::wstr;
 use crate::fs::load;
@@ -11,7 +11,14 @@ pub fn exec_data(data: &[u8], name: &str, args: &[&str]) -> Result<usize> {
     let st = crate::system_table();
 
     let mut image_handle = Handle(0);
-    (st.BootServices.LoadImage)(false, handle, 0, data.as_ptr(), data.len(), &mut image_handle)?;
+    (st.BootServices.LoadImage)(
+        false,
+        handle,
+        0,
+        data.as_ptr(),
+        data.len(),
+        &mut image_handle,
+    )?;
 
     let mut cmdline = format!("\"{}\"", name);
     for arg in args.iter() {
