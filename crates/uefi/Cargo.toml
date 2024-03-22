@@ -1,6 +1,6 @@
 [package]
 name = "redox_uefi"
-version = "0.1.10"
+version = "0.1.11"
 edition = "2021"
 description = "UEFI support library"
 license = "MIT"
