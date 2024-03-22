@@ -115,19 +115,15 @@ pub fn find(path: &str) -> Result<(usize, File)> {
     let wpath = wstr(path);
 
     for (i, fs) in FileSystem::all().iter_mut().enumerate() {
-        let mut root = fs.root()?;
-        match root.open(&wpath) {
-            Ok(file) => {
+        // Errors are ignored as they may not be related to opening the matching file
+        if let Ok(mut root) = fs.root() {
+            if let Ok(file) = root.open(&wpath) {
                 return Ok((i, file));
-            }
-            Err(err) => {
-                if err != Error::NotFound {
-                    return Err(err);
-                }
             }
         }
     }
 
+    // If no matching file found (or it failed to open), return NotFound
     Err(Error::NotFound)
 }
 
