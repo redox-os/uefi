@@ -39,7 +39,7 @@ pub use core::prelude::v1::{
 #[doc(hidden)]
 pub use core::prelude::v1::{
     bench, global_allocator, test, test_case, Clone, Copy, Debug, Default, Eq, Hash, Ord,
-    PartialEq, PartialOrd, RustcDecodable, RustcEncodable,
+    PartialEq, PartialOrd,
 };
 
 // The file so far is equivalent to src/libcore/prelude/v1.rs,

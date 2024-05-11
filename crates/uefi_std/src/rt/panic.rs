@@ -10,7 +10,7 @@ pub extern "C" fn rust_eh_personality() {}
 
 #[panic_handler]
 #[no_mangle]
-pub extern "C" fn rust_begin_panic(pi: &::core::panic::PanicInfo) -> ! {
+pub fn rust_begin_panic(pi: &::core::panic::PanicInfo) -> ! {
     print!("SETUP PANIC: {}", pi);
 
     loop {}
