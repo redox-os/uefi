@@ -1,6 +1,6 @@
 use core::ptr;
 use uefi::guid::GLOBAL_VARIABLE_GUID;
-use uefi::status::{Error, Result};
+use uefi::status::{Result, Status};
 
 use crate::ffi::wstr;
 use crate::slice;
@@ -9,28 +9,34 @@ use crate::system_table;
 fn get(name: &str, data: &mut [u8]) -> Result<usize> {
     let wname = wstr(name);
     let mut data_size = data.len();
-    (system_table().RuntimeServices.GetVariable)(
+    let status = (system_table().RuntimeServices.GetVariable)(
         wname.as_ptr(),
         &GLOBAL_VARIABLE_GUID,
         ptr::null_mut(),
         &mut data_size,
         data.as_mut_ptr(),
-    )?;
-    Ok(data_size)
+    );
+    match status {
+        Status::SUCCESS => Ok(data_size),
+        _ => Err(status),
+    }
 }
 
 fn set(name: &str, data: &[u8]) -> Result<usize> {
     let wname = wstr(name);
     let access = 1 | 2 | 4;
     let data_size = data.len();
-    (system_table().RuntimeServices.SetVariable)(
+    let status = (system_table().RuntimeServices.SetVariable)(
         wname.as_ptr(),
         &GLOBAL_VARIABLE_GUID,
         access,
         data_size,
         data.as_ptr(),
-    )?;
-    Ok(data_size)
+    );
+    match status {
+        Status::SUCCESS => Ok(data_size),
+        _ => Err(status),
+    }
 }
 
 pub fn get_boot_current() -> Result<u16> {
@@ -39,7 +45,7 @@ pub fn get_boot_current() -> Result<u16> {
     if count == 2 {
         Ok((data[0] as u16) | ((data[1] as u16) << 8))
     } else {
-        Err(Error::LoadError)
+        Err(Status::LOAD_ERROR)
     }
 }
 
@@ -49,7 +55,7 @@ pub fn get_boot_next() -> Result<u16> {
     if count == 2 {
         Ok((data[0] as u16) | ((data[1] as u16) << 8))
     } else {
-        Err(Error::LoadError)
+        Err(Status::LOAD_ERROR)
     }
 }
 
@@ -84,7 +90,7 @@ pub fn get_boot_item(num: u16) -> Result<Vec<u8>> {
     let mut data = [0; 4096];
     let count = get(&format!("Boot{:>04X}", num), &mut data)?;
     if count < 6 {
-        Err(Error::LoadError)
+        Err(Status::LOAD_ERROR)
     } else {
         Ok(data[..count].to_vec())
     }
@@ -107,7 +113,7 @@ pub fn get_os_indications() -> Result<u64> {
             | ((data[6] as u64) << 48)
             | ((data[7] as u64) << 56))
     } else {
-        Err(Error::LoadError)
+        Err(Status::LOAD_ERROR)
     }
 }
 
@@ -144,6 +150,6 @@ pub fn get_os_indications_supported() -> Result<u64> {
             | ((data[6] as u64) << 48)
             | ((data[7] as u64) << 56))
     } else {
-        Err(Error::LoadError)
+        Err(Status::LOAD_ERROR)
     }
 }

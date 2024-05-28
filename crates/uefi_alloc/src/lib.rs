@@ -1,12 +1,10 @@
 #![feature(allocator_api)]
-#![feature(try_trait_v2)]
-#![feature(control_flow_enum)]
 #![no_std]
 
 use core::alloc::{GlobalAlloc, Layout};
-use core::ops::{ControlFlow, Try};
 use core::ptr::{self, NonNull};
 use uefi::memory::MemoryType;
+use uefi::status::Status;
 use uefi::system::SystemTable;
 
 static mut UEFI: Option<NonNull<SystemTable>> = None;
@@ -25,12 +23,11 @@ unsafe impl GlobalAlloc for Allocator {
             MemoryType::EfiLoaderData,
             layout.size(),
             &mut ptr,
-        )
-        .branch();
+        );
 
         match res {
-            ControlFlow::Continue(_) => ptr as *mut u8,
-            ControlFlow::Break(_) => ptr::null_mut(),
+            Status::SUCCESS => ptr as *mut u8,
+            _ => ptr::null_mut(),
         }
     }
 

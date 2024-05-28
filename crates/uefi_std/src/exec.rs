@@ -1,4 +1,4 @@
-use uefi::status::Result;
+use uefi::status::{Result, Status};
 use uefi::Handle;
 
 use crate::ffi::wstr;
@@ -11,14 +11,18 @@ pub fn exec_data(data: &[u8], name: &str, args: &[&str]) -> Result<usize> {
     let st = crate::system_table();
 
     let mut image_handle = Handle(0);
-    (st.BootServices.LoadImage)(
+    let status = (st.BootServices.LoadImage)(
         false,
         handle,
         0,
         data.as_ptr(),
         data.len(),
         &mut image_handle,
-    )?;
+    );
+
+    if !status.is_success() {
+        return Err(status);
+    }
 
     let mut cmdline = format!("\"{}\"", name);
     for arg in args.iter() {
@@ -37,9 +41,12 @@ pub fn exec_data(data: &[u8], name: &str, args: &[&str]) -> Result<usize> {
 
     let mut exit_size = 0;
     let mut exit_ptr = ::core::ptr::null_mut();
-    let ret = (st.BootServices.StartImage)(image_handle, &mut exit_size, &mut exit_ptr)?;
+    let status = (st.BootServices.StartImage)(image_handle, &mut exit_size, &mut exit_ptr);
 
-    Ok(ret)
+    match status {
+        Status::SUCCESS => Ok(status.0),
+        _ => Err(status),
+    }
 }
 
 pub fn exec_path(path: &str, args: &[&str]) -> Result<usize> {

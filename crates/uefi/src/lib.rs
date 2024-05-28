@@ -1,8 +1,6 @@
 #![allow(dead_code)]
 #![allow(non_snake_case)]
 #![no_std]
-#![feature(try_trait_v2)]
-#![feature(control_flow_enum)]
 
 #[macro_use]
 pub mod macros;
