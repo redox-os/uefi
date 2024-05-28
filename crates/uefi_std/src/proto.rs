@@ -1,7 +1,7 @@
 use core::mem;
 use uefi::boot::LocateSearchType;
 use uefi::guid::Guid;
-use uefi::status::Result;
+use uefi::status::{Result, Status};
 use uefi::Handle;
 
 use crate::system_table;
@@ -19,9 +19,12 @@ pub trait Protocol<T: 'static> {
     {
         let guid = Self::guid();
         let mut interface = 0;
-        (system_table().BootServices.LocateProtocol)(&guid, 0, &mut interface)?;
+        let status = (system_table().BootServices.LocateProtocol)(&guid, 0, &mut interface);
 
-        Ok(Self::new(unsafe { &mut *(interface as *mut T) }))
+        match status {
+            Status::SUCCESS => Ok(Self::new(unsafe { &mut *(interface as *mut T) })),
+            _ => Err(status),
+        }
     }
 
     fn handle_protocol(handle: Handle) -> Result<Self>
@@ -30,26 +33,35 @@ pub trait Protocol<T: 'static> {
     {
         let guid = Self::guid();
         let mut interface = 0;
-        (system_table().BootServices.HandleProtocol)(handle, &guid, &mut interface)?;
+        let status = (system_table().BootServices.HandleProtocol)(handle, &guid, &mut interface);
 
-        Ok(Self::new(unsafe { &mut *(interface as *mut T) }))
+        match status {
+            Status::SUCCESS => Ok(Self::new(unsafe { &mut *(interface as *mut T) })),
+            _ => Err(status),
+        }
     }
 
     fn locate_handle() -> Result<Vec<Handle>> {
         let guid = Self::guid();
         let mut handles = Vec::with_capacity(256);
         let mut len = handles.capacity() * mem::size_of::<Handle>();
-        (system_table().BootServices.LocateHandle)(
+        let status = (system_table().BootServices.LocateHandle)(
             LocateSearchType::ByProtocol,
             &guid,
             0,
             &mut len,
             handles.as_mut_ptr(),
-        )?;
-        unsafe {
-            handles.set_len(len / mem::size_of::<Handle>());
+        );
+
+        match status {
+            Status::SUCCESS => {
+                unsafe {
+                    handles.set_len(len / mem::size_of::<Handle>());
+                }
+                Ok(handles)
+            }
+            _ => Err(status),
         }
-        Ok(handles)
     }
 
     fn one() -> Result<Self>
