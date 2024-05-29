@@ -38,7 +38,7 @@ pub use core::prelude::v1::{
 #[allow(deprecated)]
 #[doc(hidden)]
 pub use core::prelude::v1::{
-    bench, global_allocator, test, test_case, Clone, Copy, Debug, Default, Eq, Hash, Ord,
+    bench, test, test_case, Clone, Copy, Debug, Default, Eq, Hash, Ord,
     PartialEq, PartialOrd,
 };
 

@@ -6,6 +6,9 @@ use uefi::memory::MemoryType;
 use uefi::status::Status;
 use uefi::system::SystemTable;
 
+#[global_allocator]
+static ALLOCATOR: Allocator = Allocator;
+
 static mut UEFI: Option<NonNull<SystemTable>> = None;
 
 pub unsafe fn init(table: &'static mut SystemTable) {

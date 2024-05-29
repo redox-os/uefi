@@ -140,9 +140,6 @@ pub mod proto;
 pub mod shell;
 pub mod vars;
 
-#[global_allocator]
-static ALLOCATOR: uefi_alloc::Allocator = uefi_alloc::Allocator;
-
 static mut HANDLE: uefi::Handle = uefi::Handle(0);
 static mut SYSTEM_TABLE: *mut uefi::system::SystemTable = 0 as *mut uefi::system::SystemTable;
 
