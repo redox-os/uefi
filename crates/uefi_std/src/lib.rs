@@ -1,16 +1,5 @@
 #![no_std]
-#![feature(alloc_error_handler)]
-#![feature(concat_idents)]
-#![feature(core_intrinsics)]
-#![feature(custom_test_frameworks)]
-#![feature(format_args_nl)]
-#![feature(lang_items)]
-#![feature(log_syntax)]
 #![feature(prelude_import)]
-#![feature(prelude_2024)]
-#![feature(slice_concat_ext)]
-#![feature(test)]
-#![feature(trace_macros)]
 
 /* This section was addapted from the Rust Standard Library, and is licensed accordingly
  * https://github.com/rust-lang/rust/blob/master/src/libstd/lib.rs
@@ -60,7 +49,6 @@ pub use core::i16;
 pub use core::i32;
 pub use core::i64;
 pub use core::i8;
-pub use core::intrinsics;
 pub use core::isize;
 pub use core::iter;
 pub use core::marker;
@@ -96,7 +84,7 @@ pub use core::{
 };
 
 // Re-export built-in macros defined through libcore.
-pub use core::prelude::v1::{
+pub use core::prelude::rust_2021::{
     // Stable
     assert,
     cfg,
@@ -104,20 +92,15 @@ pub use core::prelude::v1::{
     compile_error,
     concat,
     // Unstable
-    concat_idents,
     env,
     file,
-    format_args,
-    format_args_nl,
     include,
     include_bytes,
     include_str,
     line,
-    log_syntax,
     module_path,
     option_env,
     stringify,
-    trace_macros,
 };
 
 /* } */

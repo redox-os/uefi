@@ -27,18 +27,18 @@ pub use crate::result::Result::{self, Err, Ok};
 
 // Re-exported built-in macros
 #[doc(no_inline)]
-pub use core::prelude::v1::{
-    assert, cfg, column, compile_error, concat, concat_idents, env, file, format_args,
-    format_args_nl, include, include_bytes, include_str, line, log_syntax, module_path, option_env,
-    stringify, trace_macros,
+pub use core::prelude::rust_2021::{
+    assert, cfg, column, compile_error, concat, env, file,
+    include, include_bytes, include_str, line, module_path, option_env,
+    stringify,
 };
 
 // FIXME: Attribute and derive macros are not documented because for them rustdoc generates
 // dead links which fail link checker testing.
 #[allow(deprecated)]
 #[doc(hidden)]
-pub use core::prelude::v1::{
-    bench, test, test_case, Clone, Copy, Debug, Default, Eq, Hash, Ord,
+pub use core::prelude::rust_2021::{
+    Clone, Copy, Debug, Default, Eq, Hash, Ord,
     PartialEq, PartialOrd,
 };
 

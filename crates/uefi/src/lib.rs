@@ -1,6 +1,6 @@
+#![no_std]
 #![allow(dead_code)]
 #![allow(non_snake_case)]
-#![no_std]
 
 #[macro_use]
 pub mod macros;
