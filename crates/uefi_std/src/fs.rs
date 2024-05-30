@@ -1,9 +1,12 @@
+use core::default::Default;
 use core::{mem, ptr, slice};
+
 use uefi::fs::{File as InnerFile, FileInfo, SimpleFileSystem, FILE_MODE_READ};
 use uefi::guid::{Guid, FILE_INFO_ID, FILE_SYSTEM_GUID};
 use uefi::status::{Result, Status};
 
 use crate::ffi::wstr;
+use crate::prelude::*;
 use crate::proto::Protocol;
 
 pub struct FileSystem(pub &'static mut SimpleFileSystem);

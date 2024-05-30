@@ -1,3 +1,4 @@
+use crate::prelude::*;
 use core::char;
 
 pub fn wstr(string: &str) -> Vec<u16> {

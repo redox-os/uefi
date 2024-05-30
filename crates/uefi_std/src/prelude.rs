@@ -5,42 +5,25 @@
 
 // Re-exported core operators
 #[doc(no_inline)]
-pub use crate::marker::{Send, Sized, Sync, Unpin};
+pub use core::marker::{Send, Sized, Sync, Unpin};
 #[doc(no_inline)]
-pub use crate::ops::{Drop, Fn, FnMut, FnOnce};
+pub use core::ops::{Drop, Fn, FnMut, FnOnce};
 
 // Re-exported functions
 #[doc(no_inline)]
-pub use crate::mem::drop;
+pub use core::mem::drop;
 
 // Re-exported types and traits
 #[doc(no_inline)]
-pub use crate::convert::{AsMut, AsRef, From, Into};
+pub use core::convert::{AsMut, AsRef, From, Into};
 #[doc(no_inline)]
-pub use crate::iter::{DoubleEndedIterator, ExactSizeIterator};
+pub use core::iter::{DoubleEndedIterator, ExactSizeIterator};
 #[doc(no_inline)]
-pub use crate::iter::{Extend, IntoIterator, Iterator};
+pub use core::iter::{Extend, IntoIterator, Iterator};
 #[doc(no_inline)]
-pub use crate::option::Option::{self, None, Some};
+pub use core::option::Option::{self, None, Some};
 #[doc(no_inline)]
-pub use crate::result::Result::{self, Err, Ok};
-
-// Re-exported built-in macros
-#[doc(no_inline)]
-pub use core::prelude::v1::{
-    assert, cfg, column, compile_error, concat, concat_idents, env, file, format_args,
-    format_args_nl, include, include_bytes, include_str, line, log_syntax, module_path, option_env,
-    stringify, trace_macros,
-};
-
-// FIXME: Attribute and derive macros are not documented because for them rustdoc generates
-// dead links which fail link checker testing.
-#[allow(deprecated)]
-#[doc(hidden)]
-pub use core::prelude::v1::{
-    bench, global_allocator, test, test_case, Clone, Copy, Debug, Default, Eq, Hash, Ord,
-    PartialEq, PartialOrd,
-};
+pub use core::result::Result::{self, Err, Ok};
 
 // The file so far is equivalent to src/libcore/prelude/v1.rs,
 // and below to src/liballoc/prelude.rs.
@@ -48,12 +31,16 @@ pub use core::prelude::v1::{
 // because we want docs to show these re-exports as pointing to within `std`.
 
 #[doc(no_inline)]
-pub use crate::borrow::ToOwned;
+pub use alloc_crate::borrow::ToOwned;
 #[doc(no_inline)]
-pub use crate::boxed::Box;
+pub use alloc_crate::boxed::Box;
 #[doc(no_inline)]
-pub use crate::string::{String, ToString};
+pub use alloc_crate::format;
 #[doc(no_inline)]
-pub use crate::vec::Vec;
+pub use alloc_crate::string::{String, ToString};
+#[doc(no_inline)]
+pub use alloc_crate::vec;
+#[doc(no_inline)]
+pub use alloc_crate::vec::Vec;
 
 /* } */

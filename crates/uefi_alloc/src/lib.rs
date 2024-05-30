@@ -1,4 +1,3 @@
-#![feature(allocator_api)]
 #![no_std]
 
 use core::alloc::{GlobalAlloc, Layout};
@@ -6,6 +5,9 @@ use core::ptr::{self, NonNull};
 use uefi::memory::MemoryType;
 use uefi::status::Status;
 use uefi::system::SystemTable;
+
+#[global_allocator]
+static ALLOCATOR: Allocator = Allocator;
 
 static mut UEFI: Option<NonNull<SystemTable>> = None;
 
