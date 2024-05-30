@@ -1,9 +1,11 @@
 use core::ptr;
+use core::slice;
+
 use uefi::guid::GLOBAL_VARIABLE_GUID;
 use uefi::status::{Result, Status};
 
 use crate::ffi::wstr;
-use crate::slice;
+use crate::prelude::*;
 use crate::system_table;
 
 fn get(name: &str, data: &mut [u8]) -> Result<usize> {

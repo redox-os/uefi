@@ -4,6 +4,7 @@ use uefi::guid::Guid;
 use uefi::status::{Result, Status};
 use uefi::Handle;
 
+use crate::prelude::*;
 use crate::system_table;
 
 pub trait Protocol<T: 'static> {
