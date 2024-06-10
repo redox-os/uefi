@@ -18,6 +18,7 @@ pub mod hii;
 pub mod loaded_image;
 pub mod memory;
 pub mod pointer;
+pub mod prelude;
 pub mod reset;
 pub mod runtime;
 pub mod shell;

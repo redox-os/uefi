@@ -1,5 +1,4 @@
-use uefi::status::{Result, Status};
-use uefi::Handle;
+use crate::prelude::*;
 
 use crate::ffi::wstr;
 use crate::fs::load;

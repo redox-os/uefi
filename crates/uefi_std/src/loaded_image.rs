@@ -1,7 +1,8 @@
-use uefi::guid::{Guid, LOADED_IMAGE_PROTOCOL_GUID};
+use uefi::guid::LOADED_IMAGE_PROTOCOL_GUID;
 use uefi::loaded_image::LoadedImage as UefiLoadedImage;
 
 use crate::proto::Protocol;
+use crate::prelude::*;
 
 pub struct LoadedImage(pub &'static mut UefiLoadedImage);
 

@@ -1,6 +1,4 @@
-use uefi::status::Status;
-use uefi::system::SystemTable;
-use uefi::Handle;
+use crate::prelude::*;
 
 #[no_mangle]
 pub unsafe extern "efiapi" fn efi_main(

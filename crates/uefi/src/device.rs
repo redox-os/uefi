@@ -1,4 +1,4 @@
-use crate::guid::Guid;
+use crate::prelude::*;
 
 enum_try_from_int! {
     #[repr(u8)]

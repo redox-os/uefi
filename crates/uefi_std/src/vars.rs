@@ -2,7 +2,6 @@ use core::ptr;
 use core::slice;
 
 use uefi::guid::GLOBAL_VARIABLE_GUID;
-use uefi::status::{Result, Status};
 
 use crate::ffi::wstr;
 use crate::prelude::*;

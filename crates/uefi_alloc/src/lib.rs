@@ -2,9 +2,8 @@
 
 use core::alloc::{GlobalAlloc, Layout};
 use core::ptr::{self, NonNull};
+use uefi::prelude::*;
 use uefi::memory::MemoryType;
-use uefi::status::Status;
-use uefi::system::SystemTable;
 
 #[global_allocator]
 static ALLOCATOR: Allocator = Allocator;

@@ -20,7 +20,7 @@ macro_rules! enum_try_from_int {
         impl core::convert::TryFrom<$T> for $Name {
             type Error = ();
 
-            fn try_from(value: $T) -> Result<$Name, ()> {
+            fn try_from(value: $T) -> core::result::Result<$Name, ()> {
                 match value {
                     $(
                         $value => Ok($Name::$Variant),

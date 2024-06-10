@@ -1,6 +1,5 @@
 #![no_std]
 
-#[macro_use]
 extern crate alloc as alloc_crate;
 
 #[macro_use]
@@ -25,17 +24,19 @@ pub mod proto;
 pub mod shell;
 pub mod vars;
 
-static mut HANDLE: uefi::Handle = uefi::Handle(0);
-static mut SYSTEM_TABLE: *mut uefi::system::SystemTable = 0 as *mut uefi::system::SystemTable;
+use uefi::prelude::*;
 
-pub fn handle() -> uefi::Handle {
+static mut HANDLE: Handle = Handle(0);
+static mut SYSTEM_TABLE: *mut SystemTable = 0 as *mut SystemTable;
+
+pub fn handle() -> Handle {
     unsafe { HANDLE }
 }
 
-pub fn system_table() -> &'static uefi::system::SystemTable {
+pub fn system_table() -> &'static SystemTable {
     unsafe { &*SYSTEM_TABLE }
 }
 
-pub unsafe fn system_table_mut() -> &'static mut uefi::system::SystemTable {
+pub unsafe fn system_table_mut() -> &'static mut SystemTable {
     &mut *SYSTEM_TABLE
 }

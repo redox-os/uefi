@@ -1,8 +1,5 @@
 use core::mem;
 use uefi::boot::LocateSearchType;
-use uefi::guid::Guid;
-use uefi::status::{Result, Status};
-use uefi::Handle;
 
 use crate::prelude::*;
 use crate::system_table;

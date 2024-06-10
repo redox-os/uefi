@@ -1,7 +1,8 @@
-use uefi::guid::{Guid, SHELL_GUID};
+use uefi::guid::SHELL_GUID;
 use uefi::shell::Shell as UefiShell;
 
 use crate::proto::Protocol;
+use crate::prelude::*;
 
 pub struct Shell(pub &'static mut UefiShell);
 
