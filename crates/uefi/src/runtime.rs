@@ -1,8 +1,7 @@
 use crate::capsule::CapsuleHeader;
-use crate::guid::Guid;
 use crate::memory::{MemoryDescriptor, PhysicalAddress};
+use crate::prelude::*;
 use crate::reset::ResetType;
-use crate::status::Status;
 use crate::time::{Time, TimeCapabilities};
 use crate::TableHeader;
 

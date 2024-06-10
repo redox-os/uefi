@@ -1,4 +1,4 @@
-use crate::guid::Guid;
+use crate::prelude::*;
 
 #[repr(C)]
 pub struct ConfigurationTable {
