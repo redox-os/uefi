@@ -29,6 +29,7 @@ macro_rules! guid {
 /// String length of a GUID with hyphens.
 const HYPHENATED_LEN: usize = 36;
 
+#[deprecated(note = "use `Guid::NULL`")]
 pub const NULL_GUID: Guid = guid!("00000000-0000-0000-0000-000000000000");
 pub const MPS_TABLE_GUID: Guid = guid!("eb9d2d2f-2d88-11d3-9a16-0090273fc14d");
 pub const ACPI_TABLE_GUID: Guid = guid!("eb9d2d30-2d88-11d3-9a16-0090273fc14d");
@@ -122,6 +123,13 @@ pub enum GuidKind {
 }
 
 impl Guid {
+    /// A GUID that has all bits set to 0.
+    pub const NIL: Self = guid!("00000000-0000-0000-0000-000000000000");
+    /// An alias for [Guid::NIL].
+    pub const NULL: Self = Self::NIL;
+    /// A GUID that has all bits set to 1.
+    pub const MAX: Self = guid!("ffffffff-ffff-ffff-ffff-ffffffffffff");
+
     /// Converts a string literal to a GUID.
     ///
     /// The string must be in the form "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX".
