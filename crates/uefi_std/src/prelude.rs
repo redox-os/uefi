@@ -1,3 +1,5 @@
+pub use uefi::prelude::*;
+
 /* This section was addapted from the Rust Standard Library, and is licensed accordingly
  * https://raw.githubusercontent.com/rust-lang/rust/master/src/libstd/prelude/v1.rs
  * {
@@ -22,8 +24,6 @@ pub use core::iter::{DoubleEndedIterator, ExactSizeIterator};
 pub use core::iter::{Extend, IntoIterator, Iterator};
 #[doc(no_inline)]
 pub use core::option::Option::{self, None, Some};
-#[doc(no_inline)]
-pub use core::result::Result::{self, Err, Ok};
 
 // The file so far is equivalent to src/libcore/prelude/v1.rs,
 // and below to src/liballoc/prelude.rs.
