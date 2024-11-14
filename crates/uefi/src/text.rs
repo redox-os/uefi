@@ -9,8 +9,8 @@ pub struct TextInputKey {
 
 #[repr(C)]
 pub struct TextInput {
-    pub Reset: extern "win64" fn(&TextInput, bool) -> Status,
-    pub ReadKeyStroke: extern "win64" fn(&TextInput, &mut TextInputKey) -> Status,
+    pub Reset: extern "efiapi" fn(&TextInput, bool) -> Status,
+    pub ReadKeyStroke: extern "efiapi" fn(&TextInput, &mut TextInputKey) -> Status,
     pub WaitForKey: Event,
 }
 
@@ -27,14 +27,14 @@ pub struct TextOutputMode {
 
 #[repr(C)]
 pub struct TextOutput {
-    pub Reset: extern "win64" fn(&TextOutput, bool) -> Status,
-    pub OutputString: extern "win64" fn(&TextOutput, *const u16) -> Status,
-    pub TestString: extern "win64" fn(&TextOutput, *const u16) -> Status,
-    pub QueryMode: extern "win64" fn(&TextOutput, usize, &mut usize, &mut usize) -> Status,
-    pub SetMode: extern "win64" fn(&TextOutput, usize) -> Status,
-    pub SetAttribute: extern "win64" fn(&TextOutput, usize) -> Status,
-    pub ClearScreen: extern "win64" fn(&TextOutput) -> Status,
-    pub SetCursorPosition: extern "win64" fn(&TextOutput, usize, usize) -> Status,
-    pub EnableCursor: extern "win64" fn(&TextOutput, bool) -> Status,
+    pub Reset: extern "efiapi" fn(&TextOutput, bool) -> Status,
+    pub OutputString: extern "efiapi" fn(&TextOutput, *const u16) -> Status,
+    pub TestString: extern "efiapi" fn(&TextOutput, *const u16) -> Status,
+    pub QueryMode: extern "efiapi" fn(&TextOutput, usize, &mut usize, &mut usize) -> Status,
+    pub SetMode: extern "efiapi" fn(&TextOutput, usize) -> Status,
+    pub SetAttribute: extern "efiapi" fn(&TextOutput, usize) -> Status,
+    pub ClearScreen: extern "efiapi" fn(&TextOutput) -> Status,
+    pub SetCursorPosition: extern "efiapi" fn(&TextOutput, usize, usize) -> Status,
+    pub EnableCursor: extern "efiapi" fn(&TextOutput, bool) -> Status,
     pub Mode: &'static TextOutputMode,
 }

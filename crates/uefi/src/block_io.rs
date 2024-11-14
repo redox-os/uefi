@@ -17,20 +17,20 @@ pub struct BlockIoMedia {
 pub struct BlockIo {
     pub Revision: u64,
     pub Media: &'static BlockIoMedia,
-    pub Reset: extern "win64" fn(&BlockIo, ExtendedVerification: bool) -> Status,
-    pub ReadBlocks: extern "win64" fn(
+    pub Reset: extern "efiapi" fn(&BlockIo, ExtendedVerification: bool) -> Status,
+    pub ReadBlocks: extern "efiapi" fn(
         &BlockIo,
         MediaId: u32,
         LBA: u64,
         BufferSize: usize,
         Buffer: *mut u8,
     ) -> Status,
-    pub WriteBlocks: extern "win64" fn(
+    pub WriteBlocks: extern "efiapi" fn(
         &BlockIo,
         MediaId: u32,
         LBA: u64,
         BufferSize: usize,
         Buffer: *const u8,
     ) -> Status,
-    pub FlushBlocks: extern "win64" fn(&BlockIo) -> Status,
+    pub FlushBlocks: extern "efiapi" fn(&BlockIo) -> Status,
 }

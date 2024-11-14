@@ -105,14 +105,14 @@ pub struct GraphicsOutputMode {
 
 #[repr(C)]
 pub struct GraphicsOutput {
-    pub QueryMode: extern "win64" fn(
+    pub QueryMode: extern "efiapi" fn(
         &mut GraphicsOutput,
         u32,
         &mut usize,
         &mut *mut GraphicsOutputModeInfo,
     ) -> Status,
-    pub SetMode: extern "win64" fn(&mut GraphicsOutput, u32) -> Status,
-    pub Blt: extern "win64" fn(
+    pub SetMode: extern "efiapi" fn(&mut GraphicsOutput, u32) -> Status,
+    pub Blt: extern "efiapi" fn(
         &mut GraphicsOutput,
         *mut GraphicsBltPixel,
         GraphicsBltOp,

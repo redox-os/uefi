@@ -17,7 +17,7 @@ pub const FILE_ARCHIVE: u64 = 0x20;
 #[repr(C)]
 pub struct SimpleFileSystem {
     pub Revision: u64,
-    pub OpenVolume: extern "win64" fn(&mut SimpleFileSystem, Root: &mut *mut File) -> Status,
+    pub OpenVolume: extern "efiapi" fn(&mut SimpleFileSystem, Root: &mut *mut File) -> Status,
 }
 
 #[repr(C)]
@@ -50,30 +50,30 @@ impl Default for FileInfo {
 #[repr(C)]
 pub struct File {
     pub Revision: u64,
-    pub Open: extern "win64" fn(
+    pub Open: extern "efiapi" fn(
         &mut File,
         NewHandle: &mut *mut File,
         FileName: *const u16,
         OpenMode: u64,
         Attributes: u64,
     ) -> Status,
-    pub Close: extern "win64" fn(&mut File) -> Status,
-    pub Delete: extern "win64" fn(&mut File) -> Status,
-    pub Read: extern "win64" fn(&mut File, BufferSize: &mut usize, Buffer: *mut u8) -> Status,
-    pub Write: extern "win64" fn(&mut File, BufferSize: &mut usize, Buffer: *const u8) -> Status,
-    pub SetPosition: extern "win64" fn(&mut File, Position: u64) -> Status,
-    pub GetPosition: extern "win64" fn(&mut File, Position: &mut u64) -> Status,
-    pub GetInfo: extern "win64" fn(
+    pub Close: extern "efiapi" fn(&mut File) -> Status,
+    pub Delete: extern "efiapi" fn(&mut File) -> Status,
+    pub Read: extern "efiapi" fn(&mut File, BufferSize: &mut usize, Buffer: *mut u8) -> Status,
+    pub Write: extern "efiapi" fn(&mut File, BufferSize: &mut usize, Buffer: *const u8) -> Status,
+    pub SetPosition: extern "efiapi" fn(&mut File, Position: u64) -> Status,
+    pub GetPosition: extern "efiapi" fn(&mut File, Position: &mut u64) -> Status,
+    pub GetInfo: extern "efiapi" fn(
         &mut File,
         InformationType: &Guid,
         BufferSize: &mut usize,
         Buffer: *mut u8,
     ) -> Status,
-    pub SetInfo: extern "win64" fn(
+    pub SetInfo: extern "efiapi" fn(
         &mut File,
         InformationType: &Guid,
         BufferSize: &mut usize,
         Buffer: *const u8,
     ) -> Status,
-    pub Flush: extern "win64" fn(&mut File) -> Status,
+    pub Flush: extern "efiapi" fn(&mut File) -> Status,
 }
