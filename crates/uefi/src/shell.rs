@@ -2,7 +2,7 @@ use crate::prelude::*;
 
 #[repr(C)]
 pub struct Shell {
-    pub Execute: extern "win64" fn(
+    pub Execute: extern "efiapi" fn(
         ImageHandle: &Handle,
         CommandLine: *const u16,
         Environment: *const *const u16,

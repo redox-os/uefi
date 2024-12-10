@@ -8,7 +8,7 @@ use super::package::{HiiPackageHeader, HiiPackageKind, HiiPackageListHeader};
 #[repr(transparent)]
 pub struct HiiHandle(pub usize);
 
-pub type HiiDatabaseNotify = extern "win64" fn(
+pub type HiiDatabaseNotify = extern "efiapi" fn(
     PackageKind: HiiPackageKind,
     PackageGuid: &Guid,
     Package: &HiiPackageHeader,
@@ -40,7 +40,7 @@ pub struct HiiKeyboardLayout {
 #[repr(C)]
 pub struct HiiDatabase {
     /// Adds the packages in the package list to the HII database
-    pub NewPackageList: extern "win64" fn(
+    pub NewPackageList: extern "efiapi" fn(
         &HiiDatabase,
         PackageList: &HiiPackageListHeader,
         DriverHandle: Handle,
@@ -48,17 +48,17 @@ pub struct HiiDatabase {
     ) -> Status,
 
     /// Removes a package list from the HII database
-    pub RemovePackageList: extern "win64" fn(&HiiDatabase, Handle: HiiHandle) -> Status,
+    pub RemovePackageList: extern "efiapi" fn(&HiiDatabase, Handle: HiiHandle) -> Status,
 
     /// Update a package list in the HII database
-    pub UpdatePackageList: extern "win64" fn(
+    pub UpdatePackageList: extern "efiapi" fn(
         &HiiDatabase,
         Handle: HiiHandle,
         PackageList: &HiiPackageListHeader,
     ) -> Status,
 
     /// Determines the handles that are currently active in the database
-    pub ListPackageLists: extern "win64" fn(
+    pub ListPackageLists: extern "efiapi" fn(
         &HiiDatabase,
         PackageKind: HiiPackageKind,
         PackageGuid: &Guid,
@@ -67,7 +67,7 @@ pub struct HiiDatabase {
     ) -> Status,
 
     /// Exports the contents of one or all package lists in the HII database into a buffer
-    pub ExportPackageLists: extern "win64" fn(
+    pub ExportPackageLists: extern "efiapi" fn(
         &HiiDatabase,
         Handle: HiiHandle,
         BufferSize: &mut usize,
@@ -75,7 +75,7 @@ pub struct HiiDatabase {
     ) -> Status,
 
     /// Registers a notification function for HII database-related events
-    pub RegisterPackageNotify: extern "win64" fn(
+    pub RegisterPackageNotify: extern "efiapi" fn(
         &HiiDatabase,
         PackageKind: HiiPackageKind,
         PackageGuid: &Guid,
@@ -86,17 +86,17 @@ pub struct HiiDatabase {
 
     /// Removes the specified HII database package-related notification
     pub UnregisterPackageNotify:
-        extern "win64" fn(&HiiDatabase, NotificationHandle: Handle) -> Status,
+        extern "efiapi" fn(&HiiDatabase, NotificationHandle: Handle) -> Status,
 
     /// Retrieves a list of the keyboard layouts in the system
-    pub FindKeyboardLayouts: extern "win64" fn(
+    pub FindKeyboardLayouts: extern "efiapi" fn(
         &HiiDatabase,
         KeyGuidBufferLength: &mut u16,
         KeyGuidBuffer: *mut Guid,
     ) -> Status,
 
     /// Retrieves the requested keyboard layout
-    pub GetKeyboardLayout: extern "win64" fn(
+    pub GetKeyboardLayout: extern "efiapi" fn(
         &HiiDatabase,
         KeyGuid: &Guid,
         KeyboardLayoutLength: &mut u16,
@@ -104,10 +104,10 @@ pub struct HiiDatabase {
     ) -> Status,
 
     /// Sets the currently active keyboard layout
-    pub SetKeyboardLayout: extern "win64" fn(&HiiDatabase, KeyGuid: &Guid) -> Status,
+    pub SetKeyboardLayout: extern "efiapi" fn(&HiiDatabase, KeyGuid: &Guid) -> Status,
 
     /// Return the EFI handle associated with a package list
-    pub GetPackageListHandle: extern "win64" fn(
+    pub GetPackageListHandle: extern "efiapi" fn(
         &HiiDatabase,
         PackageListHandle: HiiHandle,
         DriverHandle: &mut Handle,
