@@ -67,8 +67,8 @@ pub struct BootServices {
     RegisterProtocolNotify: extern "efiapi" fn(),
     pub LocateHandle: extern "efiapi" fn(
         SearchType: LocateSearchType,
-        Protocol: &Guid,
-        SearchKey: usize,
+        Protocol: *const Guid,
+        SearchKey: *const usize,
         BufferSize: &mut usize,
         Buffer: *mut Handle,
     ) -> Status,
@@ -113,13 +113,13 @@ pub struct BootServices {
         ProtocolBuffer: *mut Guid,
         ProtocolBufferCount: usize,
     ) -> Status,
-    LocateHandleBuffer: extern "efiapi" fn(
+    pub LocateHandleBuffer: extern "efiapi" fn(
         SearchType: LocateSearchType,
-        Protocol: &Guid,
-        SearchKey: usize,
+        Protocol: *const Guid,
+        SearchKey: *const usize,
         NoHandles: &mut usize,
         Buffer: &mut *mut Handle,
-    ),
+    ) -> Status,
     pub LocateProtocol:
         extern "efiapi" fn(Protocol: &Guid, Registration: usize, Interface: &mut usize) -> Status,
     InstallMultipleProtocolInterfaces: extern "efiapi" fn(),
