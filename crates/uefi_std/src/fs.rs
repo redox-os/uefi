@@ -2,7 +2,6 @@ use core::default::Default;
 use core::{mem, ptr, slice};
 
 use uefi::fs::{File as InnerFile, FileInfo, SimpleFileSystem, FILE_MODE_READ};
-use uefi::guid::{FILE_INFO_ID, FILE_SYSTEM_GUID};
 
 use crate::ffi::wstr;
 use crate::prelude::*;
@@ -12,7 +11,7 @@ pub struct FileSystem(pub &'static mut SimpleFileSystem);
 
 impl Protocol<SimpleFileSystem> for FileSystem {
     fn guid() -> Guid {
-        FILE_SYSTEM_GUID
+        SimpleFileSystem::GUID
     }
 
     fn new(inner: &'static mut SimpleFileSystem) -> Self {
@@ -41,7 +40,7 @@ impl File {
             slice::from_raw_parts_mut(&mut info as *mut _ as *mut u8, mem::size_of_val(&info))
         };
         let mut len = buf.len();
-        let status = (self.0.GetInfo)(self.0, &FILE_INFO_ID, &mut len, buf.as_mut_ptr());
+        let status = (self.0.GetInfo)(self.0, &FileInfo::ID, &mut len, buf.as_mut_ptr());
 
         match status {
             Status::SUCCESS => Ok(info),

@@ -38,3 +38,7 @@ pub struct TextOutput {
     pub EnableCursor: extern "efiapi" fn(&TextOutput, bool) -> Status,
     pub Mode: &'static TextOutputMode,
 }
+
+impl TextOutput {
+    pub const GUID: Guid = guid!("387477c2-69c7-11d2-8e39-00a0c969723b");
+}

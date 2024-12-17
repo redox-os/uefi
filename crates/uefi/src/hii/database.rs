@@ -1,6 +1,4 @@
-use crate::guid::Guid;
-use crate::status::Status;
-use crate::Handle;
+use crate::prelude::*;
 
 use super::package::{HiiPackageHeader, HiiPackageKind, HiiPackageListHeader};
 
@@ -112,4 +110,8 @@ pub struct HiiDatabase {
         PackageListHandle: HiiHandle,
         DriverHandle: &mut Handle,
     ) -> Status,
+}
+
+impl HiiDatabase {
+    pub const GUID: Guid = guid!("ef9fc172-a1b2-4693-b327-6d32fc416042");
 }
