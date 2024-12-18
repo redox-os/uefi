@@ -96,6 +96,10 @@ pub struct DevicePath {
     pub Length: u16,
 }
 
+impl DevicePath {
+    pub const GUID: Guid = guid!("09576e91-6d3f-11d2-8e39-00a0c969723b");
+}
+
 #[repr(C)]
 pub struct VendorDevicePath {
     pub Header: DevicePath,

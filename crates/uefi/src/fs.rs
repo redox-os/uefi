@@ -20,6 +20,10 @@ pub struct SimpleFileSystem {
     pub OpenVolume: extern "efiapi" fn(&mut SimpleFileSystem, Root: &mut *mut File) -> Status,
 }
 
+impl SimpleFileSystem {
+    pub const GUID: Guid = guid!("964e5b22-6459-11d2-8e39-00a0c969723b");
+}
+
 #[repr(C)]
 pub struct FileInfo {
     pub Size: u64,
@@ -45,6 +49,10 @@ impl Default for FileInfo {
             FileName: [0; 256],
         }
     }
+}
+
+impl FileInfo {
+    pub const ID: Guid = guid!("09576e92-6d3f-11d2-8e39-00a0c969723b");
 }
 
 #[repr(C)]

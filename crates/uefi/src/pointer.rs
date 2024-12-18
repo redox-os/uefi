@@ -27,3 +27,7 @@ pub struct SimplePointer {
     pub WaitForInput: Event,
     pub Mode: &'static mut SimplePointerMode,
 }
+
+impl SimplePointer {
+    pub const GUID: Guid = guid!("31878c87-0b75-11d5-9a4f-0090273fc14d");
+}

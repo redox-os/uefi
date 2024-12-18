@@ -17,3 +17,7 @@ pub struct LoadedImage {
     pub ImageDataType: MemoryType,
     pub Unload: extern "efiapi" fn(ImageHandle: Handle) -> Status,
 }
+
+impl LoadedImage {
+    pub const GUID: Guid = guid!("5b1b31a1-9562-11d2-8e3f-00a0c969723b");
+}

@@ -1,4 +1,3 @@
-use uefi::guid::LOADED_IMAGE_PROTOCOL_GUID;
 use uefi::loaded_image::LoadedImage as UefiLoadedImage;
 
 use crate::proto::Protocol;
@@ -8,7 +7,7 @@ pub struct LoadedImage(pub &'static mut UefiLoadedImage);
 
 impl Protocol<UefiLoadedImage> for LoadedImage {
     fn guid() -> Guid {
-        LOADED_IMAGE_PROTOCOL_GUID
+        UefiLoadedImage::GUID
     }
 
     fn new(inner: &'static mut UefiLoadedImage) -> Self {
