@@ -34,3 +34,7 @@ pub struct BlockIo {
     ) -> Status,
     pub FlushBlocks: extern "efiapi" fn(&BlockIo) -> Status,
 }
+
+impl BlockIo {
+    pub const GUID: Guid = guid!("964e5b21-6459-11d2-8e39-00a0c969723b");
+}
