@@ -11,6 +11,10 @@ pub struct Shell {
     //TODO
 }
 
+impl Shell {
+    pub const GUID: Guid = guid!("6302d008-7f9b-4f30-87ac-60c9fef5da4e");
+}
+
 #[repr(C)]
 pub struct ShellParameters {
     pub Argv: *const *const u16,
@@ -18,4 +22,8 @@ pub struct ShellParameters {
     pub StdIn: Handle,
     pub StdOut: Handle,
     pub StdErr: Handle,
+}
+
+impl ShellParameters {
+    pub const GUID: Guid = guid!("752f3136-4e16-4fdc-a22a-e5f46812f4ca");
 }

@@ -126,3 +126,7 @@ pub struct GraphicsOutput {
     ) -> Status,
     pub Mode: &'static mut GraphicsOutputMode,
 }
+
+impl GraphicsOutput {
+    pub const GUID: Guid = guid!("9042a9de-23dc-4a38-96fb-7aded080516a");
+}

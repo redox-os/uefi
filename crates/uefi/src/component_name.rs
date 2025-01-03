@@ -13,3 +13,7 @@ pub struct ComponentName {
     ) -> Status,
     pub SupportedLanguages: *const u8,
 }
+
+impl ComponentName {
+    pub const GUID: Guid = guid!("6a7a5cff-e8d9-4f70-bada-75ab3025ce14");
+}
