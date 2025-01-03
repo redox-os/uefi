@@ -46,7 +46,7 @@ pub trait Protocol<T: 'static> {
         let status = (system_table().BootServices.LocateHandle)(
             LocateSearchType::ByProtocol,
             &guid,
-            0,
+            core::ptr::null(),
             &mut len,
             handles.as_mut_ptr(),
         );
