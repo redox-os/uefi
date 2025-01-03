@@ -11,6 +11,7 @@ pub mod capsule;
 pub mod component_name;
 pub mod config;
 pub mod device;
+pub mod firmware_volume;
 pub mod fs;
 pub mod graphics;
 pub mod guid;
