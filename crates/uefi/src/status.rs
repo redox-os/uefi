@@ -33,7 +33,7 @@ use core::fmt;
 /// A value that represents success, a warning, or an error.
 #[must_use]
 #[repr(transparent)]
-#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[derive(Copy, Clone, Eq, PartialEq)]
 pub struct Status(pub usize);
 
 impl Status {
@@ -202,6 +202,12 @@ impl fmt::Display for Status {
 
             _ => write!(f, "{:#X}", self.0),
         }
+    }
+}
+
+impl fmt::Debug for Status {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "Status({:#X}) \"{}\"", self.0, &self)
     }
 }
 
