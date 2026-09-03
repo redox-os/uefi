@@ -184,8 +184,7 @@ pub struct FirmwareVolumeBlock2 {
         NumBytes: &mut usize,
         Buffer: *mut u8,
     ) -> Status,
-    // TODO: Change to efiapi
-    EraseBlocks: extern "C" fn(This: &Self, ...) -> Status,
+    EraseBlocks: extern "efiapi" fn(This: &Self, ...) -> Status,
     pub ParentHandle: Handle,
 }
 
