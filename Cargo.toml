@@ -11,6 +11,7 @@ edition = "2021"
 license = "MIT"
 authors = ["Jeremy Soller <jackpot51@gmail.com>"]
 repository = "https://gitlab.redox-os.org/redox-os/uefi"
+rust-version = "1.91.1"
 
 [workspace.dependencies]
 redox_uefi = { path = "crates/uefi", version = "0.1.14" }
