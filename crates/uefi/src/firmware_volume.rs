@@ -101,10 +101,10 @@ pub struct FvWriteFileData {
 #[repr(C)]
 pub struct FirmwareVolume2 {
     pub GetVolumeAttributes:
-        extern "efiapi" fn(This: &Self, FvAttributes: &mut FvAttributes) -> Status,
+        unsafe extern "efiapi" fn(This: &Self, FvAttributes: &mut FvAttributes) -> Status,
     pub SetVolumeAttributes:
-        extern "efiapi" fn(This: &Self, FvAttributes: &mut FvAttributes) -> Status,
-    pub ReadFile: extern "efiapi" fn(
+        unsafe extern "efiapi" fn(This: &Self, FvAttributes: &mut FvAttributes) -> Status,
+    pub ReadFile: unsafe extern "efiapi" fn(
         This: &Self,
         NameGuid: &Guid,
         Buffer: &mut *mut u8,
@@ -113,7 +113,7 @@ pub struct FirmwareVolume2 {
         FileAttributes: &mut FvFileAttributes,
         AuthenticationStatus: &mut u32,
     ) -> Status,
-    pub ReadSection: extern "efiapi" fn(
+    pub ReadSection: unsafe extern "efiapi" fn(
         This: &Self,
         NameGuid: &Guid,
         SectionType: SectionType,
@@ -122,13 +122,13 @@ pub struct FirmwareVolume2 {
         BufferSize: &mut usize,
         AuthenticationStatus: &mut u32,
     ) -> Status,
-    pub WriteFile: extern "efiapi" fn(
+    pub WriteFile: unsafe extern "efiapi" fn(
         This: &Self,
         NumberOfFiles: u32,
         WritePolicy: FvWritePolicy,
         FileData: &FvWriteFileData,
     ) -> Status,
-    pub GetNextFile: extern "efiapi" fn(
+    pub GetNextFile: unsafe extern "efiapi" fn(
         This: &Self,
         Key: *mut u8,
         FileType: &mut FvFiletype,
@@ -138,13 +138,13 @@ pub struct FirmwareVolume2 {
     ) -> Status,
     pub KeySize: u32,
     pub ParentHandle: Handle,
-    pub GetInfo: extern "efiapi" fn(
+    pub GetInfo: unsafe extern "efiapi" fn(
         This: &Self,
         InformationType: &Guid,
         BufferSize: &mut usize,
         Buffer: *mut u8,
     ) -> Status,
-    pub SetInfo: extern "efiapi" fn(
+    pub SetInfo: unsafe extern "efiapi" fn(
         This: &Self,
         InformationType: &Guid,
         BufferSize: usize,
@@ -160,31 +160,31 @@ impl FirmwareVolume2 {
 #[derive(Debug)]
 #[repr(C)]
 pub struct FirmwareVolumeBlock2 {
-    pub GetAttributes: extern "efiapi" fn(This: &Self, Attributes: &mut FvbAttributes2) -> Status,
-    pub SetAttributes: extern "efiapi" fn(This: &Self, Attributes: &mut FvbAttributes2) -> Status,
+    pub GetAttributes: unsafe extern "efiapi" fn(This: &Self, Attributes: &mut FvbAttributes2) -> Status,
+    pub SetAttributes: unsafe extern "efiapi" fn(This: &Self, Attributes: &mut FvbAttributes2) -> Status,
     pub GetPhysicalAddress:
-        extern "efiapi" fn(This: &Self, Address: &mut PhysicalAddress) -> Status,
-    pub GetBlockSize: extern "efiapi" fn(
+        unsafe extern "efiapi" fn(This: &Self, Address: &mut PhysicalAddress) -> Status,
+    pub GetBlockSize: unsafe extern "efiapi" fn(
         This: &Self,
         Lba: u64,
         BlockSize: &mut usize,
         NumberOfBlocks: &mut usize,
     ) -> Status,
-    pub Read: extern "efiapi" fn(
+    pub Read: unsafe extern "efiapi" fn(
         This: &Self,
         Lba: u64,
         Offset: usize,
         NumBytes: &mut usize,
         Buffer: *mut u8,
     ) -> Status,
-    pub Write: extern "efiapi" fn(
+    pub Write: unsafe extern "efiapi" fn(
         This: &Self,
         Lba: u64,
         Offset: usize,
         NumBytes: &mut usize,
         Buffer: *mut u8,
     ) -> Status,
-    EraseBlocks: extern "efiapi" fn(This: &Self, ...) -> Status,
+    EraseBlocks: unsafe extern "efiapi" fn(This: &Self, ...) -> Status,
     pub ParentHandle: Handle,
 }
 

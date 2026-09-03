@@ -106,14 +106,14 @@ pub struct GraphicsOutputMode {
 
 #[repr(C)]
 pub struct GraphicsOutput {
-    pub QueryMode: extern "efiapi" fn(
+    pub QueryMode: unsafe extern "efiapi" fn(
         &mut GraphicsOutput,
         u32,
         &mut usize,
         &mut *mut GraphicsOutputModeInfo,
     ) -> Status,
-    pub SetMode: extern "efiapi" fn(&mut GraphicsOutput, u32) -> Status,
-    pub Blt: extern "efiapi" fn(
+    pub SetMode: unsafe extern "efiapi" fn(&mut GraphicsOutput, u32) -> Status,
+    pub Blt: unsafe extern "efiapi" fn(
         &mut GraphicsOutput,
         *mut GraphicsBltPixel,
         GraphicsBltOp,

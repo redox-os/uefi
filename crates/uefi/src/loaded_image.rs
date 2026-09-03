@@ -17,7 +17,7 @@ pub struct LoadedImage {
     pub ImageSize: u64,
     pub ImageCodeType: MemoryType,
     pub ImageDataType: MemoryType,
-    pub Unload: extern "efiapi" fn(ImageHandle: Handle) -> Status,
+    pub Unload: unsafe extern "efiapi" fn(ImageHandle: Handle) -> Status,
 }
 
 impl LoadedImage {

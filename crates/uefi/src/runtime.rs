@@ -11,25 +11,25 @@ use crate::TableHeader;
 pub struct RuntimeServices {
     pub Hdr: TableHeader,
 
-    pub GetTime: extern "efiapi" fn(Time: &mut Time, Capabilities: *mut TimeCapabilities) -> Status,
+    pub GetTime: unsafe extern "efiapi" fn(Time: &mut Time, Capabilities: *mut TimeCapabilities) -> Status,
 
-    pub SetTime: extern "efiapi" fn(Time: &Time) -> Status,
+    pub SetTime: unsafe extern "efiapi" fn(Time: &Time) -> Status,
 
     pub GetWakeupTime:
-        extern "efiapi" fn(Enabled: &mut bool, Pending: &mut bool, Time: &mut Time) -> Status,
+        unsafe extern "efiapi" fn(Enabled: &mut bool, Pending: &mut bool, Time: &mut Time) -> Status,
 
-    pub SetWakeupTime: extern "efiapi" fn(Enable: bool, Time: *const Time) -> Status,
+    pub SetWakeupTime: unsafe extern "efiapi" fn(Enable: bool, Time: *const Time) -> Status,
 
-    pub SetVirtualAddressMap: extern "efiapi" fn(
+    pub SetVirtualAddressMap: unsafe extern "efiapi" fn(
         MemoryMapSize: usize,
         DescriptorSize: usize,
         DescriptorVersion: u32,
         VirtualMap: *const MemoryDescriptor,
     ) -> Status,
 
-    pub ConvertPointer: extern "efiapi" fn(DebugDisposition: usize, Address: &mut usize) -> Status,
+    pub ConvertPointer: unsafe extern "efiapi" fn(DebugDisposition: usize, Address: &mut usize) -> Status,
 
-    pub GetVariable: extern "efiapi" fn(
+    pub GetVariable: unsafe extern "efiapi" fn(
         VariableName: *const u16,
         VendorGuid: &Guid,
         Attributes: *mut u32,
@@ -37,13 +37,13 @@ pub struct RuntimeServices {
         Data: *mut u8,
     ) -> Status,
 
-    pub GetNextVariableName: extern "efiapi" fn(
+    pub GetNextVariableName: unsafe extern "efiapi" fn(
         VariableNameSize: &mut usize,
         VariableName: *mut u16,
         VendorGuid: &mut Guid,
     ) -> Status,
 
-    pub SetVariable: extern "efiapi" fn(
+    pub SetVariable: unsafe extern "efiapi" fn(
         VariableName: *const u16,
         VendorGuid: &Guid,
         Attributes: u32,
@@ -51,29 +51,29 @@ pub struct RuntimeServices {
         Data: *const u8,
     ) -> Status,
 
-    pub GetNextHighMonotonicCount: extern "efiapi" fn(HighCount: &mut u32) -> Status,
+    pub GetNextHighMonotonicCount: unsafe extern "efiapi" fn(HighCount: &mut u32) -> Status,
 
-    pub ResetSystem: extern "efiapi" fn(
+    pub ResetSystem: unsafe extern "efiapi" fn(
         ResetType: ResetType,
         ResetStatus: Status,
         DataSize: usize,
         ResetData: *const u8,
     ) -> !,
 
-    pub UpdateCapsule: extern "efiapi" fn(
+    pub UpdateCapsule: unsafe extern "efiapi" fn(
         CapsuleHeaderArray: *const *const CapsuleHeader,
         CapsuleCount: usize,
         ScatterGatherList: PhysicalAddress,
     ) -> Status,
 
-    pub QueryCapsuleCapabilities: extern "efiapi" fn(
+    pub QueryCapsuleCapabilities: unsafe extern "efiapi" fn(
         CapsuleHeaderArray: *const *const CapsuleHeader,
         CapsuleCount: usize,
         MaximumCapsuleSize: &mut u64,
         ResetType: &mut ResetType,
     ) -> Status,
 
-    pub QueryVariableInfo: extern "efiapi" fn(
+    pub QueryVariableInfo: unsafe extern "efiapi" fn(
         Attributes: u32,
         MaximumVariableStorageSize: &mut u64,
         RemainingVariableStorageSize: &mut u64,

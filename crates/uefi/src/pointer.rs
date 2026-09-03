@@ -24,8 +24,8 @@ pub struct SimplePointerState {
 
 #[repr(C)]
 pub struct SimplePointer {
-    pub Reset: extern "efiapi" fn(&mut SimplePointer, ExtendedVerification: bool) -> Status,
-    pub GetState: extern "efiapi" fn(&mut SimplePointer, State: &mut SimplePointerState) -> Status,
+    pub Reset: unsafe extern "efiapi" fn(&mut SimplePointer, ExtendedVerification: bool) -> Status,
+    pub GetState: unsafe extern "efiapi" fn(&mut SimplePointer, State: &mut SimplePointerState) -> Status,
     pub WaitForInput: Event,
     pub Mode: &'static mut SimplePointerMode,
 }
