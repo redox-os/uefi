@@ -11,12 +11,12 @@ use crate::TableHeader;
 pub struct RuntimeServices {
     pub Hdr: TableHeader,
 
-    pub GetTime: unsafe extern "efiapi" fn(Time: &mut Time, Capabilities: *mut TimeCapabilities) -> Status,
+    pub GetTime: unsafe extern "efiapi" fn(Time: *mut Time, Capabilities: *mut TimeCapabilities) -> Status,
 
-    pub SetTime: unsafe extern "efiapi" fn(Time: &Time) -> Status,
+    pub SetTime: unsafe extern "efiapi" fn(Time: *const Time) -> Status,
 
     pub GetWakeupTime:
-        unsafe extern "efiapi" fn(Enabled: &mut bool, Pending: &mut bool, Time: &mut Time) -> Status,
+        unsafe extern "efiapi" fn(Enabled: *mut bool, Pending: *mut bool, Time: *mut Time) -> Status,
 
     pub SetWakeupTime: unsafe extern "efiapi" fn(Enable: bool, Time: *const Time) -> Status,
 
@@ -27,31 +27,31 @@ pub struct RuntimeServices {
         VirtualMap: *const MemoryDescriptor,
     ) -> Status,
 
-    pub ConvertPointer: unsafe extern "efiapi" fn(DebugDisposition: usize, Address: &mut usize) -> Status,
+    pub ConvertPointer: unsafe extern "efiapi" fn(DebugDisposition: usize, Address: *mut usize) -> Status,
 
     pub GetVariable: unsafe extern "efiapi" fn(
         VariableName: *const u16,
-        VendorGuid: &Guid,
+        VendorGuid: *const Guid,
         Attributes: *mut u32,
-        DataSize: &mut usize,
+        DataSize: *mut usize,
         Data: *mut u8,
     ) -> Status,
 
     pub GetNextVariableName: unsafe extern "efiapi" fn(
-        VariableNameSize: &mut usize,
+        VariableNameSize: *mut usize,
         VariableName: *mut u16,
-        VendorGuid: &mut Guid,
+        VendorGuid: *mut Guid,
     ) -> Status,
 
     pub SetVariable: unsafe extern "efiapi" fn(
         VariableName: *const u16,
-        VendorGuid: &Guid,
+        VendorGuid: *const Guid,
         Attributes: u32,
         DataSize: usize,
         Data: *const u8,
     ) -> Status,
 
-    pub GetNextHighMonotonicCount: unsafe extern "efiapi" fn(HighCount: &mut u32) -> Status,
+    pub GetNextHighMonotonicCount: unsafe extern "efiapi" fn(HighCount: *mut u32) -> Status,
 
     pub ResetSystem: unsafe extern "efiapi" fn(
         ResetType: ResetType,
@@ -69,14 +69,14 @@ pub struct RuntimeServices {
     pub QueryCapsuleCapabilities: unsafe extern "efiapi" fn(
         CapsuleHeaderArray: *const *const CapsuleHeader,
         CapsuleCount: usize,
-        MaximumCapsuleSize: &mut u64,
-        ResetType: &mut ResetType,
+        MaximumCapsuleSize: *mut u64,
+        ResetType: *mut ResetType,
     ) -> Status,
 
     pub QueryVariableInfo: unsafe extern "efiapi" fn(
         Attributes: u32,
-        MaximumVariableStorageSize: &mut u64,
-        RemainingVariableStorageSize: &mut u64,
-        MaximumVariableSize: &mut u64,
+        MaximumVariableStorageSize: *mut u64,
+        RemainingVariableStorageSize: *mut u64,
+        MaximumVariableSize: *mut u64,
     ) -> Status,
 }

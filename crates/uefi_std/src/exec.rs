@@ -13,7 +13,7 @@ pub fn exec_data(data: &[u8], name: &str, args: &[&str]) -> Result<usize> {
 
     let mut image_handle = Handle(core::ptr::null_mut());
     let status = unsafe {
-        (st.BootServices.LoadImage)(false, handle, 0, data.as_ptr(), data.len(), &mut image_handle)
+        ((*st.BootServices).LoadImage)(false, handle, 0, data.as_ptr(), data.len(), &mut image_handle)
     };
 
     if !status.is_success() {
@@ -38,7 +38,7 @@ pub fn exec_data(data: &[u8], name: &str, args: &[&str]) -> Result<usize> {
     let mut exit_size = 0;
     let mut exit_ptr = ::core::ptr::null_mut();
     let status = unsafe {
-        (st.BootServices.StartImage)(image_handle, &mut exit_size, &mut exit_ptr)
+        ((*st.BootServices).StartImage)(image_handle, &mut exit_size, &mut exit_ptr)
     };
 
     match status {

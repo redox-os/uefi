@@ -10,11 +10,11 @@ impl Write for Stdout {
 
         for c in string.chars() {
             let _ = unsafe {
-                (st.ConsoleOut.OutputString)(st.ConsoleOut, [c as u16, 0].as_ptr())
+                ((*st.ConsoleOut).OutputString)(st.ConsoleOut, [c as u16, 0].as_ptr())
             };
             if c == '\n' {
                 let _ = unsafe {
-                    (st.ConsoleOut.OutputString)(st.ConsoleOut, ['\r' as u16, 0].as_ptr())
+                    ((*st.ConsoleOut).OutputString)(st.ConsoleOut, ['\r' as u16, 0].as_ptr())
                 };
             }
         }

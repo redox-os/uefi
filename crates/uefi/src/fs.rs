@@ -19,7 +19,7 @@ pub const FILE_ARCHIVE: u64 = 0x20;
 #[repr(C)]
 pub struct SimpleFileSystem {
     pub Revision: u64,
-    pub OpenVolume: unsafe extern "efiapi" fn(&mut SimpleFileSystem, Root: &mut *mut File) -> Status,
+    pub OpenVolume: unsafe extern "efiapi" fn(This: *mut Self, Root: *mut *mut File) -> Status,
 }
 
 impl SimpleFileSystem {
@@ -61,29 +61,29 @@ impl FileInfo {
 pub struct File {
     pub Revision: u64,
     pub Open: unsafe extern "efiapi" fn(
-        &mut File,
-        NewHandle: &mut *mut File,
+        This: *mut Self,
+        NewHandle: *mut *mut Self,
         FileName: *const u16,
         OpenMode: u64,
         Attributes: u64,
     ) -> Status,
-    pub Close: unsafe extern "efiapi" fn(&mut File) -> Status,
-    pub Delete: unsafe extern "efiapi" fn(&mut File) -> Status,
-    pub Read: unsafe extern "efiapi" fn(&mut File, BufferSize: &mut usize, Buffer: *mut u8) -> Status,
-    pub Write: unsafe extern "efiapi" fn(&mut File, BufferSize: &mut usize, Buffer: *const u8) -> Status,
-    pub SetPosition: unsafe extern "efiapi" fn(&mut File, Position: u64) -> Status,
-    pub GetPosition: unsafe extern "efiapi" fn(&mut File, Position: &mut u64) -> Status,
+    pub Close: unsafe extern "efiapi" fn(This: *mut Self) -> Status,
+    pub Delete: unsafe extern "efiapi" fn(This: *mut Self) -> Status,
+    pub Read: unsafe extern "efiapi" fn(This: *mut Self, BufferSize: *mut usize, Buffer: *mut u8) -> Status,
+    pub Write: unsafe extern "efiapi" fn(This: *mut Self, BufferSize: *mut usize, Buffer: *const u8) -> Status,
+    pub SetPosition: unsafe extern "efiapi" fn(This: *mut Self, Position: u64) -> Status,
+    pub GetPosition: unsafe extern "efiapi" fn(This: *mut Self, Position: *mut u64) -> Status,
     pub GetInfo: unsafe extern "efiapi" fn(
-        &mut File,
-        InformationType: &Guid,
-        BufferSize: &mut usize,
+        This: *mut Self,
+        InformationType: *const Guid,
+        BufferSize: *mut usize,
         Buffer: *mut u8,
     ) -> Status,
     pub SetInfo: unsafe extern "efiapi" fn(
-        &mut File,
-        InformationType: &Guid,
-        BufferSize: &mut usize,
+        This: *mut Self,
+        InformationType: *const Guid,
+        BufferSize: *mut usize,
         Buffer: *const u8,
     ) -> Status,
-    pub Flush: unsafe extern "efiapi" fn(&mut File) -> Status,
+    pub Flush: unsafe extern "efiapi" fn(This: *mut Self) -> Status,
 }

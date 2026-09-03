@@ -93,7 +93,7 @@ pub struct GraphicsOutputMode {
     /// Current Mode of the graphics device. Valid mode numbers are 0 to MaxMode -1.
     pub Mode: u32,
     /// Pointer to read-only EFI_GRAPHICS_OUTPUT_MODE_INFORMATION data.
-    pub Info: &'static GraphicsOutputModeInfo,
+    pub Info: *mut GraphicsOutputModeInfo,
     /// Size of Info structure in bytes.
     pub SizeOfInfo: usize,
     /// Base address of graphics linear frame buffer.
@@ -107,25 +107,25 @@ pub struct GraphicsOutputMode {
 #[repr(C)]
 pub struct GraphicsOutput {
     pub QueryMode: unsafe extern "efiapi" fn(
-        &mut GraphicsOutput,
-        u32,
-        &mut usize,
-        &mut *mut GraphicsOutputModeInfo,
+        This: *mut Self,
+        ModeNumber: u32,
+        SizeOfInfo: *mut usize,
+        Info: *mut *mut GraphicsOutputModeInfo,
     ) -> Status,
-    pub SetMode: unsafe extern "efiapi" fn(&mut GraphicsOutput, u32) -> Status,
+    pub SetMode: unsafe extern "efiapi" fn(This: *mut Self, ModeNumber: u32) -> Status,
     pub Blt: unsafe extern "efiapi" fn(
-        &mut GraphicsOutput,
-        *mut GraphicsBltPixel,
-        GraphicsBltOp,
-        usize,
-        usize,
-        usize,
-        usize,
-        usize,
-        usize,
-        usize,
+        This: *mut Self,
+        BltBuffer: *mut GraphicsBltPixel,
+        BlitOperation: GraphicsBltOp,
+        SourceX: usize,
+        SourceY: usize,
+        DestinationX: usize,
+        DestinationY: usize,
+        Width: usize,
+        Height: usize,
+        Delta: usize,
     ) -> Status,
-    pub Mode: &'static mut GraphicsOutputMode,
+    pub Mode: *mut GraphicsOutputMode,
 }
 
 impl GraphicsOutput {

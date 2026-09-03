@@ -12,7 +12,7 @@ use crate::system_table;
 fn get(name: &str, data: &mut [u8]) -> Result<usize> {
     let wname = wstr(name);
     let mut data_size = data.len();
-    let status = unsafe { (system_table().RuntimeServices.GetVariable)(
+    let status = unsafe { ((*system_table().RuntimeServices).GetVariable)(
         wname.as_ptr(),
         &GLOBAL_VARIABLE_GUID,
         ptr::null_mut(),
@@ -29,7 +29,7 @@ fn set(name: &str, data: &[u8]) -> Result<usize> {
     let wname = wstr(name);
     let access = 1 | 2 | 4;
     let data_size = data.len();
-    let status = unsafe { (system_table().RuntimeServices.SetVariable)(
+    let status = unsafe { ((*system_table().RuntimeServices).SetVariable)(
         wname.as_ptr(),
         &GLOBAL_VARIABLE_GUID,
         access,

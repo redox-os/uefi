@@ -7,7 +7,7 @@ use crate::prelude::*;
 pub struct LoadedImage {
     pub Revision: u32,
     pub ParentHandle: Handle,
-    pub SystemTable: &'static mut SystemTable,
+    pub SystemTable: *mut SystemTable,
     pub DeviceHandle: Handle,
     pub FilePath: usize,
     pub Reserved: usize,

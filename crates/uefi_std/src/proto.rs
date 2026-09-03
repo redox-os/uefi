@@ -20,7 +20,7 @@ pub trait Protocol<T: 'static> {
         let guid = Self::guid();
         let mut interface = 0;
         let status = unsafe {
-            (system_table().BootServices.LocateProtocol)(&guid, 0, &mut interface)
+            ((*system_table().BootServices).LocateProtocol)(&guid, 0, &mut interface)
         };
 
         match status {
@@ -36,7 +36,7 @@ pub trait Protocol<T: 'static> {
         let guid = Self::guid();
         let mut interface = 0;
         let status = unsafe {
-            (system_table().BootServices.HandleProtocol)(handle, &guid, &mut interface)
+            ((*system_table().BootServices).HandleProtocol)(handle, &guid, &mut interface)
         };
 
         match status {
@@ -49,7 +49,7 @@ pub trait Protocol<T: 'static> {
         let guid = Self::guid();
         let mut handles = Vec::with_capacity(256);
         let mut len = handles.capacity() * mem::size_of::<Handle>();
-        let status = unsafe { (system_table().BootServices.LocateHandle)(
+        let status = unsafe { ((*system_table().BootServices).LocateHandle)(
             LocateSearchType::BY_PROTOCOL,
             &guid,
             core::ptr::null(),

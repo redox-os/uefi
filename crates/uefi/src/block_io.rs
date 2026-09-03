@@ -18,23 +18,23 @@ pub struct BlockIoMedia {
 #[repr(C)]
 pub struct BlockIo {
     pub Revision: u64,
-    pub Media: &'static BlockIoMedia,
-    pub Reset: unsafe extern "efiapi" fn(&BlockIo, ExtendedVerification: bool) -> Status,
+    pub Media: *const BlockIoMedia,
+    pub Reset: unsafe extern "efiapi" fn(This: *mut Self, ExtendedVerification: bool) -> Status,
     pub ReadBlocks: unsafe extern "efiapi" fn(
-        &BlockIo,
+        This: *mut Self,
         MediaId: u32,
         LBA: u64,
         BufferSize: usize,
         Buffer: *mut u8,
     ) -> Status,
     pub WriteBlocks: unsafe extern "efiapi" fn(
-        &BlockIo,
+        This: *mut Self,
         MediaId: u32,
         LBA: u64,
         BufferSize: usize,
         Buffer: *const u8,
     ) -> Status,
-    pub FlushBlocks: unsafe extern "efiapi" fn(&BlockIo) -> Status,
+    pub FlushBlocks: unsafe extern "efiapi" fn(This: *mut Self) -> Status,
 }
 
 impl BlockIo {
