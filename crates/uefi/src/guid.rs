@@ -88,52 +88,6 @@ pub const COMPONENT_NAME2_GUID: Guid = guid!("6a7a5cff-e8d9-4f70-bada-75ab3025ce
 #[repr(C)]
 pub struct Guid(pub u32, pub u16, pub u16, pub [u8; 8]);
 
-#[deprecated(note = "use `Guid` directly")]
-#[derive(Copy, Clone, Debug, Eq, PartialEq)]
-pub enum GuidKind {
-    Null,
-    Mps,
-    Acpi,
-    Acpi2,
-    Smbios,
-    Smbios3,
-    SalSystem,
-    Hcdp,
-    UgaIo,
-    GlobalVariable,
-    SimpleTextOutput,
-    UvSystem,
-    LinuxEfiCrash,
-    LoadedImage,
-    GraphicsOutput,
-    Uga,
-    PciIo,
-    FileInfo,
-    SystemResource,
-    BlockIo,
-    FileSystem,
-    LoadFile,
-    DevicePath,
-    DeviceTree,
-    Properties,
-    Rng,
-    RngAlrorithm,
-    MemoryAttributes,
-    ConsoleOut,
-    SectionTianoCompress,
-    SectionLzmaCompress,
-    DxeServices,
-    HobList,
-    MemoryTypeInformation,
-    DebugImageInfo,
-    Shell,
-    ShellParameters,
-    SimplePointer,
-    HiiDatabase,
-    ComponentName2,
-    Unknown,
-}
-
 impl Guid {
     /// A GUID that has all bits set to 0.
     pub const NIL: Self = guid!("00000000-0000-0000-0000-000000000000");
@@ -191,54 +145,6 @@ impl Guid {
         ];
 
         Self(d1, d2, d3, d4)
-    }
-
-    #[allow(deprecated)]
-    #[deprecated(note = "compare `Guid`s directly")]
-    pub fn kind(&self) -> GuidKind {
-        match *self {
-            NULL_GUID => GuidKind::Null,
-            MPS_TABLE_GUID => GuidKind::Mps,
-            ACPI_TABLE_GUID => GuidKind::Acpi,
-            ACPI_20_TABLE_GUID => GuidKind::Acpi2,
-            SMBIOS_TABLE_GUID => GuidKind::Smbios,
-            SMBIOS3_TABLE_GUID => GuidKind::Smbios3,
-            SAL_SYSTEM_TABLE_GUID => GuidKind::SalSystem,
-            HCDP_TABLE_GUID => GuidKind::Hcdp,
-            UGA_IO_PROTOCOL_GUID => GuidKind::UgaIo,
-            GLOBAL_VARIABLE_GUID => GuidKind::GlobalVariable,
-            SIMPLE_TEXT_OUTPUT_GUID => GuidKind::SimpleTextOutput,
-            UV_SYSTEM_TABLE_GUID => GuidKind::UvSystem,
-            LINUX_EFI_CRASH_GUID => GuidKind::LinuxEfiCrash,
-            LOADED_IMAGE_PROTOCOL_GUID => GuidKind::LoadedImage,
-            GRAPHICS_OUTPUT_PROTOCOL_GUID => GuidKind::GraphicsOutput,
-            UGA_PROTOCOL_GUID => GuidKind::Uga,
-            PCI_IO_PROTOCOL_GUID => GuidKind::PciIo,
-            FILE_INFO_ID => GuidKind::FileInfo,
-            SYSTEM_RESOURCE_TABLE_GUID => GuidKind::SystemResource,
-            BLOCK_IO_GUID => GuidKind::BlockIo,
-            FILE_SYSTEM_GUID => GuidKind::FileSystem,
-            LOAD_FILE_GUID => GuidKind::LoadFile,
-            DEVICE_PATH_GUID => GuidKind::DevicePath,
-            DEVICE_TREE_GUID => GuidKind::DeviceTree,
-            PROPERTIES_TABLE_GUID => GuidKind::Properties,
-            RNG_PROTOCOL_GUID => GuidKind::Rng,
-            RNG_ALGORITHM_RAW => GuidKind::RngAlrorithm,
-            MEMORY_ATTRIBUTES_TABLE_GUID => GuidKind::MemoryAttributes,
-            CONSOLE_OUT_DEVICE_GUID => GuidKind::ConsoleOut,
-            SECTION_TIANO_COMPRESS_GUID => GuidKind::SectionTianoCompress,
-            SECTION_LZMA_COMPRESS_GUID => GuidKind::SectionLzmaCompress,
-            DXE_SERVICES_TABLE_GUID => GuidKind::DxeServices,
-            HOB_LIST_GUID => GuidKind::HobList,
-            MEMORY_TYPE_INFORMATION_GUID => GuidKind::MemoryTypeInformation,
-            DEBUG_IMAGE_INFO_TABLE_GUID => GuidKind::DebugImageInfo,
-            SHELL_GUID => GuidKind::Shell,
-            SHELL_PARAMETERS_GUID => GuidKind::ShellParameters,
-            SIMPLE_POINTER_GUID => GuidKind::SimplePointer,
-            HII_DATABASE_GUID => GuidKind::HiiDatabase,
-            COMPONENT_NAME2_GUID => GuidKind::ComponentName2,
-            _ => GuidKind::Unknown,
-        }
     }
 }
 

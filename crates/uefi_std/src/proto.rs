@@ -46,7 +46,7 @@ pub trait Protocol<T: 'static> {
         let mut handles = Vec::with_capacity(256);
         let mut len = handles.capacity() * mem::size_of::<Handle>();
         let status = (system_table().BootServices.LocateHandle)(
-            LocateSearchType::ByProtocol,
+            LocateSearchType::BY_PROTOCOL,
             &guid,
             core::ptr::null(),
             &mut len,

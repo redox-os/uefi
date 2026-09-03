@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 
+use core::ops::RangeInclusive;
 use core::{mem, slice};
 
 use crate::guid::Guid;
@@ -7,34 +8,35 @@ use crate::util::c_str_at_end;
 
 use super::StringId;
 
-#[derive(Clone, Copy, Debug)]
-#[repr(u8)]
-pub enum HiiPackageKind {
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[repr(transparent)]
+pub struct HiiPackageKind(pub u8);
+
+impl HiiPackageKind {
     /// Pseudo-package type used when exporting package lists
-    All = 0x00,
+    pub const ALL: Self = Self(0x00);
     /// Package type where the format of the data is specified using a GUID immediately following the package header
-    Guid = 0x01,
+    pub const GUID: Self = Self(0x01);
     /// Forms package
-    Forms = 0x02,
+    pub const FORMS: Self = Self(0x02);
     /// Strings package
-    Strings = 0x04,
+    pub const STRINGS: Self = Self(0x04);
     /// Fonts package
-    Fonts = 0x05,
+    pub const FONTS: Self = Self(0x05);
     /// Images package
-    Images = 0x06,
+    pub const IMAGES: Self = Self(0x06);
     /// Simplified (8x19, 16x19) Fonts package
-    SimpleFonts = 0x07,
+    pub const SIMPLE_FONTS: Self = Self(0x07);
     /// Binary-encoded device path
-    DevicePath = 0x08,
+    pub const DEVICE_PATH: Self = Self(0x08);
     /// Keyboard Layout package
-    KeyboardLayout = 0x09,
+    pub const KEYBOARD_LAYOUT: Self = Self(0x09);
     /// Animations package
-    Animations = 0x0A,
+    pub const ANIMATIONS: Self = Self(0x0A);
     /// Used to mark the end of a package list
-    End = 0xDF,
+    pub const END: Self = Self(0xDF);
     // Package types reserved for firmware implementations
-    //SystemBegin = 0xE0,
-    //SystemEnd = 0xFF,
+    pub const RESERVED_FOR_SYSTEM: RangeInclusive<u8> = 0xE0..=0xFF;
 }
 
 #[derive(Debug)]

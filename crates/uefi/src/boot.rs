@@ -4,19 +4,25 @@ use crate::memory::{MemoryDescriptor, MemoryType};
 use crate::prelude::*;
 use crate::TableHeader;
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
 #[repr(C)]
-pub enum InterfaceType {
-    Native,
+pub struct InterfaceType(pub u32);
+
+impl InterfaceType {
+    pub const NATIVE: Self = Self(0);
 }
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
 #[repr(C)]
-pub enum LocateSearchType {
+pub struct LocateSearchType(pub u32);
+
+impl LocateSearchType {
     /// Retrieve all the handles in the handle database.
-    AllHandles,
+    pub const ALL_HANDLES: Self = Self(0);
     /// Retrieve the next handle fron a RegisterProtocolNotify() event.
-    ByRegisterNotify,
+    pub const BY_REGISTER_NOTIFY: Self = Self(1);
     /// Retrieve the set of handles from the handle database that support a specified protocol.
-    ByProtocol,
+    pub const BY_PROTOCOL: Self = Self(2);
 }
 
 #[repr(C)]

@@ -2,17 +2,17 @@
 
 use crate::prelude::*;
 
-enum_try_from_int! {
-    #[repr(u8)]
-    #[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd)]
-    pub enum DevicePathType {
-        Hardware = 0x01,
-        Acpi = 0x02,
-        Messaging = 0x03,
-        Media = 0x04,
-        Bbs = 0x05,
-        End = 0x7f,
-    }
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[repr(transparent)]
+pub struct DevicePathType(pub u8);
+
+impl DevicePathType {
+    pub const HARDWARE: Self = Self(0x01);
+    pub const ACPI: Self = Self(0x02);
+    pub const MESSAGING: Self = Self(0x03);
+    pub const MEDIA: Self = Self(0x04);
+    pub const BBS: Self = Self(0x05);
+    pub const END: Self = Self(0x7F);
 }
 
 enum_try_from_int! {

@@ -23,7 +23,7 @@ unsafe impl GlobalAlloc for Allocator {
         let uefi = UEFI.expect("__rust_allocate: uefi not initialized");
         let mut ptr = 0;
         let res = (uefi.as_ref().BootServices.AllocatePool)(
-            MemoryType::EfiLoaderData,
+            MemoryType::LOADER_DATA,
             layout.size(),
             &mut ptr,
         );

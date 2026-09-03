@@ -4,20 +4,25 @@ use crate::prelude::*;
 use super::HiiHandle;
 use super::package::{HiiPackageHeader, HiiPackageKind, HiiPackageListHeader};
 
+/// `EFI_HII_DATABASE_NOTIFY`
 pub type HiiDatabaseNotify = extern "efiapi" fn(
     PackageKind: HiiPackageKind,
     PackageGuid: &Guid,
     Package: &HiiPackageHeader,
     Handle: HiiHandle,
-    NotifyKind: HiiDatabaseNotifyKind,
+    NotifyKind: HiiDatabaseNotifyType,
 ) -> Status;
 
-#[repr(usize)]
-pub enum HiiDatabaseNotifyKind {
-    NewPack = 1,
-    RemovePack = 2,
-    ExportPack = 4,
-    AddPack = 8,
+/// `EFI_HII_DATABASE_NOTIFY_TYPE`
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[repr(transparent)]
+pub struct HiiDatabaseNotifyType(pub usize);
+
+impl HiiDatabaseNotifyType {
+    pub const NEW_PACK: Self = Self(1 << 0);
+    pub const REMOVE_PACK: Self = Self(1 << 1);
+    pub const EXPORT_PACK: Self = Self(1 << 2);
+    pub const ADD_PACK: Self = Self(1 << 3);
 }
 
 #[repr(C)]
@@ -76,7 +81,7 @@ pub struct HiiDatabase {
         PackageKind: HiiPackageKind,
         PackageGuid: &Guid,
         PackageNotifyFn: HiiDatabaseNotify,
-        NotifyKind: HiiDatabaseNotifyKind,
+        NotifyKind: HiiDatabaseNotifyType,
         NotifyHandle: &mut Handle,
     ) -> Status,
 
