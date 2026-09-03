@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 use crate::prelude::*;
 
 enum_try_from_int! {

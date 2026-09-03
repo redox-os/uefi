@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 use core::slice;
 
 /// Helper function for returning 8-byte strings stored after a struct

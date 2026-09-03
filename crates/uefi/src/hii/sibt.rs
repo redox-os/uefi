@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 use crate::hii::{FontStyle, StringId};
 use crate::util::{c_str_at_end, w_str_at_end};
 

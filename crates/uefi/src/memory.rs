@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 #[repr(transparent)]
 pub struct PhysicalAddress(pub u64);

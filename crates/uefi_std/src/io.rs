@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 use core::fmt::{self, Write};
 
 pub struct Stdout;

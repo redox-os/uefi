@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 use crate::memory::MemoryType;
 use crate::prelude::*;
 

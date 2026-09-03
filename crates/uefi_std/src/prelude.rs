@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 pub use uefi::prelude::*;
 
 // These common items exist in alloc and are exported by the std prelude.

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 use core::default::Default;
 use core::{mem, ptr, slice};
 

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 use crate::capsule::CapsuleHeader;
 use crate::memory::{MemoryDescriptor, PhysicalAddress};
 use crate::prelude::*;

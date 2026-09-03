@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 use crate::prelude::*;
 
 #[no_mangle]

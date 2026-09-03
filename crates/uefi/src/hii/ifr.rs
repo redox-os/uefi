@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 use core::mem;
 
 use super::{FormId, QuestionId, StringId, VarStoreId};

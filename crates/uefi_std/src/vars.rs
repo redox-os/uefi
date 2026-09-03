@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 use core::ptr;
 use core::slice;
 

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 #![no_std]
 #![allow(dead_code)]
 #![allow(non_snake_case)]
