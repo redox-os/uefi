@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+
 [package]
 name = "redox_uefi_std"
 description = "UEFI standard library"

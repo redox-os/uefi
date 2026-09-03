@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 #[derive(Copy, Clone, Debug, Default)]
 #[repr(C)]
 pub struct Time {

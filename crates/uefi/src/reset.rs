@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 #[derive(Clone, Copy, Debug)]
 #[repr(C)]
 pub enum ResetType {

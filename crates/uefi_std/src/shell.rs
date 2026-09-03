@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 use uefi::shell::Shell as UefiShell;
 
 use crate::proto::Protocol;

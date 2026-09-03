@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 #![no_std]
 
 use core::alloc::{GlobalAlloc, Layout};

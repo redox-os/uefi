@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 macro_rules! enum_try_from_int {
     (
         #[repr($T: ident)]

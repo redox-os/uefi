@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 use crate::memory::{MemoryDescriptor, MemoryType};
 use crate::prelude::*;
 use crate::TableHeader;

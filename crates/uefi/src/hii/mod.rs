@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[repr(transparent)]
 pub struct AnimationId(u16);

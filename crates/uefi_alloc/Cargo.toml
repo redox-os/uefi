@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+
 [package]
 name = "redox_uefi_alloc"
 description = "UEFI allocation support"

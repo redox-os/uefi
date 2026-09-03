@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 use uefi::pointer::SimplePointer;
 
 use crate::proto::Protocol;

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 use uefi::loaded_image::LoadedImage as UefiLoadedImage;
 
 use crate::proto::Protocol;

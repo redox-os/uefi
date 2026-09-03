@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 use crate::prelude::*;
 
 #[derive(Clone, Copy, Debug, Default)]

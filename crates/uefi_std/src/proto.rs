@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 use core::mem;
 use uefi::boot::LocateSearchType;
 
