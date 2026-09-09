@@ -1,12 +1,8 @@
 // SPDX-License-Identifier: MIT
 
 use crate::prelude::*;
-
+use super::HiiHandle;
 use super::package::{HiiPackageHeader, HiiPackageKind, HiiPackageListHeader};
-
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
-#[repr(transparent)]
-pub struct HiiHandle(pub usize);
 
 pub type HiiDatabaseNotify = extern "efiapi" fn(
     PackageKind: HiiPackageKind,

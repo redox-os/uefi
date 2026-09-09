@@ -34,11 +34,11 @@ pub(crate) mod util;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[repr(transparent)]
-pub struct Event(pub usize);
+pub struct Event(pub *mut core::ffi::c_void);
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[repr(transparent)]
-pub struct Handle(pub usize);
+pub struct Handle(pub *mut core::ffi::c_void);
 
 #[repr(C)]
 pub struct TableHeader {

@@ -11,7 +11,7 @@ pub fn exec_data(data: &[u8], name: &str, args: &[&str]) -> Result<usize> {
     let handle = crate::handle();
     let st = crate::system_table();
 
-    let mut image_handle = Handle(0);
+    let mut image_handle = Handle(core::ptr::null_mut());
     let status = (st.BootServices.LoadImage)(
         false,
         handle,

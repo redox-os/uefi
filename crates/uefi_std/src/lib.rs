@@ -28,7 +28,7 @@ pub mod vars;
 
 use uefi::prelude::*;
 
-static mut HANDLE: Handle = Handle(0);
+static mut HANDLE: Handle = Handle(core::ptr::null_mut());
 static mut SYSTEM_TABLE: *mut SystemTable = 0 as *mut SystemTable;
 
 pub fn handle() -> Handle {
