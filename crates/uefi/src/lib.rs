@@ -34,11 +34,11 @@ pub(crate) mod util;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[repr(transparent)]
-pub struct Event(pub usize);
+pub struct Event(pub *mut core::ffi::c_void);
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[repr(transparent)]
-pub struct Handle(pub usize);
+pub struct Handle(pub *mut core::ffi::c_void);
 
 #[repr(C)]
 pub struct TableHeader {
@@ -49,6 +49,14 @@ pub struct TableHeader {
     Reserved: u32,
 }
 
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+/// `EFI_TPL`
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
 #[repr(transparent)]
 pub struct Tpl(pub usize);
+
+impl Tpl {
+    pub const APPLICATION: Self = Self(4);
+    pub const CALLBACK: Self = Self(8);
+    pub const NOTIFY: Self = Self(16);
+    pub const HIGH_LEVEL: Self = Self(31);
+}

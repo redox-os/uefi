@@ -2,7 +2,8 @@
 
 use crate::prelude::*;
 
-#[derive(Copy, Clone, Debug)]
+/// `EFI_GRAPHICS_OUTPUT_BLT_PIXEL`
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
 #[repr(C)]
 pub struct GraphicsBltPixel {
     pub Blue: u8,
@@ -11,50 +12,48 @@ pub struct GraphicsBltPixel {
     pub Reserved: u8,
 }
 
-#[derive(Copy, Clone, Debug)]
-#[repr(C)]
-pub enum GraphicsBltOp {
-    // Write data from the first buffer pixel to every pixel of the display
-    VideoFill,
-    // Copy from the display to the buffer
-    VideoToBuffer,
-    // Copy from the buffer to the display
-    BufferToVideo,
-    // Copy from the display to the display
-    VideoToVideo,
+/// `EFI_GRAPHICS_OUTPUT_BLT_OPERATION`
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[repr(transparent)]
+pub struct GraphicsBltOp(pub u32);
+
+impl GraphicsBltOp {
+    /// Write data from the first buffer pixel to every pixel of the display.
+    pub const VIDEO_FILL: Self = Self(0);
+    /// Copy from the display to the buffer.
+    pub const VIDEO_TO_BUFFER: Self = Self(1);
+    /// Copy from the buffer to the display.
+    pub const BUFFER_TO_VIDEO: Self = Self(2);
+    /// Copy from the display to the display.
+    pub const VIDEO_TO_VIDEO: Self = Self(3);
+    /// Valid operation values are less than this value.
+    pub const MAX: Self = Self(4);
 }
 
-#[derive(Copy, Clone, Debug)]
-#[repr(C)]
-pub enum GraphicsPixelFormat {
-    ///
+/// `EFI_GRAPHICS_PIXEL_FORMAT`
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[repr(transparent)]
+pub struct GraphicsPixelFormat(pub u32);
+
+impl GraphicsPixelFormat {
     /// A pixel is 32-bits and byte zero represents red, byte one represents green,
     /// byte two represents blue, and byte three is reserved. This is the definition
     /// for the physical frame buffer. The byte values for the red, green, and blue
     /// components represent the color intensity. This color intensity value range
     /// from a minimum intensity of 0 to maximum intensity of 255.
-    ///
-    PixelRedGreenBlueReserved8BitPerColor,
-    ///
+    pub const PIXEL_RED_GREEN_BLUE_RESERVED_8_BIT_PER_COLOR: Self = Self(0);
     /// A pixel is 32-bits and byte zero represents blue, byte one represents green,
     /// byte two represents red, and byte three is reserved. This is the definition
     /// for the physical frame buffer. The byte values for the red, green, and blue
     /// components represent the color intensity. This color intensity value range
     /// from a minimum intensity of 0 to maximum intensity of 255.
-    ///
-    PixelBlueGreenRedReserved8BitPerColor,
-    ///
+    pub const PIXEL_BLUE_GREEN_RED_RESERVED_8_BIT_PER_COLOR: Self = Self(1);
     /// The Pixel definition of the physical frame buffer.
-    ///
-    PixelBitMask,
-    ///
+    pub const PIXEL_BIT_MASK: Self = Self(2);
     /// This mode does not support a physical frame buffer.
-    ///
-    PixelBltOnly,
-    ///
-    /// Valid EFI_GRAPHICS_PIXEL_FORMAT enum values are less than this value.
-    ///
-    PixelFormatMax,
+    pub const PIXEL_BLT_ONLY: Self = Self(3);
+    /// Valid format values are less than this value.
+    pub const MAX: Self = Self(4);
 }
 
 #[derive(Copy, Clone, Debug)]
@@ -94,7 +93,7 @@ pub struct GraphicsOutputMode {
     /// Current Mode of the graphics device. Valid mode numbers are 0 to MaxMode -1.
     pub Mode: u32,
     /// Pointer to read-only EFI_GRAPHICS_OUTPUT_MODE_INFORMATION data.
-    pub Info: &'static GraphicsOutputModeInfo,
+    pub Info: *mut GraphicsOutputModeInfo,
     /// Size of Info structure in bytes.
     pub SizeOfInfo: usize,
     /// Base address of graphics linear frame buffer.
@@ -107,26 +106,26 @@ pub struct GraphicsOutputMode {
 
 #[repr(C)]
 pub struct GraphicsOutput {
-    pub QueryMode: extern "efiapi" fn(
-        &mut GraphicsOutput,
-        u32,
-        &mut usize,
-        &mut *mut GraphicsOutputModeInfo,
+    pub QueryMode: unsafe extern "efiapi" fn(
+        This: *mut Self,
+        ModeNumber: u32,
+        SizeOfInfo: *mut usize,
+        Info: *mut *mut GraphicsOutputModeInfo,
     ) -> Status,
-    pub SetMode: extern "efiapi" fn(&mut GraphicsOutput, u32) -> Status,
-    pub Blt: extern "efiapi" fn(
-        &mut GraphicsOutput,
-        *mut GraphicsBltPixel,
-        GraphicsBltOp,
-        usize,
-        usize,
-        usize,
-        usize,
-        usize,
-        usize,
-        usize,
+    pub SetMode: unsafe extern "efiapi" fn(This: *mut Self, ModeNumber: u32) -> Status,
+    pub Blt: unsafe extern "efiapi" fn(
+        This: *mut Self,
+        BltBuffer: *mut GraphicsBltPixel,
+        BlitOperation: GraphicsBltOp,
+        SourceX: usize,
+        SourceY: usize,
+        DestinationX: usize,
+        DestinationY: usize,
+        Width: usize,
+        Height: usize,
+        Delta: usize,
     ) -> Status,
-    pub Mode: &'static mut GraphicsOutputMode,
+    pub Mode: *mut GraphicsOutputMode,
 }
 
 impl GraphicsOutput {

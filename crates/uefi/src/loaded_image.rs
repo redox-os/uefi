@@ -7,7 +7,7 @@ use crate::prelude::*;
 pub struct LoadedImage {
     pub Revision: u32,
     pub ParentHandle: Handle,
-    pub SystemTable: &'static mut SystemTable,
+    pub SystemTable: *mut SystemTable,
     pub DeviceHandle: Handle,
     pub FilePath: usize,
     pub Reserved: usize,
@@ -17,7 +17,7 @@ pub struct LoadedImage {
     pub ImageSize: u64,
     pub ImageCodeType: MemoryType,
     pub ImageDataType: MemoryType,
-    pub Unload: extern "efiapi" fn(ImageHandle: Handle) -> Status,
+    pub Unload: unsafe extern "efiapi" fn(ImageHandle: Handle) -> Status,
 }
 
 impl LoadedImage {

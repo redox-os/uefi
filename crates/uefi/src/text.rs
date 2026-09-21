@@ -11,8 +11,8 @@ pub struct TextInputKey {
 
 #[repr(C)]
 pub struct TextInput {
-    pub Reset: extern "efiapi" fn(&TextInput, bool) -> Status,
-    pub ReadKeyStroke: extern "efiapi" fn(&TextInput, &mut TextInputKey) -> Status,
+    pub Reset: unsafe extern "efiapi" fn(This: *mut Self, ExtendedVerification: bool) -> Status,
+    pub ReadKeyStroke: unsafe extern "efiapi" fn(This: *mut Self, Key: *mut TextInputKey) -> Status,
     pub WaitForKey: Event,
 }
 
@@ -29,16 +29,16 @@ pub struct TextOutputMode {
 
 #[repr(C)]
 pub struct TextOutput {
-    pub Reset: extern "efiapi" fn(&TextOutput, bool) -> Status,
-    pub OutputString: extern "efiapi" fn(&TextOutput, *const u16) -> Status,
-    pub TestString: extern "efiapi" fn(&TextOutput, *const u16) -> Status,
-    pub QueryMode: extern "efiapi" fn(&TextOutput, usize, &mut usize, &mut usize) -> Status,
-    pub SetMode: extern "efiapi" fn(&TextOutput, usize) -> Status,
-    pub SetAttribute: extern "efiapi" fn(&TextOutput, usize) -> Status,
-    pub ClearScreen: extern "efiapi" fn(&TextOutput) -> Status,
-    pub SetCursorPosition: extern "efiapi" fn(&TextOutput, usize, usize) -> Status,
-    pub EnableCursor: extern "efiapi" fn(&TextOutput, bool) -> Status,
-    pub Mode: &'static TextOutputMode,
+    pub Reset: unsafe extern "efiapi" fn(This: *mut Self, ExtendedVerification: bool) -> Status,
+    pub OutputString: unsafe extern "efiapi" fn(This: *mut Self, String: *const u16) -> Status,
+    pub TestString: unsafe extern "efiapi" fn(This: *mut Self, String: *const u16) -> Status,
+    pub QueryMode: unsafe extern "efiapi" fn(This: *mut Self, ModeNumber: usize, Columns: *mut usize, Rows: *mut usize) -> Status,
+    pub SetMode: unsafe extern "efiapi" fn(This: *mut Self, ModeNumber: usize) -> Status,
+    pub SetAttribute: unsafe extern "efiapi" fn(This: *mut Self, Attribute: usize) -> Status,
+    pub ClearScreen: unsafe extern "efiapi" fn(This: *mut Self) -> Status,
+    pub SetCursorPosition: unsafe extern "efiapi" fn(This: *mut Self, Column: usize, Row: usize) -> Status,
+    pub EnableCursor: unsafe extern "efiapi" fn(This: *mut Self, Visible: bool) -> Status,
+    pub Mode: *mut TextOutputMode,
 }
 
 impl TextOutput {

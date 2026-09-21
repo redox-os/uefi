@@ -4,8 +4,8 @@ use crate::prelude::*;
 
 #[repr(C)]
 pub struct Shell {
-    pub Execute: extern "efiapi" fn(
-        ImageHandle: &Handle,
+    pub Execute: unsafe extern "efiapi" fn(
+        ImageHandle: *const Handle,
         CommandLine: *const u16,
         Environment: *const *const u16,
         Status: *mut Status,
